@@ -17,23 +17,22 @@ function Hero(spriteTexture) {
     this.mArcher = new SpriteRenderable(spriteTexture);
     this.mArcher.setColor([1, 1, 1, 0]);
     this.mArcher.getXform().setPosition(0, 0);
-    this.mArcher.getXform().setSize(9, 12);
-    this.mArcher.setElementPixelPositions(0, 120, 0, 180);
+    this.mArcher.getXform().setSize(12, 12);
+    this.mArcher.setElementPixelPositions(93, 403, 97, 440);
     GameObject.call(this, this.mArcher);
     
     // Physics
     var r = new RigidRectangle(
         this.getXform(),
-        this.getXform().getWidth(),
+        this.getXform().getWidth() / 2,
         this.getXform().getHeight()
     );
     r.setMass(1);
     r.setRestitution(1);
     r.setFriction(0);  
     this.setRigidBody(r);
-    
     // Specific collision ignoring.
-    
+    //this.toggleDrawRigidShape();
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
