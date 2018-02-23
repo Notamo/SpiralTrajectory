@@ -48,7 +48,7 @@ class ArrowVector {
     }
     
     getDegrees() {
-        return this.getAngle() * Math.PI/180;
+        return this.getAngle() * 180/Math.PI;
     }
     
     getPower() {
@@ -87,9 +87,10 @@ class ArrowVector {
         var basePos = this.mLineSet[0].getFirstVertex();
         this.mLineSet[1].setFirstVertex(basePos[0], basePos[1]);
         this.mLineSet[2].setFirstVertex(basePos[0], basePos[1]);
-        var angle = this.getAngle();
-        this.mLineSet[1].setSecondVertex(basePos[0]-2, basePos[1] + 2);
-        this.mLineSet[2].setSecondVertex(basePos[0]+ 2, basePos[1] - 2); 
+        var angle = this.getAngle() + 3*Math.PI/4;
+        this.mLineSet[1].setSecondVertex(basePos[0] + 2*Math.cos(angle), basePos[1] + 2*Math.sin(angle));
+        angle += Math.PI/2;
+        this.mLineSet[2].setSecondVertex(basePos[0] + 2*Math.cos(angle), basePos[1] + 2*Math.sin(angle));
         
     }
     
@@ -114,7 +115,9 @@ class ArrowVector {
             }
             if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
                 this.mVisible = false;
-                console.log("Power is " + this.getPower());
+                console.log("Arrow would fire with " + this.getPower() + "% power");
+                console.log("Arrow would fire at " + this.getDegrees() + "'");
+                // TODO: Call firing function for arrows at this point
             }
         }
     }
