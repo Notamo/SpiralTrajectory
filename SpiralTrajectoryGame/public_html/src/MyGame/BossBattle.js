@@ -6,7 +6,7 @@
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
-  GameObject, Hero, TextureRenderable, RigidRectangle, Platform */
+  GameObject, Hero, TextureRenderable, RigidRectangle, Platform, Terrain */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -120,7 +120,7 @@ BossBattle.prototype.createPlatforms = function () {
         10, 10 / 8
     ));
     
-    this.mPhysicsGameObjects.addToSet(new Platform(
+    this.mPhysicsGameObjects.addToSet(new Terrain(
         this.kPlatformTexture,
         0, -50,
         100, 100 / 8
