@@ -1,3 +1,6 @@
+// This class uses mouse inputs and creates a UI element to 
+// display the strength and angle that an arrow would be
+// fired at.
 class ArrowVector {
     constructor(maxLength, cameraRef) {
         if (maxLength > 1) {
@@ -21,10 +24,9 @@ class ArrowVector {
             l.setColor(this.mColor);
             this.mLineSet.push(l);
         }
-        
-        this.mLineSet[0].setVertices(0,0,-1 * this.mMaxLength, 0);
     }
     
+    // Private function for determing the length of the arrow vector
     _getDistance() {
         var p1 = this.mLineSet[0].getFirstVertex();
         var p2 = this.mLineSet[0].getSecondVertex();
@@ -34,7 +36,17 @@ class ArrowVector {
         
     }
     
+    setColor(colorArray) {
+        var i;
+        this.mColor = colorArray;
+        for (i = 0; i < 3; i++) {
+            this.mLineSet[i].setColor(colorArray);
+
+        }
+    }
+    
     // 0' defined by the direction of (1,0)
+    // returns radian value
     getAngle() {
         var pos1 = this.mLineSet[0].getFirstVertex();
         var pos2 = this.mLineSet[0].getSecondVertex();
@@ -47,10 +59,14 @@ class ArrowVector {
         return angle;
     }
     
+    // 0' defined by the direction of (1,0)
+    // returns degree value
     getDegrees() {
         return this.getAngle() * 180/Math.PI;
     }
     
+    // power is determined as a ratio of the length of the ArrowVector and its
+    // max length.
     getPower() {
         var results = (this._getDistance()/this.mMaxLength) * 100
         if (results > 100) {
@@ -71,8 +87,11 @@ class ArrowVector {
         }
     }
     
+    // Makes sure the line renderables are not longer than mMaxLength
     _truncateVector() {
-        if (this._getDistance() > this.mMaxLength ) {
+        var dist = this._getDistance();
+        if (dist > this.mMaxLength ) {
+            dist = this.mMaxLength;
             var pos = this.mLineSet[0].getFirstVertex();
             var x = pos[0];
             var y = pos[1];
@@ -80,6 +99,14 @@ class ArrowVector {
             x += (this.mMaxLength * Math.cos(angle));
             y += (this.mMaxLength * Math.sin(angle));
            this.mLineSet[0].setSecondVertex(x, y);
+           this.setColor([1,0,0,1]);
+        }
+        else if (dist > 0) {
+            var col = .7*dist/this.mMaxLength;
+            this.setColor([1, 1 - col, 1 - col, 1]);
+        }
+        else {
+            this.setColor([1,1,1,1]);
         }
     }
     
@@ -96,8 +123,7 @@ class ArrowVector {
     
     update() {
         var x, y;
-        if (true) {
-        //if (this.mCamRef.isMouseInViewport()) {
+        if (this.mCameraRef.isMouseInViewport()) {
             if (gEngine.Input.isButtonPressed(gEngine.Input.mouseButton.Left) && this.mVisible == false) {
                 x = this.mCameraRef.mouseWCX();
                 y = this.mCameraRef.mouseWCY();
