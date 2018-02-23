@@ -6,28 +6,75 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, GameObject, SpriteRenderable */
+/*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
+ *       Platform */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
 
 function Hero(spriteTexture) {
-    this.kDelta = 0.3;
-
+    // Create the sprite
     this.mArcher = new SpriteRenderable(spriteTexture);
     this.mArcher.setColor([1, 1, 1, 0]);
-    this.mArcher.getXform().setPosition(50, 40);
-    this.mArcher.getXform().setSize(3, 4);
+    this.mArcher.getXform().setPosition(0, 0);
+    this.mArcher.getXform().setSize(9, 12);
     this.mArcher.setElementPixelPositions(0, 120, 0, 180);
     GameObject.call(this, this.mArcher);
     
-    var r = new RigidRectangle(this.getXform(), 3, 4);
+    // Physics
+    var r = new RigidRectangle(
+        this.getXform(),
+        this.getXform().getWidth(),
+        this.getXform().getHeight()
+    );
+    r.setMass(1);
+    r.setRestitution(1);
+    r.setFriction(0);  
     this.setRigidBody(r);
-    this.toggleDrawRenderable();
-    this.toggleDrawRigidShape();
+    
+    // Specific collision ignoring.
+    
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
 Hero.prototype.update = function () {
+    var xform = this.getXform();
     
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+        xform.incXPosBy(-1);
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        xform.incXPosBy(1);
+    }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+        this.getRigidBody().setVelocity(0, 100);
+    }
+
+    this.mRigidBody.setAngularVelocity(0);
+    this.mRigidBody.update();
+};
+
+// Ignores collision with platform objects when the S key is pressed or
+// when the hero is jumping from below the platform
+Hero.prototype.ignoreCollision = function (obj) {
+    if (obj instanceof Platform) {
+        var heroBB = this.getBBox();
+        var platformBB = obj.getBBox();
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+            return true;
+        }
+        
+        // This checks if the hero is moving upwards towards the platform when it collides.
+        // we can tune these values to work better with our platform size
+        if (heroBB.minY() >= platformBB.maxY() - (platformBB.maxY() - platformBB.minY()) / 1.5) {
+            return false;
+        }
+        
+        // Since we checked for the case where we don't wanat to ignore collision, the fact
+        // that we're still here means we DO want to ignore it.
+        return true;
+    }
+     return false;
 };
