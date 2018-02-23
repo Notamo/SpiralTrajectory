@@ -65,11 +65,19 @@ Hero.prototype.ignoreCollision = function (obj) {
             return true;
         }
         
-        // This checks if the hero is moving upwards towards the platform when it collides.
-        // we can tune these values to work better with our platform size
-        if (heroBB.minY() >= platformBB.maxY() - (platformBB.maxY() - platformBB.minY()) / 1.5) {
+        if (this.getRigidBody().getVelocity()[1] < 0) {
             return false;
         }
+        
+        if (heroBB.minY() >= platformBB.maxY() - 0.5) {
+            return false;
+        }
+               
+        // This checks if the hero is moving upwards towards the platform when it collides.
+        // we can tune these values to work better with our platform size
+       // if (heroBB.minY() >= platformBB.maxY() - (platformBB.maxY() - platformBB.minY()) / 1.5) {
+        //    return false;
+        //a}
         
         // Since we checked for the case where we don't wanat to ignore collision, the fact
         // that we're still here means we DO want to ignore it.
