@@ -73,13 +73,12 @@ BossBattle.prototype.initialize = function () {
     this.mHero = new Hero(this.kHeroSprite);
     this.mPhysicsGameObjects.addToSet(this.mHero);
     
-<<<<<<< HEAD
+
      this.mArrowVector = new ArrowVector(30, this.mMainCamera);
-=======
+     
     //Create the boss
     this.mBoss = new Boss(this.kBossSprite, this.mHero);
     this.mPhysicsGameObjects.addToSet(this.mBoss);
->>>>>>> Nick-BossBegin
     
     // Create platforms
     this.createPlatforms();
