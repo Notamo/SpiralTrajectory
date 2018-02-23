@@ -19,6 +19,7 @@ class ArrowVector {
         for (i = 0; i < 3; i++) {
             l = new LineRenderable();
             l.setColor(this.mColor);
+            this.mLineSet.push(l);
         }
         
         this.mLineSet[0].setVertices(0,0,-1 * this.mMaxLength, 0);
@@ -38,8 +39,12 @@ class ArrowVector {
         var pos1 = this.mLineSet[0].getFirstVertex();
         var pos2 = this.mLineSet[0].getSecondVertex();
         var opp = pos1[1] - pos2[1];
-        var adj = pos1[0] - pos1[0];
-        var angle = Math.atan(opp/adj);
+        var adj = pos1[0] - pos2[0];
+        var angle = Math.acos(adj/this._getDistance());
+        if (opp < 0) {
+            console.log(angle * (-180/Math.PI));
+            return angle * (180/Math.PI);
+        }
         console.log(angle * (180/Math.PI));
         return angle * (180/Math.PI);
     }
@@ -66,14 +71,36 @@ class ArrowVector {
     
     _updateWings() {
         var basePos = this.mLineSet[0].getFirstVertex();
+        this.mLineSet[1].setFirstVertex(basePos[0], basePos[1]);
+        this.mLineSet[2].setFirstVertex(basePos[0], basePos[1]);
         var angle = this.getAngle();
-        
+        this.mLineSet[1].setSecondVertex(basePos[0]-2, basePos[1] + 2);
+        this.mLineSet[2].setSecondVertex(basePos[0]+ 2, basePos[1] - 2); 
         
     }
     
     update() {
-        if (this.mCamRef.isMouseInViewport()) {
-            
+        var x, y;
+        if (true) {
+        //if (this.mCamRef.isMouseInViewport()) {
+            if (gEngine.Input.isButtonPressed(gEngine.Input.mouseButton.Left) && this.mVisible == false) {
+                x = this.mCameraRef.mouseWCX();
+                y = this.mCameraRef.mouseWCY();
+                this.mLineSet[0].setFirstVertex(x, y);
+                this.mVisible = true;
+
+            }
+            if (this.mVisible && gEngine.Input.isButtonPressed(gEngine.Input.mouseButton.Left)) {
+                x = this.mCameraRef.mouseWCX();
+                y = this.mCameraRef.mouseWCY();
+                this.mLineSet[0].setSecondVertex(x, y);
+                this._updateWings();
+                
+            }
+            if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
+                this.mVisible = false;
+                console.log("Power is " + this.getPower());
+            }
         }
     }
 }
