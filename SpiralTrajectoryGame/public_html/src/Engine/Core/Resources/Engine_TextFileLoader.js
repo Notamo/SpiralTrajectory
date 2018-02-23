@@ -16,7 +16,7 @@ var gEngine = gEngine || { };
 
 /**
  * Default Constructor<p>
- * loads an text file into resourceMap, either as simple text or as XML<p>
+ * loads an text file into resourceMap, either as simple text, JSON, or as XML<p>
  * Note: loads the a textfile and when done calls the callbackFunction()<p>
  *      fileName is treated as resource map key, file content is stored as asset
  * @class gEngine.TextFileLoader
@@ -30,7 +30,8 @@ gEngine.TextFileLoader = (function () {
      */
     var eTextFileType = Object.freeze({
         eXMLFile: 0,
-        eTextFile: 1
+        eJSONFile: 1,
+        eTextFile: 2
     });
 
     /**
@@ -60,9 +61,11 @@ gEngine.TextFileLoader = (function () {
             req.onload = function () {
                 var fileContent = null;
                 if (fileType === eTextFileType.eXMLFile) {
-                    var parser = new DOMParser();
-                    fileContent = parser.parseFromString(req.responseText, "text/xml");
-                } else {
+                   fileContent = req.responseXML;
+                } else if (fileType === eTextFileType.eJSONFile) {
+                    fileContent = JSON.parse((req.responseText));
+                }
+                else  {
                     fileContent = req.responseText;
                 }
                 gEngine.ResourceMap.asyncLoadCompleted(fileName, fileContent);
