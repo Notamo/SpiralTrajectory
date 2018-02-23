@@ -30,6 +30,9 @@ function BossBattle() {
     // Individual game objects
     this.mHero = null;
     
+    // UI objects
+    this.mArrowVector = null;
+    
     // Object to track collisions? dunno if this is where we'll put it, temp for now
     this.mCollisions = [];
 }
@@ -67,6 +70,8 @@ BossBattle.prototype.initialize = function () {
     this.mHero = new Hero(this.kHeroSprite);
     this.mPhysicsGameObjects.addToSet(this.mHero);
     
+     this.mArrowVector = new ArrowVector(30, this.mMainCamera);
+    
     // Create platforms
     this.createPlatforms();
     
@@ -82,7 +87,7 @@ BossBattle.prototype.draw = function () {
     this.mMainCamera.setupViewProjection();
     
     this.mPhysicsGameObjects.draw(this.mMainCamera);
-    
+    this.mArrowVector.draw(this.mMainCamera);
     this.mCollisions = [];
 };
 
@@ -95,7 +100,7 @@ BossBattle.prototype.update = function () {
     
     this.mPhysicsGameObjects.update();
     gEngine.Physics.processCollision(this.mPhysicsGameObjects, this.mCollisions);
-    
+    this.mArrowVector.update();
     this.updateMainCamera();
 };
 
