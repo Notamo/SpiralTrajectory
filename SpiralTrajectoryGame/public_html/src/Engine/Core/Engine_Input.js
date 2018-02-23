@@ -27,6 +27,9 @@ gEngine.Input = (function () {
      * @type{enum} kKeys - Input keyCodes.
      */
     var kKeys = {
+        
+        Backspace : 8,
+        Shift : 16,
         // arrows
         Left: 37,
         Up: 38,
@@ -49,32 +52,18 @@ gEngine.Input = (function () {
         Nine : 57,
 
         // Alphabets
-        A : 65,
-        B : 66,
-        C : 67,
-        D : 68,
-        E : 69,
-        F : 70,
-        G : 71,
-        H : 72,
-        I : 73,
-        J : 74,
-        K : 75,
-        L : 76,
-        M : 77,
-        N : 78,
-        O : 79,
-        P : 80,
-        Q : 81,
-        R : 82,
-        S : 83,
-        T : 84,
-        U : 85,
-        V : 86,
-        W : 87,
-        X : 88,
-        Y : 89,
-        Z : 90,
+        A : 65, B : 66, C : 67, D : 68, E : 69, F : 70, G : 71, H : 72, I : 73,
+        J : 74, K : 75, L : 76, M : 77, N : 78, O : 79, P : 80, Q : 81, R : 82,
+        S : 83, T : 84, U : 85, V : 86, W : 87, X : 88, Y : 89, Z : 90,
+        
+        Plus : 107,
+        Minus : 108,
+        
+        Comma : 188,
+        Period : 190,
+        
+        Leftbracket : 219,
+        Rightbracket : 221,
 
         LastKeyCode: 222
     };
@@ -95,6 +84,7 @@ gEngine.Input = (function () {
     var mIsKeyPressed = [];
     // Click events: once an event is set, it will remain there until polled
     var mIsKeyClicked = [];
+    var mIsKeyReleased = [];
 
 
     // Support mouse
@@ -102,6 +92,7 @@ gEngine.Input = (function () {
     var mButtonPreviousState = [];
     var mIsButtonPressed = [];
     var mIsButtonClicked = [];
+    var mIsButtonReleased = [];
     var mMousePosX = -1;
     var mMousePosY = -1;
 
@@ -109,9 +100,11 @@ gEngine.Input = (function () {
     //<editor-fold desc="Keyboard handlers">
     var _onKeyDown = function (event) {
         mIsKeyPressed[event.keyCode] = true;
+        mIsKeyReleased[event.keyCode] = false;
     };
     var _onKeyUp = function (event) {
         mIsKeyPressed[event.keyCode] = false;
+        mIsKeyReleased[event.keyCode] = true;
     };
     //</editor-fold>
 
@@ -136,13 +129,16 @@ gEngine.Input = (function () {
     var _onMouseDown = function (event) {
         if (_onMouseMove(event)) {
             mIsButtonPressed[event.button] = true;
+            mIsButtonReleased[event.button] = false;
         }
     };
 
     // Mouse up event listener
     var _onMouseUp = function (event) {
-        _onMouseMove(event);
+        if(_onMouseMove(event)) {
         mIsButtonPressed[event.button] = false;
+        mIsButtonReleased[event.button] = true;
+        }
     };
     //</editor-fold>
     //</editor-fold>
@@ -161,6 +157,7 @@ gEngine.Input = (function () {
             mIsKeyPressed[i] = false;
             mKeyPreviousState[i] = false;
             mIsKeyClicked[i] = false;
+            mIsKeyReleased[i] = false;
         }
         // register handlers 
         window.addEventListener('keyup', _onKeyUp);
@@ -172,6 +169,7 @@ gEngine.Input = (function () {
             mButtonPreviousState[i] = false;
             mIsButtonPressed[i] = false;
             mIsButtonClicked[i] = false;
+            mIsButtonReleased[i] = false;
         }
         window.addEventListener('mousedown', _onMouseDown);
         window.addEventListener('mouseup', _onMouseUp);
@@ -189,10 +187,12 @@ gEngine.Input = (function () {
         var i;
         for (i = 0; i < kKeys.LastKeyCode; i++) {
             mIsKeyClicked[i] = (!mKeyPreviousState[i]) && mIsKeyPressed[i];
+            mIsKeyReleased[i] = mKeyPreviousState[i] && (!mIsKeyPressed[i]);
             mKeyPreviousState[i] = mIsKeyPressed[i];
         }
         for (i = 0; i < 3; i++) {
             mIsButtonClicked[i] = (!mButtonPreviousState[i]) && mIsButtonPressed[i];
+            mIsButtonReleased[i] = mButtonPreviousState[i] && (!mIsButtonPressed[i]);
             mButtonPreviousState[i] = mIsButtonPressed[i];
         }
     };
@@ -217,6 +217,16 @@ gEngine.Input = (function () {
     var isKeyClicked = function (keyCode) {
         return (mIsKeyClicked[keyCode]);
     };
+    
+     /**
+     * returns if key is released.
+     * @memberOf gEngine.Input
+     * @param {Number|keys} keyCode - key to check for released state.
+     * @returns {Boolean} true if key is released
+     */
+    var isKeyReleased = function (keyCode) {
+        return (mIsKeyReleased[keyCode]);
+    };
 
     /**
      * returns if button is pressed.
@@ -236,6 +246,16 @@ gEngine.Input = (function () {
      */
     var isButtonClicked = function (button) {
         return mIsButtonClicked[button];
+    };
+    
+     /**
+     * returns if button is released.
+     * @memberOf gEngine.Input
+     * @param {Number|mouseButton} button - button to check for release state.
+     * @returns {Boolean} true if button is released
+     */
+    var isButtonReleased = function(button) {
+        return mIsButtonReleased[button];
     };
     
     /**
@@ -259,11 +279,13 @@ gEngine.Input = (function () {
         // keyboard support
         isKeyPressed: isKeyPressed,
         isKeyClicked: isKeyClicked,
+        isKeyReleased: isKeyReleased,
         keys: kKeys,
 
         // Mouse support
         isButtonPressed: isButtonPressed,
         isButtonClicked: isButtonClicked,
+        isButtonReleased: isButtonReleased,
         getMousePosX: getMousePosX,       // invalid if no corresponding buttonPressed or buttonClicked
         getMousePosY: getMousePosY,
         mouseButton: kMouseButton
