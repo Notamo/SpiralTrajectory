@@ -42,11 +42,13 @@ class ArrowVector {
         var adj = pos1[0] - pos2[0];
         var angle = Math.acos(adj/this._getDistance());
         if (opp < 0) {
-            console.log(angle * (-180/Math.PI));
-            return angle * (180/Math.PI);
+            return angle * -1;
         }
-        console.log(angle * (180/Math.PI));
-        return angle * (180/Math.PI);
+        return angle;
+    }
+    
+    getDegrees() {
+        return this.getAngle() * Math.PI/180;
     }
     
     getPower() {
@@ -66,6 +68,18 @@ class ArrowVector {
                 l = this.mLineSet[i];
                 l.draw(aCamera);
             }
+        }
+    }
+    
+    _truncateVector() {
+        if (this._getDistance() > this.mMaxLength ) {
+            var pos = this.mLineSet[0].getFirstVertex();
+            var x = pos[0];
+            var y = pos[1];
+            var angle = this.getAngle()+Math.PI;
+            x += (this.mMaxLength * Math.cos(angle));
+            y += (this.mMaxLength * Math.sin(angle));
+           this.mLineSet[0].setSecondVertex(x, y);
         }
     }
     
@@ -94,6 +108,7 @@ class ArrowVector {
                 x = this.mCameraRef.mouseWCX();
                 y = this.mCameraRef.mouseWCY();
                 this.mLineSet[0].setSecondVertex(x, y);
+                this._truncateVector();
                 this._updateWings();
                 
             }
