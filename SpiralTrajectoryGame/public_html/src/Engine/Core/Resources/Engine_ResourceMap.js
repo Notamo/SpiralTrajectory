@@ -124,6 +124,22 @@ gEngine.ResourceMap = (function () {
     var incAssetRefCount = function (rName) {
         mResourceMap[rName].mRefCount += 1;
     };
+    
+     /**
+     * Adds a referenced object to memory
+     * be available for subsequent recall
+     * @memberOf gEngine.ResourceMap
+     * @param {String} rName name of asset to load
+     * @param {Object} asset reference of asset to load
+     */
+    var storeAsset = function (rName, asset) {
+        if (rName in mResourceMap) {
+            mResourceMap[rName].mAsset = asset;
+        } else {
+            mResourceMap[rName] = new MapEntry(rName);
+            mResourceMap[rName].mAsset = asset;
+        }
+    };
 
     /**
      * Remove the reference to allow associated memory <p>
@@ -154,6 +170,7 @@ gEngine.ResourceMap = (function () {
         setLoadCompleteCallback: setLoadCompleteCallback,
         //</editor-fold>
         //<editor-fold desc="resource storage and reference count support">
+        storeAsset: storeAsset,
         retrieveAsset: retrieveAsset,
         unloadAsset: unloadAsset,
         isAssetLoaded: isAssetLoaded,
