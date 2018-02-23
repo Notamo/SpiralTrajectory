@@ -13,7 +13,7 @@
 
 function BossBattle() {
     // Sprites & textures
-    this.kHeroSprite = "assets/minion_sprite.png";
+    this.kHeroSprite = "assets/characters/hero.png";
     this.kBossSprite = "";
     this.kPlatformTexture = "assets/platform.png";
     this.kGroundTexture = "";
@@ -125,25 +125,4 @@ BossBattle.prototype.createPlatforms = function () {
         0, -50,
         100, 100 / 8
     ));
-    
-    //this.platformAt(-20, -50, 10);
-    //this.platformAt(0,0, 10);
-    //this.platformAt(0,-50, 100);
-};
-
-BossBattle.prototype.platformAt = function (x, y, w) {
-    var h = w / 8;
-    var p = new TextureRenderable(this.kPlatformTexture);
-    var xf = p.getXform();
-    
-    var g = new GameObject(p);
-    var r = new RigidRectangle(xf, w, h);
-    g.setRigidBody(r);
-   // g.toggleDrawRenderable();
-    //g.toggleDrawRigidShape();
-    
-    r.setMass(0);
-    xf.setSize(w, h);
-    xf.setPosition(x, y);
-    this.mPhysicsGameObjects.addToSet(g);
 };
