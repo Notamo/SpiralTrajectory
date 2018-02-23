@@ -25,7 +25,7 @@ function Hero(spriteTexture) {
     var r = new RigidRectangle(
         this.getXform(),
         this.getXform().getWidth() / 2,
-        this.getXform().getHeight()
+        this.getXform().getHeight() / 1.07
     );
     r.setMass(1);
     r.setRestitution(1);
