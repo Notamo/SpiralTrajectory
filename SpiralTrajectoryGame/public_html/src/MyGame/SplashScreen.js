@@ -42,13 +42,15 @@ SplashScreen.prototype.initialize = function () {
 // importantly, make sure to _NOT_ change any state.
 SplashScreen.prototype.draw = function () {
     // Step A: clear the canvas
-    gEngine.Core.clearCanvas([0, 1, 0, 1]); // clear to light gray
+    gEngine.Core.clearCanvas([0, 1, 0, 1]);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 SplashScreen.prototype.update = function () {
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
-        gEngine.GameLoop.stop();
-    }
+    gEngine.GameLoop.stop();
+    
+    //if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
+     //   gEngine.GameLoop.stop();
+    //}
 };

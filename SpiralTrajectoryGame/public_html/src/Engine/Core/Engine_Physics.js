@@ -26,7 +26,7 @@ var gEngine = gEngine || { };
  */
 gEngine.Physics = (function () {
 
-    var mSystemtAcceleration = [0, -20];        // system-wide default acceleration
+    var mSystemtAcceleration = [0, -200];        // system-wide default acceleration
     var mPosCorrectionRate = 0.8;               // percentage of separation to project objects
     var mRelaxationCount = 15;                  // number of relaxation iteration
     
@@ -167,14 +167,20 @@ gEngine.Physics = (function () {
             for (i = 0; i<set.size(); i++) {
                 var objI = set.getObjectAt(i).getRigidBody();
                 for (j = i+1; j<set.size(); j++) {
-                    var objJ = set.getObjectAt(j).getRigidBody();
+                    var objJ = set.getObjectAt(j).getRigidBody();             
                     if ( (objI.getInvMass() !== 0) || (objJ.getInvMass() !== 0) ) {
                         if (objI.boundTest(objJ)) {
                             if (objI.collisionTest(objJ, info)) {
+                                // this is test area to allow objects to ignore collisions
+                                if (set.getObjectAt(i).ignoreCollision(set.getObjectAt(j))) {
+                                    continue;
+                                }  
+                                // end added code 
                                 // make sure info is always from i towards j
                                 vec2.subtract(iToj, objJ.getCenter(), objI.getCenter());
-                                if (vec2.dot(iToj, info.getNormal()) < 0)
+                                if (vec2.dot(iToj, info.getNormal()) < 0) {
                                     info.changeDir();
+                                }
                                 // infoSet.push(info);
                                 positionalCorrection(objI, objJ, info);
                                 resolveCollision(objI, objJ, info);

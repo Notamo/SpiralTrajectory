@@ -46,7 +46,7 @@ ResultsScreen.prototype.initialize = function () {
 // importantly, make sure to _NOT_ change any state.
 ResultsScreen.prototype.draw = function () {
     // Step A: clear the canvas
-    gEngine.Core.clearCanvas([0, 0, 1, 1]); // clear to light gray
+    gEngine.Core.clearCanvas([0, 0, 1, 1]);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw

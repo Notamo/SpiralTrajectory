@@ -109,3 +109,8 @@ GameObject.prototype.draw = function (aCamera) {
             this.mRigidBody.draw(aCamera);
     }
 };
+
+// Overwrite to use this.
+GameObject.prototype.ignoreCollision = function (obj) {
+    return false;
+};
