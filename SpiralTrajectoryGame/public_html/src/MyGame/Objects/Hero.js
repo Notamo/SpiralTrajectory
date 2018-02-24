@@ -45,11 +45,13 @@ Hero.prototype.update = function () {
     var xform = this.getXform();
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        this.getRigidBody().adjustPositionBy([-10,0], .1); 
+        this.getRigidBody().adjustPositionBy([-10,0], .1);
+        this.getXform().setOrientation(-1);
     }
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        this.getRigidBody().adjustPositionBy([10,0], .1); 
+        this.getRigidBody().adjustPositionBy([10,0], .1);
+        this.getXform().setOrientation(1);
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
