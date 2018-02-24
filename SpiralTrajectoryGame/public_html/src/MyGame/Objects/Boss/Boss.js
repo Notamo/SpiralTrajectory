@@ -12,29 +12,22 @@
 "use strict";
 
 Boss.eBossState = Object.freeze({
-    eIdleState: 0,      //not doing anything, unaware of player
-    eChaseState: 1,         //player too far to attack, chasing player
-    eSmashState: 2          //In range, Smash the player!
+    eInactiveState: 0,      //Inactive/not visible
+    eSpawnState: 1,         //currently spawning in
+    eIdleState: 2,          //not doing anything, unaware of player
+    eChaseState: 3,         //player too far to attack, chasing player
+    eSmashState: 4          //In range, Smash the player!
 });
 
-function Boss(idleSprite, attackSprite, hero) {
-    this.kDelta = 0.3;
-    this.kIdleSprite = idleSprite;
-    this.kAttackSprite = attackSprite;
-
-    this.mGolem = new SpriteAnimateRenderable(this.kIdleSprite);
+function Boss(bossSprite, hero) {
+    this.kBossSprite = bossSprite;
+    
+    this.mGolem = new SpriteAnimateRenderable(this.kBossSprite);
     this.mGolem.setColor([1, 1, 1, 0]);
     this.mGolem.getXform().setPosition(100, -30);
     this.mGolem.getXform().setSize(52, 34);
 
-    this.mGolem.setSpriteSequence(214, 0,         //first element position: top left
-                                  256, 170,     //width x height
-                                  5,            //num elements
-                                  0);           //horizontal padding
-                                  
-    this.mGolem.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
-    this.mGolem.setAnimationSpeed(4);
-
+    this._setupAnimation(Boss.eBossAnim.eIdleAnim, true);
     GameObject.call(this, this.mGolem);
   
     //Set up the rigidbody
@@ -54,16 +47,12 @@ function Boss(idleSprite, attackSprite, hero) {
     
     //State support
     this.mAggroRange = 60;       //how close the player needs to be to aggro
-    
-    
     //Chase State Support
     this.mChaseSpeed = .5;
     this.mSmashRange = 30;       //how close the golem needs to be to the player to smash
-    //
     //Smash State Support
     this._smashStateInit();
-    
-    
+
     this.mCurrentState = Boss.eBossState.eIdleState;
 }
 gEngine.Core.inheritPrototype(Boss, GameObject);
@@ -86,6 +75,12 @@ Boss.prototype.update = function () {
             break;
     }
     
+    //orient the boss to face the player at all times
+    if(Math.sign(this.mHero.getXform().getPosition()[0] - this.mGolem.getXform().getPosition()[0]) <= 0)
+        this.mGolem.getXform().setOrientation(1);
+    else
+        this.mGolem.getXform().setOrientation(-1);
+    
     this.getRigidBody().update();
     this.mGolem.updateAnimation();
 };
@@ -100,6 +95,7 @@ Boss.prototype._serviceIdle = function(hero) {
     //the boss becomes active
     if(vec2.distance(bossPos, heroPos) <= this.mAggroRange) {
         this.mCurrentState = Boss.eBossState.eChaseState;
+        this._setupAnimation(Boss.eBossAnim.eIdleAnim, true);
         return;
     }
 };
@@ -115,9 +111,8 @@ Boss.prototype._serviceChase = function(hero) {
         console.log("Smashing...");
         this.mCurrentState = Boss.eBossState.eSmashState;
         this.getRigidBody().setVelocity(0, 0);                  //stop motion to attack
-        
-        this.mGolem.setTexture(this.kAttackSprite);
-        this.mGolem.resetAnimation();
+
+        this._setupAnimation(Boss.eBossAnim.eSmashAnim, true);
         return;
     }
     
