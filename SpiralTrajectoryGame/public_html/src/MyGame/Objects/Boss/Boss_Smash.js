@@ -14,7 +14,7 @@ Boss.eStateSmash = Object.freeze({
 })
 
 Boss.prototype._smashStateInit = function() {
-    this.kSmashLength = .5;
+    this.kSmashLength = .2;
     this.kSmashWarmupLength = 1;
     this.kSmashCooldownLength = 2;
     
@@ -36,7 +36,8 @@ Boss.prototype._serviceSmash = function(hero) {
             else
                 hero.getRigidBody().setVelocity(50, 50);
         }
-        this.mGolem.setTexture(this.kIdleSprite);
+
+        this._setupAnimation(Boss.eBossAnim.eIdleAnim);
         this.mCurrentState = Boss.eBossState.eChaseState;
         
         return;
