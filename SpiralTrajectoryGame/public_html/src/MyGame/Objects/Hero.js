@@ -29,7 +29,7 @@ function Hero(spriteTexture) {
     );
     r.setMass(1);
     r.setRestitution(1);
-    r.setFriction(0);  
+    r.setFriction(1);  
     this.setRigidBody(r);
     // Specific collision ignoring.
     //this.toggleDrawRigidShape();

@@ -12,25 +12,36 @@
 "use strict";
 
 Boss.eBossState = Object.freeze({
-    eInactiveState: 0,      //not doing anything, unaware of player
+    eIdleState: 0,      //not doing anything, unaware of player
     eChaseState: 1,         //player too far to attack, chasing player
     eSmashState: 2          //In range, Smash the player!
 });
 
-function Boss(spriteTexture, hero) {
+function Boss(idleSprite, attackSprite, hero) {
     this.kDelta = 0.3;
+    this.kIdleSprite = idleSprite;
+    this.kAttackSprite = attackSprite;
 
-    this.mGolem = new SpriteRenderable(spriteTexture);
+    this.mGolem = new SpriteAnimateRenderable(this.kIdleSprite);
     this.mGolem.setColor([1, 1, 1, 0]);
     this.mGolem.getXform().setPosition(100, -30);
-    this.mGolem.getXform().setSize(30, 30);
-    this.mGolem.setElementPixelPositions(24, 485, 70, 440);
+    this.mGolem.getXform().setSize(52, 34);
+
+    this.mGolem.setSpriteSequence(214, 0,         //first element position: top left
+                                  256, 170,     //width x height
+                                  5,            //num elements
+                                  0);           //horizontal padding
+                                  
+    this.mGolem.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
+    this.mGolem.setAnimationSpeed(4);
+
     GameObject.call(this, this.mGolem);
-    
+  
+    //Set up the rigidbody
     var r = new RigidRectangle(
         this.getXform(),
-        this.getXform().getWidth(),
-        this.getXform().getHeight() / 1.07
+        this.getXform().getWidth() * .4,
+        this.getXform().getHeight()
     );
     r.setMass(1000);
     r.setRestitution(1);
@@ -42,24 +53,30 @@ function Boss(spriteTexture, hero) {
     this.mHero = hero;
     
     //State support
-    this.mAggroRange = 50;       //how close the player needs to be to aggro
-    this.mSmashRange = 25;       //how close the golem needs to be to the player to smash
+    this.mAggroRange = 60;       //how close the player needs to be to aggro
+    
     
     //Chase State Support
-    this.mChaseSpeed = 20;
-    
+    this.mChaseSpeed = .5;
+    this.mSmashRange = 30;       //how close the golem needs to be to the player to smash
+    //
     //Smash State Support
-    this.kSmashLength = 1;
-    this.mSmashTimer = 1;
+    this._smashStateInit();
     
-    this.mCurrentState = Boss.eBossState.eInactiveState;
+    
+    this.mCurrentState = Boss.eBossState.eIdleState;
 }
 gEngine.Core.inheritPrototype(Boss, GameObject);
 
+Boss.prototype.draw = function (aCamera) {
+    GameObject.prototype.draw.call(this, aCamera);
+    this.mGolem.draw(aCamera);
+};
+
 Boss.prototype.update = function () {
     switch(this.mCurrentState) {
-        case Boss.eBossState.eInactiveState:
-            this._serviceInactive(this.mHero);
+        case Boss.eBossState.eIdleState:
+            this._serviceIdle(this.mHero);
             break;
         case Boss.eBossState.eChaseState:
             this._serviceChase(this.mHero);
@@ -69,37 +86,38 @@ Boss.prototype.update = function () {
             break;
     }
     
-    //console.log(this.getXform().getPosition());
     this.getRigidBody().update();
+    this.mGolem.updateAnimation();
 };
 
-//Inactive State: play idle animation
-
-Boss.prototype._serviceInactive = function(hero) {
+//Idle State: play idle animation
+//Wait for player in aggro range
+Boss.prototype._serviceIdle = function(hero) {
     var bossPos = this.getXform().getPosition();
     var heroPos = hero.getXform().getPosition();
 
     //If the player gets in aggro range of the boss
     //the boss becomes active
     if(vec2.distance(bossPos, heroPos) <= this.mAggroRange) {
-        
         this.mCurrentState = Boss.eBossState.eChaseState;
         return;
     }
-    
-    //continue to play Idle animation
 };
 
 //Aggro State: Chase player
 Boss.prototype._serviceChase = function(hero) {
     var heroPos = hero.getXform().getPosition();
     var bossPos = this.getXform().getPosition();
+
     
-        //if the player is in smashing range, stop and fgo to smash State
+    //if the player is in smashing range, stop and fgo to smash State
     if(vec2.distance(bossPos, heroPos) <= this.mSmashRange) {
-        this.mCurrentState = Boss.eBossState.eSmashState;
-        this.getRigidBody().setVelocity(0, 0);
         console.log("Smashing...");
+        this.mCurrentState = Boss.eBossState.eSmashState;
+        this.getRigidBody().setVelocity(0, 0);                  //stop motion to attack
+        
+        this.mGolem.setTexture(this.kAttackSprite);
+        this.mGolem.resetAnimation();
         return;
     }
     
@@ -107,20 +125,8 @@ Boss.prototype._serviceChase = function(hero) {
     var chaseVel = vec2.fromValues(0, 0);
     vec2.subtract(chaseVel, heroPos, bossPos);
     vec2.normalize(chaseVel, chaseVel);
-    vec2.scale(chaseVel, chaseVel, this.mChaseSpeed);
+    vec2.scale(chaseVel, chaseVel, this.mChaseSpeed * vec2.distance(heroPos, bossPos));
     
     this.getRigidBody().setVelocity(chaseVel[0], 0);
 };
 
-//Smash State: Play smash animation, smash the player
-Boss.prototype._serviceSmash = function(hero) {
-    //run the smash animation
-    //no animation yet, so just run a timer
-    this.mSmashTimer -= (1/60);
-    
-    if(this.mSmashTimer <= 0){
-        console.log("SMASH!!!");
-        this.mSmashTimer = this.kSmashLength;
-        this.mCurrentState = Boss.eBossState.eChaseState;
-    }
-};

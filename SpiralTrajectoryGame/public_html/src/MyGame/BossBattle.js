@@ -14,7 +14,12 @@
 function BossBattle() {
     // Sprites & textures
     this.kHeroSprite = "assets/characters/hero.png";
+    
+    //Boss sprites (perhaps these could be combined into one sheet?
     this.kBossSprite = "assets/characters/boss.png";
+    this.kBossIdleSprite = "assets/characters/boss_idle.png";
+    this.kBossAttackSprite = "assets/characters/boss_attack.png";
+    
     this.kPlatformTexture = "assets/platform.png";
     this.kGroundTexture = "";
     this.kWallTexture = "";
@@ -42,12 +47,16 @@ gEngine.Core.inheritPrototype(BossBattle, Scene);
 BossBattle.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroSprite);
     gEngine.Textures.loadTexture(this.kBossSprite);
+    gEngine.Textures.loadTexture(this.kBossIdleSprite);
+    gEngine.Textures.loadTexture(this.kBossAttackSprite);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
 };
 
 BossBattle.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kBossSprite);
+    gEngine.Textures.unloadTexture(this.kBossIdleSprite);
+    gEngine.Textures.unloadTexture(this.kBossAttackSprite);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Core.startScene(new ResultsScreen());
 };
@@ -77,7 +86,7 @@ BossBattle.prototype.initialize = function () {
      this.mArrowVector = new ArrowVector(30, this.mMainCamera);
      
     //Create the boss
-    this.mBoss = new Boss(this.kBossSprite, this.mHero);
+    this.mBoss = new Boss(this.kBossIdleSprite, this.kBossAttackSprite, this.mHero);
     this.mPhysicsGameObjects.addToSet(this.mBoss);
     
     // Create platforms

@@ -170,6 +170,10 @@ SpriteAnimateRenderable.prototype.updateAnimation = function () {
         }
     }
 };
+
+SpriteAnimateRenderable.prototype.resetAnimation = function () { 
+    this._initAnimation();
+};
 //--- end of Public Methods
 //
 //</editor-fold>
