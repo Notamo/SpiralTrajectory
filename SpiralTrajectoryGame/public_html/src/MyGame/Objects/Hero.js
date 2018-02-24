@@ -27,12 +27,17 @@ function Hero(spriteTexture) {
         this.getXform().getWidth() / 2,
         this.getXform().getHeight() / 1.07
     );
-    r.setMass(1);
+    r.setMass(10);
     r.setRestitution(1);
-    r.setFriction(0);  
+    r.setFriction(10);  
     this.setRigidBody(r);
     // Specific collision ignoring.
     //this.toggleDrawRigidShape();
+    
+    this.mNoClip = false;
+    this.mUpdatesSinceClip = 0;
+    this.mJumpCount = 0;
+    this.mMaxJumps = 2;
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
@@ -40,15 +45,34 @@ Hero.prototype.update = function () {
     var xform = this.getXform();
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        xform.incXPosBy(-1);
+        this.getRigidBody().adjustPositionBy([-10,0], .1);
+        this.getXform().setOrientation(-1);
     }
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        xform.incXPosBy(1);
+        this.getRigidBody().adjustPositionBy([10,0], .1);
+        this.getXform().setOrientation(1);
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        this.getRigidBody().setVelocity(0, 100);
+        if (this.mJumpCount < this.mMaxJumps) {
+            this.getRigidBody().setVelocity(0,100);
+            this.mJumpCount++;
+        }
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+        this.mNoClip = true;
+        this.mUpdatesSinceClip = 0;
+    }
+    else {
+        if (this.mNoClip) {
+            this.mUpdatesSinceClip++;
+        }
+        if (this.mUpdatesSinceClip > 20) {
+            this.mNoClip = false;
+            this.mUpdatesSinceClip = 0;
+        }
     }
 
     this.mRigidBody.setAngularVelocity(0);
@@ -58,20 +82,21 @@ Hero.prototype.update = function () {
 // Ignores collision with platform objects when the S key is pressed or
 // when the hero is jumping from below the platform
 Hero.prototype.ignoreCollision = function (obj) {
+    var heroBB = this.getBBox();
+    var platformBB = obj.getBBox();
+    
     if (obj instanceof Platform) {
-        var heroBB = this.getBBox();
-        var platformBB = obj.getBBox();
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+        if (this.mNoClip) {
             return true;
         }
         
-        if (this.getRigidBody().getVelocity()[1] < 0) {
-            return false;
-        }
         
-        if (heroBB.minY() >= platformBB.maxY() - 0.5) {
+        if (this.getRigidBody().getVelocity()[1] < 0) {
+            this.mJumpCount = 0;
             return false;
         }
+
+        
                
         // This checks if the hero is moving upwards towards the platform when it collides.
         // we can tune these values to work better with our platform size
@@ -83,5 +108,8 @@ Hero.prototype.ignoreCollision = function (obj) {
         // that we're still here means we DO want to ignore it.
         return true;
     }
+    this.mJumpCount = 0;
+    
+
      return false;
 };

@@ -19,6 +19,7 @@ function Transform() {
     this.mScale = vec2.fromValues(1, 1);    // this is the width (x) and height (y)
     this.mZ = 0.0;                          // must be a positive number, larger is closer to eye
     this.mRotationInRad = 0.0;              // in radians!
+    this.mFlipped = false;
 }
 
 /**
@@ -142,6 +143,12 @@ Transform.prototype.incZPosBy = function (delta) { this.mZ += delta; };
  */
 Transform.prototype.setSize = function (width, height) {
     this.setWidth(width);
+    if (width < 0) {
+        this.mFlipped = true;
+    }
+    else {
+        this.mFlipped = false;
+    }
     this.setHeight(height);
 };
 
@@ -179,12 +186,36 @@ Transform.prototype.getWidth = function () { return this.mScale[0]; };
 Transform.prototype.setWidth = function (width) { this.mScale[0] = width; };
 
 /**
+ * Changes the sign of the width value
+ * @memberOf Transform
+ * @returns {void}
+ */
+Transform.prototype.setOrientation = function (orientation) {
+    if (orientation > 0) {
+        this.mFlipped = false;
+        this.mScale[0] = Math.abs(this.mScale[0]);
+    }
+    else {
+        this.mFlipped = true;
+        this.mScale[0] = Math.abs(this.mScale[0])*-1;
+    }
+};
+
+/**
  * Increment Width of the Transform.
  * @memberOf Transform
  * @param {Number} delta to increment the width by.
  * @returns {void}
  */
-Transform.prototype.incWidthBy = function (delta) { this.mScale[0] += delta; };
+Transform.prototype.incWidthBy = function (delta) { 
+    this.mScale[0] += delta; 
+    if (this.mScale[0] < 0) {
+        this.mFlipped = true;
+    }
+    else {
+        this.mFlipped = false;
+    }
+};
 
 /**
  * Returns the Height of the Transform.
