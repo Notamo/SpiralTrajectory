@@ -15,6 +15,9 @@ https://opengameart.org/content/simple-hand-painted-rock-texture-stonetexturelow
 torch
 https://opengameart.org/content/iron-torches
 
+bricks
+https://opengameart.org/content/wall-of-large-bricks
+
 normal map tool
 http://cpetry.github.io/NormalMap-Online/
 

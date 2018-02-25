@@ -11,14 +11,19 @@
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
         <group>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Boss/Boss_Animations.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/BossBattle.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Boss/Boss.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Boss/Boss_Smash.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Cameras/Camera.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/assets/characters/boss.png</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/assets/characters/boss_sprites.png</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Hero.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Arrows/IceArrow.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/lib/gl-matrix.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Terrain/Platform.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Utils/Transform.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Utils/Interpolate.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/RigidShapes/RigidShape.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/GameObjects/GameObject.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Arrows/Arrow.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Arrows/FireArrow.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Hero.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/assets/sources.txt</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/BossBattle.js</file>
+            <file>file:/C:/Users/Louis/Desktop/CSS452/SpiralTrajectory/SpiralTrajectoryGame/public_html/index.html</file>
         </group>
     </open-files>
 </project-private>
