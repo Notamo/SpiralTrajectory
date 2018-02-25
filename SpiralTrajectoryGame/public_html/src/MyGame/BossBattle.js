@@ -6,7 +6,7 @@
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
-  GameObject, Hero, TextureRenderable, RigidRectangle, Platform, Terrain */
+  GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
