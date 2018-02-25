@@ -34,6 +34,7 @@ function BossBattle() {
     
     // Individual game objects
     this.mHero = null;
+    this.mArrow = null;
     this.mBoss = null;
     
     // UI objects
@@ -105,6 +106,8 @@ BossBattle.prototype.draw = function () {
     
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     this.mArrowVector.draw(this.mMainCamera);
+    if(this.mArrow!==null){
+    this.mArrow.draw(this.mMainCamera);}
     this.mCollisions = [];
 };
 
@@ -118,6 +121,12 @@ BossBattle.prototype.update = function () {
     this.mPhysicsGameObjects.update();
     gEngine.Physics.processCollision(this.mPhysicsGameObjects, this.mCollisions);
     this.mArrowVector.update();
+    if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) 
+    {
+        this.mArrow = new Arrow(this.mArrowVector.getPower(),this.mArrowVector.getDegrees());
+    }
+    if(this.mArrow!==null){
+    this.mArrow.update();}
     this.updateMainCamera();
 };
 
