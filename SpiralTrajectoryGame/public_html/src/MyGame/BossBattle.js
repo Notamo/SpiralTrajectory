@@ -6,7 +6,7 @@
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
-  GameObject, Hero, TextureRenderable, RigidRectangle, Platform, Terrain */
+  GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -14,7 +14,16 @@
 function BossBattle() {
     // Sprites & textures
     this.kHeroSprite = "assets/characters/hero.png";
+<<<<<<< HEAD
     this.kBossSprite = "assets/characters/boss_sprites.png";
+=======
+    this.arrow="assets/projectiles/arrow.png";
+    
+    //Boss sprites (perhaps these could be combined into one sheet?
+    this.kBossSprite = "assets/characters/boss.png";
+    this.kBossIdleSprite = "assets/characters/boss_idle.png";
+    this.kBossAttackSprite = "assets/characters/boss_attack.png";
+>>>>>>> Arrow
     
     this.kPlatformTexture = "assets/platform.png";
     this.kGroundTexture = "";
@@ -30,6 +39,7 @@ function BossBattle() {
     
     // Individual game objects
     this.mHero = null;
+    this.mArrow = null;
     this.mBoss = null;
     
     // UI objects
@@ -43,12 +53,24 @@ gEngine.Core.inheritPrototype(BossBattle, Scene);
 BossBattle.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroSprite);
     gEngine.Textures.loadTexture(this.kBossSprite);
+<<<<<<< HEAD
+=======
+    gEngine.Textures.loadTexture(this.kBossIdleSprite);
+    gEngine.Textures.loadTexture(this.kBossAttackSprite);
+    gEngine.Textures.loadTexture(this.arrow);
+>>>>>>> Arrow
     gEngine.Textures.loadTexture(this.kPlatformTexture);
 };
 
 BossBattle.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kBossSprite);
+<<<<<<< HEAD
+=======
+    gEngine.Textures.unloadTexture(this.kBossIdleSprite);
+    gEngine.Textures.unloadTexture(this.kBossAttackSprite);
+    gEngine.Textures.unloadTexture(this.arrow);
+>>>>>>> Arrow
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Core.startScene(new ResultsScreen());
 };
@@ -97,6 +119,8 @@ BossBattle.prototype.draw = function () {
     
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     this.mArrowVector.draw(this.mMainCamera);
+    if(this.mArrow!==null){
+    this.mArrow.draw(this.mMainCamera);}
     this.mCollisions = [];
 };
 
@@ -110,6 +134,12 @@ BossBattle.prototype.update = function () {
     this.mPhysicsGameObjects.update();
     gEngine.Physics.processCollision(this.mPhysicsGameObjects, this.mCollisions);
     this.mArrowVector.update();
+    if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) 
+    {
+        this.mArrow = new Arrow(this.mArrowVector.getPower(),this.mArrowVector.getDegrees());
+    }
+    if(this.mArrow!==null){
+    this.mArrow.update();}
     this.updateMainCamera();
 };
 
