@@ -1,10 +1,20 @@
-arrow.png
+arrow
 Michael J Pierce
 https://opengameart.org/content/arrow-0
 http://FoxTango.Tumblr.com
 
-boss.png
+boss
 https://opengameart.org/content/golem-animations
 
-hero.png
+hero
 https://opengameart.org/content/fantasy-heroes-character-sprite-sheet
+
+stone wall
+https://opengameart.org/content/simple-hand-painted-rock-texture-stonetexturelowdetaillight1png
+
+torch
+https://opengameart.org/content/iron-torches
+
+normal map tool
+http://cpetry.github.io/NormalMap-Online/
+
