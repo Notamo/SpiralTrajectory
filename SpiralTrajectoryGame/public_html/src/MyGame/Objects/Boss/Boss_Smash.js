@@ -14,6 +14,8 @@ Boss.eSmashState = Object.freeze({
 })
 
 Boss.prototype._smashStateInit = function() {    
+    this.kSmashRange = 30;              //how close the player needs to be
+    
     this.kSmashCooldownLength = 1;      //time before the boss can smash again
     this.kSmashChargeLength = .25;
     this.kLaunchMag = 100;

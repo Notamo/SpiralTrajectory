@@ -16,7 +16,8 @@ Boss.eBossState = Object.freeze({
     eSpawnState: 1,         //currently spawning in
     eIdleState: 2,          //not doing anything, unaware of player
     eChaseState: 3,         //player too far to attack, chasing player
-    eSmashState: 4          //In range, Smash the player!
+    eSmashState: 4,          //In range, Smash the player!
+    eDyingState: 5
 });
 
 function Boss(bossSprite, hero) {
@@ -45,13 +46,14 @@ function Boss(bossSprite, hero) {
     //the hero
     this.mHero = hero;
     
+    this.mDead = false;
+    this.kMaxHealth = 100;
+    this.mCurrentHealth = this.kMaxHealth;
+    
     //State support
     this.mSpawnComplete = false;
     this.mAggroRange = 60;       //how close the player needs to be to aggro
-    //Chase State Support
     this.mChaseSpeed = .5;
-    this.mSmashRange = 30;       //how close the golem needs to be to the player to smash
-    //Smash State Support
     this._smashStateInit();
 
     this.mCurrentState = Boss.eBossState.eSpawnState;
@@ -77,11 +79,16 @@ Boss.prototype.update = function () {
         case Boss.eBossState.eSmashState:
             this._serviceSmash(this.mHero);
             break;
+        case Boss.eBossState.eDyingState:
+            this._serviceDying(this.mHero);
+            break;
     }
     
-
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.L)) {
+        this.dealDamage(100);
+    }
     
-    //orient the boss to face the player at all times
+    //orient the boss to face the player
     if(this.mCurrentState !== Boss.eBossState.eSmashState) {
         if(Math.sign(this.mHero.getXform().getPosition()[0] - this.mGolem.getXform().getPosition()[0]) <= 0)
             this.mGolem.getXform().setOrientation(1);
@@ -94,6 +101,18 @@ Boss.prototype.update = function () {
     if(this.mCurrentSmashState !== Boss.eSmashState.eChargeState)
         this.mGolem.updateAnimation();
 };
+
+Boss.prototype.dealDamage = function(amount) {
+    this.mCurrentHealth -= amount;
+    if(this.mCurrentHealth <= 0) {
+        this._setupAnimation(Boss.eBossAnim.eDeathAnim, true);
+        this.mCurrentState = Boss.eBossState.eDyingState;
+    }
+};
+
+ Boss.prototype.chill = function() {
+     
+ };
 
 
 
@@ -135,7 +154,7 @@ Boss.prototype._serviceChase = function(hero) {
         this.mSmashCooldown -= (1/60);
     
     //if the player is in smashing range, stop and fgo to smash State
-    if(vec2.distance(bossPos, heroPos) <= this.mSmashRange && this.mSmashCooldown <= 0) {
+    if(vec2.distance(bossPos, heroPos) <= this.kSmashRange && this.mSmashCooldown <= 0) {
         this.mCurrentState = Boss.eBossState.eSmashState;
         this.getRigidBody().setVelocity(0, 0);                  //stop motion to attack
 
@@ -152,3 +171,9 @@ Boss.prototype._serviceChase = function(hero) {
     this.getRigidBody().setVelocity(chaseVel[0], 0);
 };
 
+Boss.prototype._serviceDying = function() {
+    //dying...
+    if(this.mGolem.mCurrentElm == this.mGolem.mNumElems - 1) {
+        this.mDead = true;
+    }
+};

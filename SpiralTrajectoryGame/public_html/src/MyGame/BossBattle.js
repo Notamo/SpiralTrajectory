@@ -14,8 +14,6 @@
 function BossBattle() {
     // Sprites & textures
     this.kHeroSprite = "assets/characters/hero.png";
-    
-    //Boss sprites (perhaps these could be combined into one sheet?
     this.kBossSprite = "assets/characters/boss_sprites.png";
     
     this.kPlatformTexture = "assets/platform.png";
