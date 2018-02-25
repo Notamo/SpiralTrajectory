@@ -18,10 +18,9 @@ function Arrow(power,degree) {
     this.mArcher.setColor([1, 1, 1, 0]);
     this.mArcher.getXform().setPosition(-10, -10);
     this.mArcher.getXform().setSize(2/1.5, 12/1.5);
-    this.move=false;
     this.power=power;
     this.degree=degree;
-    this.mArcher.getXform().incRotationByDegree(degree-90);
+    this.mArcher.getXform().incRotationByDegree(degree+270);
     GameObject.call(this, this.mArcher);
     
     // Physics
@@ -34,7 +33,6 @@ function Arrow(power,degree) {
     r.setRestitution(1);
     r.setFriction(0);  
     this.setRigidBody(r);
-    //finds how much velocity is needed for both x and y
     var x=this.degree*(Math.PI/180);
     var y=this.degree*(Math.PI/180);
     x=Math.cos(x);
@@ -47,13 +45,12 @@ gEngine.Core.inheritPrototype(Arrow, GameObject);
 
 Arrow.prototype.update = function () {
     var xform = this.mArcher.getXform();
-    //Part to fix: direction of arrow and orientation needs work
-    if(this.getRigidBody().getVelocity()[1]!==0 && xform.getRotationInDegree()>180 && Math.cos(this.degree)>0){
-        this.mRigidBody.setAngularVelocity(0);
-     xform.setRotationInDegree(this.degree*(this.getRigidBody().getVelocity()[1]/100)+270);
+    var vel = this.getRigidBody().getVelocity();
+    if (vel[0] >0) {
+        xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) - Math.PI/2);
     }
-    else if(this.getRigidBody().getVelocity()[1]!==0 && xform.getRotationInDegree()<180 && Math.cos(this.degree)<=0){
-    this.mRigidBody.setAngularVelocity(1);
+    else {
+        xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
     }
     //this.mRigidBody.setAngularVelocity(-1);
     this.mRigidBody.update();
