@@ -14,6 +14,7 @@
 function BossBattle() {
     // Sprites & textures
     this.kHeroSprite = "assets/characters/hero.png";
+    this.arrow="assets/projectiles/arrow.png";
     
     //Boss sprites (perhaps these could be combined into one sheet?
     this.kBossSprite = "assets/characters/boss.png";
@@ -50,6 +51,7 @@ BossBattle.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBossSprite);
     gEngine.Textures.loadTexture(this.kBossIdleSprite);
     gEngine.Textures.loadTexture(this.kBossAttackSprite);
+    gEngine.Textures.loadTexture(this.arrow);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
 };
 
@@ -58,6 +60,7 @@ BossBattle.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBossSprite);
     gEngine.Textures.unloadTexture(this.kBossIdleSprite);
     gEngine.Textures.unloadTexture(this.kBossAttackSprite);
+    gEngine.Textures.unloadTexture(this.arrow);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Core.startScene(new ResultsScreen());
 };
