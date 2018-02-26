@@ -45,7 +45,7 @@ SplashScreen.prototype.initialize = function () {
     pos[1]=pos[1]-10;
     //Creation of arrow and Both FontRenderables
     this.mArrow=new Arrow(pos,1,50);
-    this.title=new FontRenderable("Golemn Smash");
+    this.title=new FontRenderable("Golem Smash");
     this.title.setColor([.5, .5, .5, 1]);
     //this.title.setColor([1, 1, 1, 0]);
     this.title.getXform().setPosition(33,40);
