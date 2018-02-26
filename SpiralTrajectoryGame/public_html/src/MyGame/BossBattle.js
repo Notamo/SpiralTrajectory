@@ -69,7 +69,7 @@ BossBattle.prototype.initialize = function () {
     // Step A: set up the cameras
     this.mMainCamera = new Camera(
         vec2.fromValues(0, 0), // position of the camera
-        100,                     // width of camera
+        200,                     // width of camera
         [0, 0, 1200, 900]         // viewport (orgX, orgY, width, height)
     );
     this.mMainCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
@@ -131,6 +131,14 @@ BossBattle.prototype.update = function () {
         }
 
     }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
+        this.mArrowVector.setFireMode(0);
+    }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {
+        this.mArrowVector.setFireMode(1);
+    }
+    
     this.updateMainCamera();
 };
 
