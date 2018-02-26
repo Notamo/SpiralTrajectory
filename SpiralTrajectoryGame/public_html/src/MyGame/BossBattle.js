@@ -131,8 +131,6 @@ BossBattle.prototype.update = function () {
         }
 
     }
-    if(this.mArrow!==null){
-    this.mArrow.update();}
     this.updateMainCamera();
 };
 
