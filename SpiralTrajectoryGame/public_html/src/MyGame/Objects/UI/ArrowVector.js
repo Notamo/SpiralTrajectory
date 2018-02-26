@@ -1,6 +1,16 @@
-// This class uses mouse inputs and creates a UI element to 
-// display the strength and angle that an arrow would be
-// fired at.
+/*
+ * File: ArrowVector.js 
+ * This class uses mouse inputs and creates a UI element to 
+ * display the strength and angle that an arrow would be
+ * fired at.
+ */
+
+/*jslint node: true, vars: true */
+/*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
+  FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
+  GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain */
+/* find out more about jslint: http://www.jslint.com/help.html */
+
 class ArrowVector {
     constructor(maxLength, cameraRef) {
         if (maxLength > 1) {
@@ -48,13 +58,13 @@ class ArrowVector {
     }
     
     setFireMode(mode) {
-        if (mode == 1) {
+        if (mode === ArrowVector.eFiringModes.eHeadControl) {
             console.log("setting mode to point at mouse");
-            this.mFireMode = 1;
+            this.mFireMode = ArrowVector.eFiringModes.eHeadControl;
         }
         else {
             console.log("setting mode to have mouse control tail")
-            this.mFireMode = 0;
+            this.mFireMode = ArrowVector.eFiringModes.eTailControl;
         }
     }
     
@@ -69,7 +79,7 @@ class ArrowVector {
         if (opp < 0) {
             angle *= -1;
         }
-        if (this.mFireMode == 0) {
+        if (this.mFireMode === ArrowVector.eFiringModes.eTailControl) {
             return angle;
         }
         else {
@@ -114,7 +124,7 @@ class ArrowVector {
             var x = pos[0];
             var y = pos[1];
             var angle = this.getAngle();
-            if (this.mFireMode == 0) {
+            if (this.mFireMode === 0) {
                 angle += Math.PI;
             }
             x += (this.mMaxLength * Math.cos(angle));
@@ -143,39 +153,39 @@ class ArrowVector {
     }
     
     setStartPoint(x,y) {
-        if (this.mFireMode == 0) {
+        if (this.mFireMode === ArrowVector.eFiringModes.eTailControl) {
             this.mLineSet[0].setFirstVertex(x, y);
         }
-        if (this.mFireMode == 1) {
+        if (this.mFireMode === ArrowVector.eFiringModes.eHeadControl) {
             this.mLineSet[0].setSecondVertex(x, y);
         }
     }
     
     setEndPoint(x,y) {
         
-        if (this.mFireMode == 0) {
+        if (this.mFireMode === ArrowVector.eFiringModes.eTailControl) {
             this.mLineSet[0].setSecondVertex(x, y);
         }
-        if (this.mFireMode == 1) {
+        if (this.mFireMode === ArrowVector.eFiringModes.eHeadControl) {
             this.mLineSet[0].setFirstVertex(x, y);
         }
     }
     
     getStartPoint() {
-        if (this.mFireMode == 0) {
+        if (this.mFireMode === ArrowVector.eFiringModes.eTailControl) {
             return this.mLineSet[0].getFirstVertex();
         }
-        if (this.mFireMode == 1) {
+        if (this.mFireMode === ArrowVector.eFiringModes.eHeadControl) {
             return this.mLineSet[0].getSecondVertex();
         }
     }
     
     getEndPoint(){
         
-        if (this.mFireMode == 0) {
+        if (this.mFireMode === ArrowVector.eFiringModes.eTailControl) {
             return this.mLineSet[0].getSecondVertex();
         }
-        if (this.mFireMode == 1) {
+        if (this.mFireMode === ArrowVector.eFiringModes.eHeadControl) {
             return this.mLineSet[0].getFirstVertex();
         }
     }
@@ -184,7 +194,7 @@ class ArrowVector {
     update() {
         var x, y;
         if (this.mCameraRef.isMouseInViewport()) {
-            if (gEngine.Input.isButtonPressed(gEngine.Input.mouseButton.Left) && this.mVisible == false) {
+            if (gEngine.Input.isButtonPressed(gEngine.Input.mouseButton.Left) && this.mVisible === false) {
                 x = this.mCameraRef.mouseWCX();
                 y = this.mCameraRef.mouseWCY();
                 this.setStartPoint(x, y);
@@ -206,3 +216,9 @@ class ArrowVector {
         }
     }
 }
+
+// States for the firing mode of arrows. Mainly for development, may be deleted.
+ArrowVector.eFiringModes = Object.freeze({
+        eTailControl: 0,
+        eHeadControl: 1
+});
