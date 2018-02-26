@@ -41,13 +41,14 @@ SplashScreen.prototype.initialize = function () {
         [0, 0, 1200, 900]         // viewport (orgX, orgY, width, height)
     );
     var pos=[50,40];
-    pos[0]=pos[0]-90;
+    pos[0]=pos[0]-80;
     pos[1]=pos[1]-10;
-    this.mArrow=new Arrow(pos,.7,50);
-    this.title=new FontRenderable("Golem Smash");
+    //Creation of arrow and Both FontRenderables
+    this.mArrow=new Arrow(pos,1,50);
+    this.title=new FontRenderable("Golemn Smash");
     this.title.setColor([.5, .5, .5, 1]);
     //this.title.setColor([1, 1, 1, 0]);
-    this.title.getXform().setPosition(35,40);
+    this.title.getXform().setPosition(33,40);
     this.title.setTextHeight(5);
     this.msg=new FontRenderable("Press B to Play");
     this.msg.setColor([.5, .5, .5, 1]);
@@ -72,16 +73,17 @@ SplashScreen.prototype.draw = function () {
 SplashScreen.prototype.update = function () {
     //gEngine.GameLoop.stop();
     this.mArrow.update();
+    //Updated the alpha of the font renderables
     var tColor = this.title.getColor();
     var tColor = [tColor[0],tColor[1],tColor[2],tColor[3]+1/60];
     var mColor = this.msg.getColor();
     var mColor = [mColor[0],mColor[1],mColor[2],mColor[3]+1/60];
-    
+    //sets new alpha of main title
     if(this.mArrow.getXform().getPosition()[0]>120)
     {
         this.title.setColor(tColor);
     }
-    
+    //reveals 2nd font renderable
     if(tColor[3]>=3)
     {
         this.msg.setColor(mColor);
