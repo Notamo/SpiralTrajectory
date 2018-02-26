@@ -110,6 +110,12 @@ Hero.prototype.ignoreCollision = function (obj) {
     }
     this.mJumpCount = 0;
     
+    if (obj instanceof Arrow) {
+        if (obj.getTimeAlive() < 20) {
+            return true;
+        }
+    }
+    
 
      return false;
 };
