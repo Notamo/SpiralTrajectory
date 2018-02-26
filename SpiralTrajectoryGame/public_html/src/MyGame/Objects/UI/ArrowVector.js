@@ -141,8 +141,6 @@ class ArrowVector {
             }
             if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
                 this.mVisible = false;
-                console.log("Arrow would fire with " + this.getPower()*100 + "% power");
-                console.log("Arrow would fire at " + this.getDegrees() + "'");
                 // TODO: Call firing function for arrows at this point
             }
         }
