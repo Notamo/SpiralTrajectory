@@ -64,11 +64,6 @@ Arrow.prototype.update = function () {
 
 };
 
-Arrow.prototype.draw = function (mCamera) {
-    this.mArcher.draw(mCamera);
-    this.mRigidBody.draw(mCamera);
-};
-
 Arrow.prototype.getPosition = function(){
     return this.mArcher.getXform().getPosition();
 };
