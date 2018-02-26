@@ -14,12 +14,16 @@
 function BossBattle() {
     // Sprites & textures
     this.kHeroSprite = "assets/characters/hero.png";
+<<<<<<< HEAD
+    this.kBossSprite = "assets/characters/boss_sprites.png";
+=======
     this.arrow="assets/projectiles/arrow.png";
     
     //Boss sprites (perhaps these could be combined into one sheet?
-    this.kBossSprite = "assets/characters/boss_sprites.png";
+    this.kBossSprite = "assets/characters/boss.png";
     this.kBossIdleSprite = "assets/characters/boss_idle.png";
     this.kBossAttackSprite = "assets/characters/boss_attack.png";
+>>>>>>> Arrow
     
     this.kPlatformTexture = "assets/platform.png";
     this.kGroundTexture = "";
@@ -49,18 +53,24 @@ gEngine.Core.inheritPrototype(BossBattle, Scene);
 BossBattle.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroSprite);
     gEngine.Textures.loadTexture(this.kBossSprite);
+<<<<<<< HEAD
+=======
     gEngine.Textures.loadTexture(this.kBossIdleSprite);
     gEngine.Textures.loadTexture(this.kBossAttackSprite);
     gEngine.Textures.loadTexture(this.arrow);
+>>>>>>> Arrow
     gEngine.Textures.loadTexture(this.kPlatformTexture);
 };
 
 BossBattle.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kBossSprite);
+<<<<<<< HEAD
+=======
     gEngine.Textures.unloadTexture(this.kBossIdleSprite);
     gEngine.Textures.unloadTexture(this.kBossAttackSprite);
     gEngine.Textures.unloadTexture(this.arrow);
+>>>>>>> Arrow
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Core.startScene(new ResultsScreen());
 };
@@ -126,7 +136,10 @@ BossBattle.prototype.update = function () {
     this.mArrowVector.update();
     if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) 
     {
-        this.mArrow = new Arrow(this.mHero.getXform().getPosition(), this.mArrowVector.getPower(),this.mArrowVector.getDegrees());
+        this.mArrow = new Arrow(this.mHero.getXform().getPosition(),this.mArrowVector.getPower(),this.mArrowVector.getDegrees());
+        if(this.mArrow!==null){
+            this.mPhysicsGameObjects.addToSet(this.mArrow);
+        }
     }
     if(this.mArrow!==null){
     this.mArrow.update();}
