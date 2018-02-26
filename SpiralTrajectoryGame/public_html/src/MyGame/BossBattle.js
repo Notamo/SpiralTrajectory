@@ -136,7 +136,10 @@ BossBattle.prototype.update = function () {
     this.mArrowVector.update();
     if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) 
     {
-        this.mArrow = new Arrow(this.mArrowVector.getPower(),this.mArrowVector.getDegrees());
+        this.mArrow = new Arrow(this.mHero.getXform().getPosition(),this.mArrowVector.getPower(),this.mArrowVector.getDegrees());
+        if(this.mArrow!==null){
+            this.mPhysicsGameObjects.addToSet(this.mArrow);
+        }
     }
     if(this.mArrow!==null){
     this.mArrow.update();}
