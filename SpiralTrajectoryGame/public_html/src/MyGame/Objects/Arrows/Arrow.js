@@ -16,7 +16,7 @@ function Arrow(position,power,degree) {
     // Create the sprite
     this.mArcher = new TextureRenderable("assets/projectiles/arrow.png");
     this.mArcher.setColor([1, 1, 1, 0]);
-    this.mArcher.getXform().setPosition(position[0]+10, position[1]);
+    this.mArcher.getXform().setPosition(position[0], position[1]);
     this.mArcher.getXform().setSize(2/1.5, 12/1.5);
     this.power=power;
     this.degree=degree;
@@ -24,6 +24,7 @@ function Arrow(position,power,degree) {
     GameObject.call(this, this.mArcher);
     
     this.kBasePower = 180;
+    this.mTimeSinceSpawn = 0;
     
     // Physics
     var r = new RigidRectangle(
@@ -31,7 +32,7 @@ function Arrow(position,power,degree) {
         this.getXform().getWidth(),
         this.getXform().getHeight()
     );
-    r.setMass(1);
+    r.setMass(2);
     r.setRestitution(.2);
     r.setFriction(0);  
     this.setRigidBody(r);
@@ -45,7 +46,12 @@ function Arrow(position,power,degree) {
 }
 gEngine.Core.inheritPrototype(Arrow, GameObject);
 
+Arrow.prototype.getTimeAlive = function () {
+    return this.mTimeSinceSpawn;
+}
+
 Arrow.prototype.update = function () {
+    this.mTimeSinceSpawn++;
     var xform = this.mArcher.getXform();
     var vel = this.getRigidBody().getVelocity();
     if (vel[0] >0) {
@@ -55,6 +61,7 @@ Arrow.prototype.update = function () {
         xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
     }
     this.mRigidBody.update();
+
 };
 
 Arrow.prototype.draw = function (mCamera) {
