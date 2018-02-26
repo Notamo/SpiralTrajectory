@@ -6,12 +6,28 @@
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
-  GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain */
+  GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain,
+  ArrowVector */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
 
 function BossBattle() {
+    // Constants/changeable values for different game features
+    // Main Camera options
+    this.cMainCameraStartingPosition = vec2.fromValues(0, 0);
+    this.cMainCameraWorldWidth = 200;
+    this.cMainCameraViewport = [0, 0, 1200, 900];
+    this.cMainCameraBackgroundColor = [0.8, 0.8, 0.8, 1];
+    this.cMainCameraInterpolationStiffness = 0.2;
+    this.cMainCameraInterpolationDuration = 30;
+    
+    // ArrowVector
+    this.cArrowVectorMaxLength = 30;
+    
+    // Color to clear the canvas to
+    this.cCanvasClearColor = [0.8, 0.8, 0.8, 1];
+    
     // Sprites & textures
     this.kHeroSprite = "assets/characters/hero.png";
     this.arrow="assets/projectiles/arrow.png";
@@ -66,28 +82,32 @@ BossBattle.prototype.unloadScene = function () {
 };
 
 BossBattle.prototype.initialize = function () {
-    // Step A: set up the cameras
+    // Setup the main camera.
     this.mMainCamera = new Camera(
-        vec2.fromValues(0, 0), // position of the camera
-        200,                     // width of camera
-        [0, 0, 1200, 900]         // viewport (orgX, orgY, width, height)
+        this.cMainCameraStartingPosition,
+        this.cMainCameraWorldWidth,
+        this.cMainCameraViewport
     );
-    this.mMainCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
-    // We'll need to determine what interpolation values we want for the camera
-    // that tracks the hero.
-    this.mMainCamera.configInterpolation(0.2, 30);
+    this.mMainCamera.setBackgroundColor(this.cMainCameraBackgroundColor);
+    this.mMainCamera.configInterpolation(
+        this.cMainCameraInterpolationStiffness,
+        this.cMainCameraInterpolationDuration
+    );
     
     // Two game object sets, one for objects with physics enabled, one for
     // non-physics objects.
     this.mPhysicsGameObjects = new GameObjectSet();
     this.mNonPhysicsGameObjects = new GameObjectSet();
     
-    // Create the hero
+    // Create the hero.
     this.mHero = new Hero(this.kHeroSprite);
     this.mPhysicsGameObjects.addToSet(this.mHero);
     
-
-     this.mArrowVector = new ArrowVector(30, this.mMainCamera);
+    // ArrowVector is our "firing" mechanism, need a single instance.
+    this.mArrowVector = new ArrowVector(
+        this.cArrowVectorMaxLength, 
+        this.mMainCamera
+    );
      
     //Create the boss
     this.mBoss = new Boss(this.kBossSprite, this.mHero);
@@ -95,54 +115,59 @@ BossBattle.prototype.initialize = function () {
     
     // Create platforms
     this.createPlatforms();
-    
-    //gEngine.Physics.togglePositionalCorrection();
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 BossBattle.prototype.draw = function () {
-    // Step A: clear the canvas
-    gEngine.Core.clearCanvas([0.8, 0.8, 0.8, 1]);
-    
+    gEngine.Core.clearCanvas(this.cCanvasClearColor);
     this.mMainCamera.setupViewProjection();
-    
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     this.mArrowVector.draw(this.mMainCamera);
-    if(this.mArrow!==null){
-    this.mArrow.draw(this.mMainCamera);}
     this.mCollisions = [];
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 BossBattle.prototype.update = function () {
+    // This is our toggle to switch scenes, temporary binding to the R key, but
+    // will need to be changed for the final game.
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
         gEngine.GameLoop.stop();
     }
-    
+
     this.mPhysicsGameObjects.update();
-    gEngine.Physics.processCollision(this.mPhysicsGameObjects, this.mCollisions);
+    gEngine.Physics.processCollision(
+        this.mPhysicsGameObjects, 
+        this.mCollisions
+    );
+    
+    // Handle creation of new arrows. This might need to be moved to the Hero class
+    // at some point.
     this.mArrowVector.update();
     if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
-        this.mArrow = new Arrow(this.mHero.getXform().getPosition(),this.mArrowVector.getPower(),this.mArrowVector.getDegrees());
-        if(this.mArrow!==null){
+        this.mArrow = new Arrow(
+            this.mHero.getXform().getPosition(),
+            this.mArrowVector.getPower(),
+            this.mArrowVector.getDegrees()
+        );
+        if(this.mArrow !== null) {
             this.mPhysicsGameObjects.addToSet(this.mArrow);
         }
-
     }
     
+    // Firing modes, should be moved to the Hero class as well.
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
-        this.mArrowVector.setFireMode(0);
+        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eTailControl);
     }
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {
-        this.mArrowVector.setFireMode(1);
+        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eHeadControl);
     }
     
     this.updateMainCamera();
 };
 
-// Updates the main camera to point to follow the hero
+// Updates the main camera to follow the hero
 BossBattle.prototype.updateMainCamera = function () {
     var xform = this.mHero.getXform();
     this.mMainCamera.panTo(xform.getXPos(), xform.getYPos());

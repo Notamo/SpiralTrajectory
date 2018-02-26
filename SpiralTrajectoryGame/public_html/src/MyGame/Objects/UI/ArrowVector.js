@@ -12,6 +12,13 @@
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 class ArrowVector {
+    /**
+     * A set of line renderables tracking state used
+     * to fire an arrow.
+     * @param {Number} maxLength    the maximum number of world units that the arrow vector can be dragged
+     * @param {Camera} cameraRef    a camera reference for accessing the mouse world coordinates  
+     * @returns {ArrowVector}
+     */
     constructor(maxLength, cameraRef) {
         if (maxLength > 1) {
             this.mMaxLength = maxLength;
@@ -24,11 +31,15 @@ class ArrowVector {
         this.mVisible = false;
         this.mColor = [1,1,1,1];
         
+        // 0 -> tip is static, 1 -> tail is static
         this.mFireMode = 0;
         
         this._initialize();
         
     }
+    /**
+     * Add line renderables to mLineSet for initialiation.
+     */
     _initialize() {
         var i,l;
         for (i = 0; i < 3; i++) {
@@ -38,7 +49,11 @@ class ArrowVector {
         }
     }
     
-    // Private function for determing the length of the arrow vector
+    /**
+     * Private utility function used for limited the length of the
+     * ArrowVector and calculating power %.
+     * @returns {Number} the length, in WC, of the ArrowVector 
+     */
     _getDistance() {
         var p1 = this.mLineSet[0].getFirstVertex();
         var p2 = this.mLineSet[0].getSecondVertex();
@@ -48,6 +63,11 @@ class ArrowVector {
         
     }
     
+    /**
+     * Accepts an array of RGB values and changes the color of each
+     * line renderable in mLineSet.
+     * @param {Array} colorArray RGB value to set the line renderables to
+     */
     setColor(colorArray) {
         var i;
         this.mColor = colorArray;
@@ -56,20 +76,24 @@ class ArrowVector {
 
         }
     }
-    
+    /**
+     * Change the firing mode between the tip being static
+     * and the tail being static.
+     * @param {Number} mode number representing firing mode
+     */
     setFireMode(mode) {
         if (mode === ArrowVector.eFiringModes.eHeadControl) {
-            console.log("setting mode to point at mouse");
             this.mFireMode = ArrowVector.eFiringModes.eHeadControl;
         }
         else {
-            console.log("setting mode to have mouse control tail")
             this.mFireMode = ArrowVector.eFiringModes.eTailControl;
         }
     }
     
-    // 0' defined by the direction of (1,0)
-    // returns radian value
+    /**
+     * Get the angle the Arrow vector is offset from i vector.
+     * @returns {Number} angle in radians
+     */
     getAngle() {
         var pos1 = this.getStartPoint();
         var pos2 = this.getEndPoint();
@@ -87,14 +111,19 @@ class ArrowVector {
         }
     }
     
-    // 0' defined by the direction of (1,0)
-    // returns degree value
+    /**
+     * Get the angle the Arrow vector is offset from i vector.
+     * @returns {Number} angle in degrees
+     */
     getDegrees() {
         return this.getAngle() * 180/Math.PI;
     }
     
-    // power is determined as a ratio of the length of the ArrowVector and its
-    // max length.
+
+    /**
+     * Get the percentage of mMaxLength of ArrowVector's current state.
+     * @returns {Number} percentage value
+     */
     getPower() {
         var results = (this._getDistance()/this.mMaxLength);
         if (results > 1) {
@@ -105,6 +134,10 @@ class ArrowVector {
         }
     }
     
+    /**
+     * Draw function that draws the line renderables with the given camera
+     * @param {Camera} aCamera  camera to draw to
+     */
     draw(aCamera) {
         if (this.mVisible) {
             var i, l;
@@ -115,7 +148,11 @@ class ArrowVector {
         }
     }
     
-    // Makes sure the line renderables are not longer than mMaxLength
+    /**
+     * private utility function to prevent the ArrowVector
+     * for becoming longer than mMaxValue. Truncates one of the
+     * vertices depending on the firing mode.
+     */
     _truncateVector() {
         var dist = this._getDistance();
         if (dist > this.mMaxLength ) {
@@ -141,6 +178,10 @@ class ArrowVector {
         }
     }
     
+    /**
+     * Private utility function that updates the vertices
+     * of the arrow tip.
+     */
     _updateWings() {
         var basePos = this.mLineSet[0].getFirstVertex();
         this.mLineSet[1].setFirstVertex(basePos[0], basePos[1]);
@@ -152,6 +193,11 @@ class ArrowVector {
         
     }
     
+    /**
+     * Set the value of the static vertex depending on the firing mode.
+     * @param {Number} x WC value of X coordinate
+     * @param {Number} y WC value of Y coordinate
+     */
     setStartPoint(x,y) {
         if (this.mFireMode === ArrowVector.eFiringModes.eTailControl) {
             this.mLineSet[0].setFirstVertex(x, y);
@@ -161,6 +207,11 @@ class ArrowVector {
         }
     }
     
+     /**
+     * Set the value of the dynamic vertex depending on the firing mode.
+     * @param {Number} x WC value of X coordinate
+     * @param {Number} y WC value of Y coordinate
+     */
     setEndPoint(x,y) {
         
         if (this.mFireMode === ArrowVector.eFiringModes.eTailControl) {
@@ -171,6 +222,10 @@ class ArrowVector {
         }
     }
     
+    /**
+     * Get the value of the static vertex depending on the firing mode.
+     * @returns {vec2} coordinates of the static vertex
+     */
     getStartPoint() {
         if (this.mFireMode === ArrowVector.eFiringModes.eTailControl) {
             return this.mLineSet[0].getFirstVertex();
@@ -180,6 +235,10 @@ class ArrowVector {
         }
     }
     
+     /**
+     * Get the value of the dynamic vertex depending on the firing mode.
+     * @returns {vec2} coordinates of the dynamic vertex
+     */
     getEndPoint(){
         
         if (this.mFireMode === ArrowVector.eFiringModes.eTailControl) {
@@ -191,6 +250,10 @@ class ArrowVector {
     }
     
     
+    /**
+     * Updates the state of the ArrowVector depending on the user
+     * mouse inputs.
+     */
     update() {
         var x, y;
         if (this.mCameraRef.isMouseInViewport()) {
