@@ -12,15 +12,16 @@
 
 "use strict";
 
-function Arrow(power,degree) {
+function Arrow(position, power,degree) {
     // Create the sprite
     this.mArcher = new TextureRenderable("assets/projectiles/arrow.png");
     this.mArcher.setColor([1, 1, 1, 0]);
-    this.mArcher.getXform().setPosition(-10, -10);
+    this.mArcher.getXform().setPosition(position[0]+5, position[1]);
     this.mArcher.getXform().setSize(2/1.5, 12/1.5);
-    this.power=power;
+    this.move=false;
+    this.power=power*1.8;
     this.degree=degree;
-    this.mArcher.getXform().incRotationByDegree(degree+270);
+    this.mArcher.getXform().incRotationByDegree(degree-90);
     GameObject.call(this, this.mArcher);
     
     // Physics
@@ -31,13 +32,16 @@ function Arrow(power,degree) {
     );
     r.setMass(1);
     r.setRestitution(1);
-    r.setFriction(0);  
+    r.setFriction(1);  
     this.setRigidBody(r);
+    //finds how much velocity is needed for both x and y
     var x=this.degree*(Math.PI/180);
     var y=this.degree*(Math.PI/180);
     x=Math.cos(x);
     y=Math.sin(y);
     this.getRigidBody().setVelocity(x*this.power, y*this.power);
+    
+    //this.mDegree = new Interpolate((this.degree-90)*(Math.PI/180), 600, .05);
     // Specific collision ignoring.
     //this.toggleDrawRigidShape();
 }
@@ -59,4 +63,8 @@ Arrow.prototype.update = function () {
 Arrow.prototype.draw = function (mCamera) {
     this.mArcher.draw(mCamera);
     this.mRigidBody.draw(mCamera);
+};
+
+Arrow.prototype.getPosition = function(){
+    return this.mArcher.getXform().getPosition();
 };
