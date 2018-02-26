@@ -44,10 +44,10 @@ SplashScreen.prototype.initialize = function () {
     pos[0]=pos[0]-90;
     pos[1]=pos[1]-10;
     this.mArrow=new Arrow(pos,.7,50);
-    this.title=new FontRenderable("Golemn Smash");
+    this.title=new FontRenderable("Golem Smash");
     this.title.setColor([.5, .5, .5, 1]);
     //this.title.setColor([1, 1, 1, 0]);
-    this.title.getXform().setPosition(33,40);
+    this.title.getXform().setPosition(35,40);
     this.title.setTextHeight(5);
     this.msg=new FontRenderable("Press B to Play");
     this.msg.setColor([.5, .5, .5, 1]);
