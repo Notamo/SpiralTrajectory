@@ -86,23 +86,17 @@ Hero.prototype.ignoreCollision = function (obj) {
     var platformBB = obj.getBBox();
     
     if (obj instanceof Platform) {
+        // NoClip is our setting for indicating the Hero is in a state which should avoid
+        // collisions with platforms. If it's true, return true.
         if (this.mNoClip) {
             return true;
-        }
+        }    
         
-        
+        // NoClip might be false
         if (this.getRigidBody().getVelocity()[1] < 0) {
             this.mJumpCount = 0;
             return false;
         }
-
-        
-               
-        // This checks if the hero is moving upwards towards the platform when it collides.
-        // we can tune these values to work better with our platform size
-       // if (heroBB.minY() >= platformBB.maxY() - (platformBB.maxY() - platformBB.minY()) / 1.5) {
-        //    return false;
-        //a}
         
         // Since we checked for the case where we don't wanat to ignore collision, the fact
         // that we're still here means we DO want to ignore it.
@@ -115,7 +109,5 @@ Hero.prototype.ignoreCollision = function (obj) {
             return true;
         }
     }
-    
-
      return false;
 };
