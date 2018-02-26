@@ -68,9 +68,9 @@ class ArrowVector {
     // power is determined as a ratio of the length of the ArrowVector and its
     // max length.
     getPower() {
-        var results = (this._getDistance()/this.mMaxLength) * 100
-        if (results > 100) {
-            return 100;
+        var results = (this._getDistance()/this.mMaxLength);
+        if (results > 1) {
+            return 1;
         }
         else {
             return results;
@@ -141,7 +141,7 @@ class ArrowVector {
             }
             if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
                 this.mVisible = false;
-                console.log("Arrow would fire with " + this.getPower() + "% power");
+                console.log("Arrow would fire with " + this.getPower()*100 + "% power");
                 console.log("Arrow would fire at " + this.getDegrees() + "'");
                 // TODO: Call firing function for arrows at this point
             }

@@ -43,7 +43,7 @@ SplashScreen.prototype.initialize = function () {
     var pos=[50,40];
     pos[0]=pos[0]-90;
     pos[1]=pos[1]-10;
-    this.mArrow=new Arrow(pos,100,45);
+    this.mArrow=new Arrow(pos,.7,50);
     this.title=new FontRenderable("Golemn Smash");
     this.title.setColor([.5, .5, .5, 1]);
     //this.title.setColor([1, 1, 1, 0]);
@@ -77,7 +77,7 @@ SplashScreen.prototype.update = function () {
     var mColor = this.msg.getColor();
     var mColor = [mColor[0],mColor[1],mColor[2],mColor[3]+1/60];
     
-    if(this.mArrow.getPosition()[0]>120)
+    if(this.mArrow.getXform().getPosition()[0]>120)
     {
         this.title.setColor(tColor);
     }
