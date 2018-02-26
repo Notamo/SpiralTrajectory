@@ -16,7 +16,7 @@ function Arrow(position,power,degree) {
     // Create the sprite
     this.mArcher = new TextureRenderable("assets/projectiles/arrow.png");
     this.mArcher.setColor([1, 1, 1, 0]);
-    this.mArcher.getXform().setPosition(position[0]+5, position[1]);
+    this.mArcher.getXform().setPosition(position[0]+10, position[1]);
     this.mArcher.getXform().setSize(2/1.5, 12/1.5);
     this.power=power;
     this.degree=degree;
@@ -32,7 +32,7 @@ function Arrow(position,power,degree) {
         this.getXform().getHeight()
     );
     r.setMass(1);
-    r.setRestitution(1);
+    r.setRestitution(.2);
     r.setFriction(0);  
     this.setRigidBody(r);
     var x=this.degree*(Math.PI/180);
@@ -54,11 +54,14 @@ Arrow.prototype.update = function () {
     else {
         xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
     }
-    //this.mRigidBody.setAngularVelocity(-1);
     this.mRigidBody.update();
 };
 
 Arrow.prototype.draw = function (mCamera) {
     this.mArcher.draw(mCamera);
     this.mRigidBody.draw(mCamera);
+};
+
+Arrow.prototype.getPosition = function(){
+    return this.mArcher.getXform().getPosition();
 };
