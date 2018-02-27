@@ -61,7 +61,8 @@ gEngine.TextFileLoader = (function () {
             req.onload = function () {
                 var fileContent = null;
                 if (fileType === eTextFileType.eXMLFile) {
-                   fileContent = req.responseXML;
+                    var parser = new DOMParser();
+                    fileContent = parser.parseFromString(req.responseText, "text/xml");
                 } else if (fileType === eTextFileType.eJSONFile) {
                     fileContent = JSON.parse((req.responseText));
                 }
