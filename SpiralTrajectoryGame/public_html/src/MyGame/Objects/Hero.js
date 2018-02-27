@@ -81,7 +81,7 @@ Hero.prototype.update = function () {
 
 // Ignores collision with platform objects when the S key is pressed or
 // when the hero is jumping from below the platform
-Hero.prototype.ignoreCollision = function (obj) {
+Hero.prototype.userCollisionHandling = function (obj) {
     var heroBB = this.getBBox();
     var platformBB = obj.getBBox();
     
