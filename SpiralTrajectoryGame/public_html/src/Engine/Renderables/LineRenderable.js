@@ -112,6 +112,30 @@ LineRenderable.prototype.setVertices = function (x1, y1, x2, y2) {
 };
 
 /**
+ * adjust the first vertice point by a delta
+ * @param {Number} dx Delta to change X position of point 1
+ * @param {Number} dy Delta to change Y position of point 1
+ * @returns {void}
+ * @memberOf LineRenderable
+ */
+LineRenderable.prototype.offsetFirstVertex = function (dx, dy) {
+    this.mP1[0] += dx;
+    this.mP1[1] += dy;
+};
+
+/**
+ * Adjust the second vertice point by a delta
+ * @param {Number} dx Delta to change X position of point 2
+ * @param {Number} dy Delta to change Y position of point 2
+ * @returns {void}
+ * @memberOf LineRenderable
+ */
+LineRenderable.prototype.offsetSecondVertex = function (dx, dy) {
+    this.mP2[0] += dx;
+    this.mP2[1] += dy;
+};
+
+/**
  * Set the first vertice point
  * @param {Number} x X position of point 1
  * @param {Number} y Y position of point 1
