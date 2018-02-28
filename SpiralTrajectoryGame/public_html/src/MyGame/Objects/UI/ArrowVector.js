@@ -33,6 +33,7 @@ class ArrowVector {
         
         // 0 -> tip is static, 1 -> tail is static
         this.mFireMode = 0;
+        this.mPrevCamPos = null;
         
         this._initialize();
         
@@ -47,6 +48,8 @@ class ArrowVector {
             l.setColor(this.mColor);
             this.mLineSet.push(l);
         }
+        var center = this.mCameraRef.getWCCenter();
+        this.mPrevCamPos = [center[0], center[1]];
     }
     
     /**
@@ -249,6 +252,24 @@ class ArrowVector {
         }
     }
     
+    /**
+     * Update the vertices of the line renderables to move with the world camera.
+     */
+    _cameraOffsetUpdate() {
+        var pos = this.mCameraRef.getWCCenter();
+        if (pos[0] !== this.mPrevCamPos[0] || pos[1] !== this.mPrevCamPos[1] ) {
+            var offset = [pos[0] - this.mPrevCamPos[0], pos[1] - this.mPrevCamPos[1]]
+            var i, l;
+            for (i = 0; i < this.mLineSet.length; i++) {
+                l = this.mLineSet[i];
+                l.offsetFirstVertex(offset[0], offset[1]);
+                l.offsetSecondVertex(offset[0], offset[1]);
+            }
+            this.mPrevCamPos = [pos[0], pos[1]];
+        }
+
+    }
+    
     
     /**
      * Updates the state of the ArrowVector depending on the user
@@ -277,6 +298,7 @@ class ArrowVector {
                 // TODO: Call firing function for arrows at this point
             }
         }
+    this._cameraOffsetUpdate();
     }
 }
 
