@@ -110,7 +110,12 @@ GameObject.prototype.draw = function (aCamera) {
     }
 };
 
-// Overwrite to use this.
-GameObject.prototype.ignoreCollision = function (obj) {
+// This function is called after a collision occurs, but before the collision is
+// handled by the Physics engine. Return true if you want the engine to NOT do
+// positional correction and normal interaction behavior between the two
+// objects. Return false if you want to do something and then have the engine
+// behave normally. See Engine_Physics.processCollision to see how this function
+// is called.
+GameObject.prototype.userCollisionHandling = function (obj) {
     return false;
 };
