@@ -172,7 +172,11 @@ gEngine.Physics = (function () {
                         if (objI.boundTest(objJ)) {
                             if (objI.collisionTest(objJ, info)) {
                                 // this is test area to allow objects to ignore collisions
-                                if (set.getObjectAt(i).userCollisionHandling(set.getObjectAt(j))) {
+                                
+                                var ij = set.getObjectAt(i).userCollisionHandling(set.getObjectAt(j));
+                                var ji = set.getObjectAt(j).userCollisionHandling(set.getObjectAt(i));
+                                
+                                if (ij || ji) {
                                     continue;
                                 }  
                                 // end added code 
