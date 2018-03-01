@@ -96,4 +96,4 @@ Arrow.prototype.userCollisionHandling = function(obj){
 Arrow.prototype.flat = function(){
     this.mRigidBody.setFriction(1);
     this.isDead=true;
-}
+};
