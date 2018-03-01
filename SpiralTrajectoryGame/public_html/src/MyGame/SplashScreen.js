@@ -13,7 +13,7 @@
 
 function SplashScreen() {
     this.kSplashScreenBackground = "";
-    this.arrow = "assets/projectiles/icearrow.png";
+    this.arrow = "assets/projectiles/arrow.png";
     this.title = null;
     this.msg = null;
     this.mArrow = null;
@@ -43,8 +43,9 @@ SplashScreen.prototype.initialize = function () {
     var pos=[50,40];
     pos[0]=pos[0]-80;
     pos[1]=pos[1]-10;
+    gEngine.DefaultResources.setGlobalAmbientIntensity(2.5);
     //Creation of arrow and Both FontRenderables
-    this.mArrow=new Arrow(pos,1,50);
+    this.mArrow=new Arrow(pos,.8,50);
     this.title=new FontRenderable("Golem Smash");
     this.title.setColor([.5, .5, .5, 1]);
     //this.title.setColor([1, 1, 1, 0]);
@@ -55,6 +56,7 @@ SplashScreen.prototype.initialize = function () {
     this.msg.getXform().setPosition(37,35);
     this.msg.setTextHeight(3);
     this.mMainCamera.setBackgroundColor([.5, .5, .5, 1]);
+    
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
