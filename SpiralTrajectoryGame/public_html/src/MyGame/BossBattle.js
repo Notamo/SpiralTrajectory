@@ -88,7 +88,8 @@ BossBattle.prototype.initialize = function () {
         this.cMainCameraInterpolationDuration
     );
     
-    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(2.5);
+    gEngine.DefaultResources.setGlobalAmbientColor([.3,.325,.3,.4]);
     
     // Two game object sets, one for objects with physics enabled, one for
     // non-physics objects.
@@ -174,7 +175,7 @@ BossBattle.prototype.updateMainCamera = function () {
 BossBattle.prototype.createPlatforms = function () {
     this.mPhysicsGameObjects.addToSet(new Platform(
         this.kPlatformTexture,
-        -20, -50,
+        100, 0,
         20, 20 / 4
     ));
     
