@@ -181,7 +181,7 @@ Boss.prototype._serviceDying = function() {
 Boss.prototype.userCollisionHandling = function(obj){
     if(obj instanceof Arrow){
         if(obj.getCollided() === false){
-            this.dealDamage(20);
+            this.dealDamage(2);
         }
     }
     return false;
