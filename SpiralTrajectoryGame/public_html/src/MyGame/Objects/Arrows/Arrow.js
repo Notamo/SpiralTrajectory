@@ -31,7 +31,7 @@ function Arrow(position,power,degree) {
     // Physics
     var r = new RigidRectangle(
         this.getXform(),
-        this.getXform().getWidth(),
+        this.getXform().getWidth()*.8,
         this.getXform().getHeight()
     );
     r.setMass(2);
@@ -99,9 +99,13 @@ Arrow.prototype.userCollisionHandling = function(obj){
     }
     
     if (obj instanceof Hero) {
-        if (this.getTimeAlive() < 30) {
+        if (this.getTimeAlive() < 30 || this.hasCollided) {
             return true;
         }
+    }
+    if (obj instanceof Boss && this.hasCollided) {
+        return true;
+        
     }
     this.setCollided(true);
     return false;
