@@ -85,7 +85,6 @@ class ArrowSet extends GameObjectSet {
         this.mRegArrows.removeFromSet(obj);
         this.mFireArrows.removeFromSet(obj);
         this.mIceArrows.removeFromSet(obj);
-        super.removeFromSet(obj);
     }
     
     /**
@@ -95,7 +94,6 @@ class ArrowSet extends GameObjectSet {
     * @memberOf ArrowSet
     */
     update() {
-        super.update();
         var i;
         for (i = 0; i < this.mTimeSinceSpawn.length; i++) {
             this.mTimeSinceSpawn[i]++;
@@ -104,9 +102,10 @@ class ArrowSet extends GameObjectSet {
         var arrow = null;
         for (i = 0; i < size; i++) {
             arrow = this.getObjectAt(i);
-            if (arrow.getExpired()) {
+            if (arrow.isExpired()) {
                 this.removeFromSet(arrow);
             }
         }
+        super.update();
     }
 }
