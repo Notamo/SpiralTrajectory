@@ -63,6 +63,9 @@ Arrow.prototype.update = function () {
         xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
     }
     }
+    if(this.mTimeSinceSpawn===600){
+        this.isDead===true;
+    }
     if(this.isDead===true)
     {
         this.mRigidBody.setFriction(1);
@@ -89,3 +92,8 @@ Arrow.prototype.userCollisionHandling = function(obj){
     }
     return false;
 };
+
+Arrow.prototype.flat = function(){
+    this.mRigidBody.setFriction(1);
+    this.isDead=true;
+}

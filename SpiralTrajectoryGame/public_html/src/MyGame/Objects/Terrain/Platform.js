@@ -27,3 +27,10 @@ gEngine.Core.inheritPrototype(Platform, Terrain);
 
 Platform.prototype.update = function () {
 };
+
+Platform.prototype.userCollisionHandling = function(obj){
+    if (obj instanceof Arrow) {
+        obj.flat();
+    }
+    return false;
+};
