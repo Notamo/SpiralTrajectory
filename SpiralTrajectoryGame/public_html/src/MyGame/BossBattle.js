@@ -32,10 +32,8 @@ function BossBattle() {
     this.kHeroSprite = "assets/characters/hero.png";
     this.arrow="assets/projectiles/arrow.png";
     
-    //Boss sprites (perhaps these could be combined into one sheet?
+    //Boss sprite sheet
     this.kBossSprite = "assets/characters/boss_sprites.png";
-    this.kBossIdleSprite = "assets/characters/boss_idle.png";
-    this.kBossAttackSprite = "assets/characters/boss_attack.png";
     
     this.kPlatformTexture = "assets/props/platform.png";
     this.kGroundTexture = "";
@@ -65,8 +63,6 @@ gEngine.Core.inheritPrototype(BossBattle, Scene);
 BossBattle.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroSprite);
     gEngine.Textures.loadTexture(this.kBossSprite);
-    gEngine.Textures.loadTexture(this.kBossIdleSprite);
-    gEngine.Textures.loadTexture(this.kBossAttackSprite);
     gEngine.Textures.loadTexture(this.arrow);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
 };
@@ -74,8 +70,6 @@ BossBattle.prototype.loadScene = function () {
 BossBattle.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kBossSprite);
-    gEngine.Textures.unloadTexture(this.kBossIdleSprite);
-    gEngine.Textures.unloadTexture(this.kBossAttackSprite);
     gEngine.Textures.unloadTexture(this.arrow);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Core.startScene(new ResultsScreen());
@@ -94,7 +88,8 @@ BossBattle.prototype.initialize = function () {
         this.cMainCameraInterpolationDuration
     );
     
-    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(2.5);
+    gEngine.DefaultResources.setGlobalAmbientColor([.3,.325,.3,.4]);
     
     // Two game object sets, one for objects with physics enabled, one for
     // non-physics objects.
@@ -180,7 +175,7 @@ BossBattle.prototype.updateMainCamera = function () {
 BossBattle.prototype.createPlatforms = function () {
     this.mPhysicsGameObjects.addToSet(new Platform(
         this.kPlatformTexture,
-        -20, -50,
+        100, 0,
         20, 20 / 4
     ));
     
