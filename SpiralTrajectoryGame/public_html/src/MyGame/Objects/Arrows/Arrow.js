@@ -26,16 +26,17 @@ function Arrow(position,power,degree) {
     this.kBasePower = 180;
     this.mTimeSinceSpawn = 0;
     this.isDead=false;
+    this.hasCollided = false;
     
     // Physics
     var r = new RigidRectangle(
         this.getXform(),
-        this.getXform().getWidth(),
+        this.getXform().getWidth()*.8,
         this.getXform().getHeight()
     );
     r.setMass(2);
     r.setRestitution(.2);
-    r.setFriction(0);  
+    r.setFriction(1);  
     this.setRigidBody(r);
     var x=this.degree*(Math.PI/180);
     var y=this.degree*(Math.PI/180);
@@ -55,16 +56,18 @@ Arrow.prototype.update = function () {
     this.mTimeSinceSpawn++;
     var xform = this.mArcher.getXform();
     var vel = this.getRigidBody().getVelocity();
-    if(this.isDead===false){
-    if (vel[0] >0) {
-        xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) - Math.PI/2);
+    if(this.hasCollided === false){
+        if (vel[0] >0) {
+            xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) - Math.PI/2);
+        }
+        else {
+            xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
+        }
     }
-    else {
-        xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
+    if(this.mTimeSinceSpawn >600){
+        this.isDead===true;
     }
-    }
-    if(this.isDead===true)
-    {
+    if(this.hasCollided===true) {
         this.mRigidBody.setFriction(1);
     }
     this.mRigidBody.update();
@@ -79,6 +82,13 @@ Arrow.prototype.setDeath = function(dead){
     this.isDead=dead;
 };
 
+Arrow.prototype.setCollided = function(value) {
+    this.hasCollided = value;
+//    if (value === true) {
+//        this.mRigidBody.setFriction(1);
+//    }
+};
+
 Arrow.prototype.getDeath = function(){
     return this.isDead;
 };
@@ -87,5 +97,16 @@ Arrow.prototype.userCollisionHandling = function(obj){
     if(obj instanceof Arrow){
         return true;
     }
+    
+    if (obj instanceof Hero) {
+        if (this.getTimeAlive() < 30 || this.hasCollided) {
+            return true;
+        }
+    }
+    if (obj instanceof Boss && this.hasCollided) {
+        return true;
+        
+    }
+    this.setCollided(true);
     return false;
 };

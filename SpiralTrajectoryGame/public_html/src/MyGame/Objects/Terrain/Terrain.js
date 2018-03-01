@@ -18,7 +18,7 @@ function Terrain(spriteTexture, x, y, w, h) {
     xform.setPosition(x, y);
     GameObject.call(this, this.terrain);
     
-    var r = new RigidRectangle(xform, w, h);
+    var r = new RigidRectangle(xform, w, h*.67);
     r.setMass(0);
     this.setRigidBody(r);
     
@@ -26,4 +26,8 @@ function Terrain(spriteTexture, x, y, w, h) {
 gEngine.Core.inheritPrototype(Terrain, GameObject);
 
 Terrain.prototype.update = function () {
+};
+
+Terrain.prototype.userCollisionHandling = function(obj){
+    return false;
 };

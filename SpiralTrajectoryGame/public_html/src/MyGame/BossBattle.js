@@ -35,7 +35,7 @@ function BossBattle() {
     //Boss sprite sheet
     this.kBossSprite = "assets/characters/boss_sprites.png";
     
-    this.kPlatformTexture = "assets/platform.png";
+    this.kPlatformTexture = "assets/props/platform.png";
     this.kGroundTexture = "";
     this.kWallTexture = "";
     
@@ -175,13 +175,13 @@ BossBattle.prototype.createPlatforms = function () {
     this.mPhysicsGameObjects.addToSet(new Platform(
         this.kPlatformTexture,
         -20, -50,
-        10, 10 / 8
+        20, 20 / 4
     ));
     
     this.mPhysicsGameObjects.addToSet(new Platform(
         this.kPlatformTexture,
         0, 0,
-        10, 10 / 8
+        20, 20 / 4
     ));
     
     var i;
@@ -190,7 +190,7 @@ BossBattle.prototype.createPlatforms = function () {
         this.mPhysicsGameObjects.addToSet(new Terrain(
             this.kPlatformTexture,
             100 * i, -50,
-            100, 100 / 8
+            100, 100 / 4
         ));
     }
 };
