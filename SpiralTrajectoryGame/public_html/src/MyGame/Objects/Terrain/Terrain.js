@@ -29,8 +29,5 @@ Terrain.prototype.update = function () {
 };
 
 Terrain.prototype.userCollisionHandling = function(obj){
-    if (obj instanceof Arrow) {
-        obj.flat();
-    }
     return false;
 };
