@@ -90,15 +90,23 @@ class ArrowSet extends GameObjectSet {
     
     /**
     * Update function called by GameLoop calls all Arrows's in ArrowSet
+    * Will remove expired arrows from the set.
     * @returns {void}
     * @memberOf ArrowSet
     */
     update() {
         super.update();
         var i;
-        for (i = 0; i < this.mTimeSinceSpawn; i++) {
+        for (i = 0; i < this.mTimeSinceSpawn.length; i++) {
             this.mTimeSinceSpawn[i]++;
         }
-        //TODO: Check arrows for expired state to remove them.
+        var size = this.size();
+        var arrow = null;
+        for (i = 0; i < size; i++) {
+            arrow = this.getObjectAt(i);
+            if (arrow.getDeath()) {
+                this.removeFromSet(arrow);
+            }
+        }
     }
 }
