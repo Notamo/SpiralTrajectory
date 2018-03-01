@@ -25,6 +25,7 @@ function Arrow(position,power,degree) {
     
     this.kBasePower = 180;
     this.mTimeSinceSpawn = 0;
+    this.isDead=false;
     
     // Physics
     var r = new RigidRectangle(
@@ -54,11 +55,20 @@ Arrow.prototype.update = function () {
     this.mTimeSinceSpawn++;
     var xform = this.mArcher.getXform();
     var vel = this.getRigidBody().getVelocity();
+    if(this.isDead===false){
     if (vel[0] >0) {
         xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) - Math.PI/2);
     }
     else {
         xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
+    }
+    }
+    if(this.mTimeSinceSpawn===600){
+        this.isDead===true;
+    }
+    if(this.isDead===true)
+    {
+        this.mRigidBody.setFriction(1);
     }
     this.mRigidBody.update();
 
@@ -67,3 +77,23 @@ Arrow.prototype.update = function () {
 Arrow.prototype.getPosition = function(){
     return this.mArcher.getXform().getPosition();
 };
+
+Arrow.prototype.setDeath = function(dead){
+    this.isDead=dead;
+};
+
+Arrow.prototype.getDeath = function(){
+    return this.isDead;
+};
+
+Arrow.prototype.userCollisionHandling = function(obj){
+    if(obj instanceof Arrow){
+        return true;
+    }
+    return false;
+};
+
+Arrow.prototype.flat = function(){
+    this.mRigidBody.setFriction(1);
+    this.isDead=true;
+}

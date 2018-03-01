@@ -107,6 +107,7 @@ Hero.prototype.userCollisionHandling = function (obj) {
         if (obj.getTimeAlive() < 20) {
             return true;
         }
+        obj.flat();
     }
     
     this.mJumpCount = 0;
