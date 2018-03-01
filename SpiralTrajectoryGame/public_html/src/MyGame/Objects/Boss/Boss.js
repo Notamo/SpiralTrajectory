@@ -180,11 +180,9 @@ Boss.prototype._serviceDying = function() {
 
 Boss.prototype.userCollisionHandling = function(obj){
     if(obj instanceof Arrow){
-        if(obj.getDeath()===false){
-        this.dealDamage(20);
-        obj.setDeath(true);
+        if(obj.getCollided() === false){
+            this.dealDamage(20);
         }
-        //return true;
     }
     return false;
 };

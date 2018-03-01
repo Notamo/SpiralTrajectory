@@ -50,7 +50,7 @@ gEngine.Core.inheritPrototype(Arrow, GameObject);
 
 Arrow.prototype.getTimeAlive = function () {
     return this.mTimeSinceSpawn;
-}
+};
 
 Arrow.prototype.update = function () {
     this.mTimeSinceSpawn++;
@@ -84,9 +84,10 @@ Arrow.prototype.setDeath = function(dead){
 
 Arrow.prototype.setCollided = function(value) {
     this.hasCollided = value;
-//    if (value === true) {
-//        this.mRigidBody.setFriction(1);
-//    }
+};
+
+Arrow.prototype.getCollided = function() {
+    return this.hasCollided;
 };
 
 Arrow.prototype.getDeath = function(){
