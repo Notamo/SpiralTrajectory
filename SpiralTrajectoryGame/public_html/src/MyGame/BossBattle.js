@@ -30,7 +30,9 @@ function BossBattle() {
     
     // Sprites & textures
     this.kHeroSprite = "assets/characters/hero.png";
-    this.arrow="assets/projectiles/arrow.png";
+    this.kArrow="assets/projectiles/arrow.png";
+    this.kIceArrow="assets/projectiles/icearrow.png";
+    this.kFireArrow="assets/projectiles/firearrow.png";
     
     //Boss sprite sheet
     this.kBossSprite = "assets/characters/boss_sprites.png";
@@ -63,14 +65,18 @@ gEngine.Core.inheritPrototype(BossBattle, Scene);
 BossBattle.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroSprite);
     gEngine.Textures.loadTexture(this.kBossSprite);
-    gEngine.Textures.loadTexture(this.arrow);
+    gEngine.Textures.loadTexture(this.kArrow);
+    gEngine.Textures.loadTexture(this.kIceArrow);
+    gEngine.Textures.loadTexture(this.kFireArrow);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
 };
 
 BossBattle.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kBossSprite);
-    gEngine.Textures.unloadTexture(this.arrow);
+    gEngine.Textures.unloadTexture(this.kArrow);
+    gEngine.Textures.unloadTexture(this.kIceArrow);
+    gEngine.Textures.unloadTexture(this.kFireArrow);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Core.startScene(new ResultsScreen());
 };

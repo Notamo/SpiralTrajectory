@@ -13,7 +13,7 @@
 
 function SplashScreen() {
     this.kSplashScreenBackground = "";
-    this.arrow = "assets/projectiles/arrow.png";
+    this.arrow = "assets/projectiles/icearrow.png";
     this.title = null;
     this.msg = null;
     this.mArrow = null;
