@@ -94,6 +94,8 @@ BossBattle.prototype.initialize = function () {
         this.cMainCameraInterpolationDuration
     );
     
+    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
+    
     // Two game object sets, one for objects with physics enabled, one for
     // non-physics objects.
     this.mPhysicsGameObjects = new GameObjectSet();
