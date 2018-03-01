@@ -177,3 +177,14 @@ Boss.prototype._serviceDying = function() {
         this.mDead = true;
     }
 };
+
+Boss.prototype.userCollisionHandling = function(obj){
+    if(obj instanceof Arrow){
+        if(obj.getDeath()===false){
+        this.dealDamage(20);
+        obj.setDeath(true);
+        }
+        //return true;
+    }
+    return false;
+};
