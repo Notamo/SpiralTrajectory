@@ -102,13 +102,6 @@ Hero.prototype.userCollisionHandling = function (obj) {
         // that we're still here means we DO want to ignore it.
         return true;
     }
-     
-    if (obj instanceof Arrow) {
-        if (obj.getTimeAlive() < 20) {
-            return true;
-        }
-        obj.flat();
-    }
     
     this.mJumpCount = 0;
     
