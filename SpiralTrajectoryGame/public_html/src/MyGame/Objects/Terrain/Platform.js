@@ -17,8 +17,7 @@ function Platform(spriteTexture, x, y, w, h) {
     xform.setSize(w, h);
     xform.setPosition(x, y);
     GameObject.call(this, this.platform);
-    
-    var r = new RigidRectangle(xform, w, h);
+    var r = new RigidRectangle(xform, w*.9, h*.7);
     r.setMass(0);
     this.setRigidBody(r);
     
