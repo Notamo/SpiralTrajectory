@@ -25,7 +25,7 @@ function Boss(bossSprite, hero) {
     
     this.mGolem = new SpriteAnimateRenderable(this.kBossSprite);
     this.mGolem.setColor([1, 1, 1, 0]);
-    this.mGolem.getXform().setPosition(30, -30);
+    this.mGolem.getXform().setPosition(200, 30);
     this.mGolem.getXform().setSize(52, 34);
 
     this._setupAnimation(Boss.eBossAnim.eSpawnAnim, true);
@@ -183,6 +183,9 @@ Boss.prototype.userCollisionHandling = function(obj){
         if(obj.getCollided() === false){
             this.dealDamage(2);
         }
+    }
+    if (obj instanceof Platform) {
+        return true;
     }
     return false;
 };
