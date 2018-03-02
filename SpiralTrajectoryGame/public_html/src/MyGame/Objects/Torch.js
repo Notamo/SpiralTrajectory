@@ -132,15 +132,13 @@ Torch.prototype.createParticle = function (x, y) {
              Math.random();
     p.getParticle().setVelocity([fx, fy]);
     p.setSizeDelta(Config.Torch[this.type].Particle.SizeDelta);
-    
-    var ax = Config.Torch[this.type].Particle.BaseXAcceleraation +
-             Config.Torch[this.type].Particle.XAcceleraationMultiplier *
+    var ax = Config.Torch[this.type].Particle.BaseXAcceleration +
+             Config.Torch[this.type].Particle.XAccelerationMultiplier *
              Math.random();
     
-    var ay = Config.Torch[this.type].Particle.BaseYAcceleraation +
-             Config.Torch[this.type].Particle.YAcceleraationMultiplier *
-             Math.random();
-     
+    var ay = Config.Torch[this.type].Particle.BaseYAcceleration +
+             Config.Torch[this.type].Particle.YAccelerationMultiplier *
+             Math.random(); 
     p.getParticle().setAcceleration([ax, ay]);
     
     return p;
