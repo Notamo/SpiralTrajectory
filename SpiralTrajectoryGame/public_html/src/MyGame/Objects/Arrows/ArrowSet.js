@@ -2,6 +2,12 @@
  *
  * Support for working with a set of Arrows
  */
+
+/*jslint node: true, vars: true */
+/*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
+ *       Platform, ArrowSet */
+/* find out more about jslint: http://www.jslint.com/help.html */
+
 class ArrowSet extends GameObjectSet {
     
     /**
@@ -36,14 +42,14 @@ class ArrowSet extends GameObjectSet {
         var success = false;
         if (obj instanceof Arrow){
             if (obj instanceof FireArrow) {
-                if (this.mFireArrows.size() < this.kMaxCount[1] && this.mTimeSinceSpawn[1] < this.kCooldowns[1]) {
+                if (this.mFireArrows.size() < this.kMaxCount[1] && this.mTimeSinceSpawn[1] > this.kCooldowns[1]) {
                     this.mFireArrows.addToSet(obj);
                     this.mTimeSinceSpawn[1] = 0;
                     success = true;
                 }
             }
             else if (obj instanceof IceArrow) {
-                if (this.mIceArrows.size() < this.kMaxCount[2] && this.mTimeSinceSpawn[2] < this.kCooldowns[2]) {
+                if (this.mIceArrows.size() < this.kMaxCount[2] && this.mTimeSinceSpawn[2] > this.kCooldowns[2]) {
                     this.mIceArrows.addToSet(obj);
                     this.mTimeSinceSpawn[2] = 0;
                     success = true;
@@ -111,3 +117,9 @@ class ArrowSet extends GameObjectSet {
         }
     }
 }
+
+ArrowSet.eArrowType = Object.freeze({
+        eDefaultArrow: 0,
+        eFireArrow: 1,
+        eIceArrow: 2
+});
