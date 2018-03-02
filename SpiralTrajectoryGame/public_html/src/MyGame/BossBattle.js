@@ -7,7 +7,7 @@
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
   GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain,
-  ArrowVector */
+  ArrowVector, Torch */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -37,6 +37,8 @@ function BossBattle() {
     this.kPlatformTexture = "assets/props/platform.png";
     this.kGroundTexture = "assets/props/platform.png";
     this.kWallTexture = "assets/wall.png";
+    this.kTorchTexture = "assets/props/torch1.png";
+    this.kTorchParticleTexture = "assets/particle.png";
     
     // Cameras
     this.mMainCamera = null;
@@ -67,6 +69,8 @@ BossBattle.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kPlatformTexture);
     gEngine.Textures.loadTexture(this.kGroundTexture);
     gEngine.Textures.loadTexture(this.kWallTexture);
+    gEngine.Textures.loadTexture(this.kTorchTexture);
+    gEngine.Textures.loadTexture(this.kTorchParticleTexture);
 };
 
 BossBattle.prototype.unloadScene = function () {
@@ -78,6 +82,8 @@ BossBattle.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Textures.unloadTexture(this.kGroundTexture);
     gEngine.Textures.unloadTexture(this.kWallTexture);
+    gEngine.Textures.unloadTexture(this.kTorchTexture);
+    gEngine.Textures.unloadTexture(this.kTorchParticleTexture);
     gEngine.Core.startScene(new ResultsScreen());
 };
 
@@ -207,5 +213,10 @@ BossBattle.prototype.buildLevel = function () {
         this.kPlatformTexture,
         140, 80,
         20, 5
+    ));
+    
+    // Torches
+    this.mPhysicsGameObjects.addToSet(new Torch(
+        this.kTorchTexture
     ));
 };
