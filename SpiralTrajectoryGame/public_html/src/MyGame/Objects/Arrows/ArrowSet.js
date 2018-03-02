@@ -11,7 +11,7 @@ class ArrowSet extends GameObjectSet {
     * @class ArrowSet
     */
     constructor(){
-        this.super();
+        super();
         
         // { Regular : 0, Fire : 1, Ice : 2 }
         // Cooldowns (frames) for each type of arrow
@@ -33,8 +33,8 @@ class ArrowSet extends GameObjectSet {
     * @memberOf ArrowSet
     */
     addToSet(obj) {
+        var success = false;
         if (obj instanceof Arrow){
-            var success = false;
             if (obj instanceof FireArrow) {
                 if (this.mFireArrows.size() < this.kMaxCount[1] && this.mTimeSinceSpawn[1] < this.kCooldowns[1]) {
                     this.mFireArrows.addToSet(obj);
@@ -50,8 +50,8 @@ class ArrowSet extends GameObjectSet {
                 }
             }
             else {
-                if (this.mRegArrows.size() < this.kMaxCount[0] && this.mTimeSinceSpawn[0] < this.kCooldowns[0]) {
-                    this.mIceArrows.addToSet(obj);
+                if (this.mRegArrows.size() < this.kMaxCount[0] && this.mTimeSinceSpawn[0] > this.kCooldowns[0]) {
+                    this.mRegArrows.addToSet(obj);
                     this.mTimeSinceSpawn[0] = 0;
                     success = true;
                 }
@@ -59,7 +59,9 @@ class ArrowSet extends GameObjectSet {
             if (this.size() < this.kMaxCount.reduce((accumulator, currentValue) => accumulator + currentValue) && success) {
                 super.addToSet(obj);
             }
+            return success;
         }
+        return success;
     }
     
     /**
@@ -72,7 +74,7 @@ class ArrowSet extends GameObjectSet {
         sum += this.mRegArrows.size();
         sum += this.mFireArrows.size();
         sum += this.mIceArrows.size();
-        return sum;
+        return sum - 1;
     }
     
     /**
@@ -95,7 +97,6 @@ class ArrowSet extends GameObjectSet {
     * @memberOf ArrowSet
     */
     update() {
-        super.update();
         var i;
         for (i = 0; i < this.mTimeSinceSpawn.length; i++) {
             this.mTimeSinceSpawn[i]++;
@@ -104,7 +105,8 @@ class ArrowSet extends GameObjectSet {
         var arrow = null;
         for (i = 0; i < size; i++) {
             arrow = this.getObjectAt(i);
-            if (arrow.getDeath()) {
+            if (arrow.isExpired()) {
+                console.log("removing arrow from arrow set");
                 this.removeFromSet(arrow);
             }
         }

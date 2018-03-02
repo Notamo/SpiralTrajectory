@@ -14,19 +14,19 @@
 
 function Arrow(position,power,degree) {
     // Create the sprite
-    this.mArcher = new TextureRenderable("assets/projectiles/arrow.png");
-    this.mArcher.setColor([1, 1, 1, 0]);
-    this.mArcher.getXform().setPosition(position[0], position[1]);
-    this.mArcher.getXform().setSize(2/1.5, 12/1.5);
+    this.mArrow = new TextureRenderable("assets/projectiles/arrow.png");
+    this.mArrow.setColor([1, 1, 1, 0]);
+    this.mArrow.getXform().setPosition(position[0], position[1]);
+    this.mArrow.getXform().setSize(2/1.5, 12/1.5);
     this.power=power;
     this.degree=degree;
-    this.mArcher.getXform().incRotationByDegree(degree+270);
-    GameObject.call(this, this.mArcher);
+    this.mArrow.getXform().incRotationByDegree(degree+270);
+    GameObject.call(this, this.mArrow);
     
     this.kBasePower = 180;
     this.mTimeSinceSpawn = 0;
-    this.isDead=false;
-    this.hasCollided = false;
+    this.mExpired=false;
+    this.mCollided = false;
     
     // Physics
     var r = new RigidRectangle(
@@ -35,7 +35,7 @@ function Arrow(position,power,degree) {
         this.getXform().getHeight()
     );
     r.setMass(2);
-    r.setRestitution(.2);
+    r.setRestitution(.3);
     r.setFriction(1);  
     this.setRigidBody(r);
     var x=this.degree*(Math.PI/180);
@@ -54,9 +54,9 @@ Arrow.prototype.getTimeAlive = function () {
 
 Arrow.prototype.update = function () {
     this.mTimeSinceSpawn++;
-    var xform = this.mArcher.getXform();
+    var xform = this.mArrow.getXform();
     var vel = this.getRigidBody().getVelocity();
-    if(this.hasCollided === false){
+    if(!this.getCollided()){
         if (vel[0] >0) {
             xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) - Math.PI/2);
         }
@@ -64,10 +64,10 @@ Arrow.prototype.update = function () {
             xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
         }
     }
-    if(this.mTimeSinceSpawn >600){
-        this.isDead===true;
+    if(this.mTimeSinceSpawn > 600){
+        this.setExpired(true);
     }
-    if(this.hasCollided===true) {
+    if(this.mCollided===true) {
         this.mRigidBody.setFriction(1);
     }
     this.mRigidBody.update();
@@ -75,24 +75,17 @@ Arrow.prototype.update = function () {
 };
 
 Arrow.prototype.getPosition = function(){
-    return this.mArcher.getXform().getPosition();
-};
-
-Arrow.prototype.setDeath = function(dead){
-    this.isDead=dead;
+    return this.mArrow.getXform().getPosition();
 };
 
 Arrow.prototype.setCollided = function(value) {
-    this.hasCollided = value;
+    this.mCollided = value;
 };
 
 Arrow.prototype.getCollided = function() {
-    return this.hasCollided;
+    return this.mCollided;
 };
 
-Arrow.prototype.getDeath = function(){
-    return this.isDead;
-};
 
 Arrow.prototype.userCollisionHandling = function(obj){
     if(obj instanceof Arrow){
@@ -100,11 +93,11 @@ Arrow.prototype.userCollisionHandling = function(obj){
     }
     
     if (obj instanceof Hero) {
-        if (this.getTimeAlive() < 30 || this.hasCollided) {
+        if (this.getTimeAlive() < 30 || this.mCollided) {
             return true;
         }
     }
-    if (obj instanceof Boss && this.hasCollided) {
+    if (obj instanceof Boss && this.mCollided) {
         return true;
         
     }
