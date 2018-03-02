@@ -25,8 +25,8 @@ function Boss(bossSprite, hero) {
     
     this.mGolem = new SpriteAnimateRenderable(this.kBossSprite);
     this.mGolem.setColor([1, 1, 1, 0]);
-    this.mGolem.getXform().setPosition(30, -30);
-    this.mGolem.getXform().setSize(52, 34);
+    this.mGolem.getXform().setPosition(175, 20);
+    this.mGolem.getXform().setSize(78, 51);
 
     this._setupAnimation(Boss.eBossAnim.eSpawnAnim, true);
     GameObject.call(this, this.mGolem);
@@ -39,7 +39,7 @@ function Boss(bossSprite, hero) {
     );
     r.setMass(1000);
     r.setRestitution(1);
-    r.setFriction(0);  
+    r.setFriction(.2);  
     this.setRigidBody(r);
     //athis.toggleDrawRigidShape();
     
@@ -180,11 +180,12 @@ Boss.prototype._serviceDying = function() {
 
 Boss.prototype.userCollisionHandling = function(obj){
     if(obj instanceof Arrow){
-        if(obj.getDeath()===false){
-        this.dealDamage(20);
-        obj.setDeath(true);
+        if(obj.getCollided() === false){
+            this.dealDamage(2);
         }
-        //return true;
+    }
+    if (obj instanceof Platform) {
+        return true;
     }
     return false;
 };

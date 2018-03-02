@@ -7,7 +7,7 @@
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
   GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain,
-  ArrowVector */
+  ArrowVector, Torch */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -15,31 +15,30 @@
 function BossBattle() {
     // Constants/changeable values for different game features
     // Main Camera options
-    this.cMainCameraStartingPosition = vec2.fromValues(0, 0);
+    this.cMainCameraStartingPosition = vec2.fromValues(25, 1);
     this.cMainCameraWorldWidth = 200;
     this.cMainCameraViewport = [0, 0, 1200, 900];
     this.cMainCameraBackgroundColor = [0.8, 0.8, 0.8, 1];
     this.cMainCameraInterpolationStiffness = 0.2;
     this.cMainCameraInterpolationDuration = 30;
     
-    // ArrowVector
-    this.cArrowVectorMaxLength = 30;
-    
     // Color to clear the canvas to
     this.cCanvasClearColor = [0.8, 0.8, 0.8, 1];
     
     // Sprites & textures
     this.kHeroSprite = "assets/characters/hero.png";
-    this.arrow="assets/projectiles/arrow.png";
+    this.kArrow="assets/projectiles/arrow.png";
+    this.kIceArrow="assets/projectiles/icearrow.png";
+    this.kFireArrow="assets/projectiles/firearrow.png";
     
-    //Boss sprites (perhaps these could be combined into one sheet?
+    //Boss sprite sheet
     this.kBossSprite = "assets/characters/boss_sprites.png";
-    this.kBossIdleSprite = "assets/characters/boss_idle.png";
-    this.kBossAttackSprite = "assets/characters/boss_attack.png";
     
     this.kPlatformTexture = "assets/props/platform.png";
-    this.kGroundTexture = "";
-    this.kWallTexture = "";
+    this.kGroundTexture = "assets/props/platform.png";
+    this.kWallTexture = "assets/wall.png";
+    this.kTorchTexture = "assets/props/torch1.png";
+    this.kTorchParticleTexture = "assets/particle.png";
     
     // Cameras
     this.mMainCamera = null;
@@ -55,7 +54,6 @@ function BossBattle() {
     this.mBoss = null;
     
     // UI objects
-    this.mArrowVector = null;
     
     // Object to track collisions? dunno if this is where we'll put it, temp for now
     this.mCollisions = [];
@@ -65,19 +63,27 @@ gEngine.Core.inheritPrototype(BossBattle, Scene);
 BossBattle.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroSprite);
     gEngine.Textures.loadTexture(this.kBossSprite);
-    gEngine.Textures.loadTexture(this.kBossIdleSprite);
-    gEngine.Textures.loadTexture(this.kBossAttackSprite);
-    gEngine.Textures.loadTexture(this.arrow);
+    gEngine.Textures.loadTexture(this.kArrow);
+    gEngine.Textures.loadTexture(this.kIceArrow);
+    gEngine.Textures.loadTexture(this.kFireArrow);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
+    gEngine.Textures.loadTexture(this.kGroundTexture);
+    gEngine.Textures.loadTexture(this.kWallTexture);
+    gEngine.Textures.loadTexture(this.kTorchTexture);
+    gEngine.Textures.loadTexture(this.kTorchParticleTexture);
 };
 
 BossBattle.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroSprite);
     gEngine.Textures.unloadTexture(this.kBossSprite);
-    gEngine.Textures.unloadTexture(this.kBossIdleSprite);
-    gEngine.Textures.unloadTexture(this.kBossAttackSprite);
-    gEngine.Textures.unloadTexture(this.arrow);
+    gEngine.Textures.unloadTexture(this.kArrow);
+    gEngine.Textures.unloadTexture(this.kIceArrow);
+    gEngine.Textures.unloadTexture(this.kFireArrow);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
+    gEngine.Textures.unloadTexture(this.kGroundTexture);
+    gEngine.Textures.unloadTexture(this.kWallTexture);
+    gEngine.Textures.unloadTexture(this.kTorchTexture);
+    gEngine.Textures.unloadTexture(this.kTorchParticleTexture);
     gEngine.Core.startScene(new ResultsScreen());
 };
 
@@ -94,29 +100,24 @@ BossBattle.prototype.initialize = function () {
         this.cMainCameraInterpolationDuration
     );
     
-    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(2.5);
+    gEngine.DefaultResources.setGlobalAmbientColor([.3,.325,.3,.4]);
     
     // Two game object sets, one for objects with physics enabled, one for
     // non-physics objects.
     this.mPhysicsGameObjects = new GameObjectSet();
     this.mNonPhysicsGameObjects = new GameObjectSet();
-    
+
     // Create the hero.
-    this.mHero = new Hero(this.kHeroSprite);
+    this.mHero = new Hero(this.kHeroSprite, this.mPhysicsGameObjects, this.mMainCamera);
     this.mPhysicsGameObjects.addToSet(this.mHero);
-    
-    // ArrowVector is our "firing" mechanism, need a single instance.
-    this.mArrowVector = new ArrowVector(
-        this.cArrowVectorMaxLength, 
-        this.mMainCamera
-    );
      
     //Create the boss
     this.mBoss = new Boss(this.kBossSprite, this.mHero);
     this.mPhysicsGameObjects.addToSet(this.mBoss);
     
     // Create platforms
-    this.createPlatforms();
+    this.buildLevel();
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -125,7 +126,6 @@ BossBattle.prototype.draw = function () {
     gEngine.Core.clearCanvas(this.cCanvasClearColor);
     this.mMainCamera.setupViewProjection();
     this.mPhysicsGameObjects.draw(this.mMainCamera);
-    this.mArrowVector.draw(this.mMainCamera);
     this.mCollisions = [];
 };
 
@@ -146,25 +146,6 @@ BossBattle.prototype.update = function () {
     
     // Handle creation of new arrows. This might need to be moved to the Hero class
     // at some point.
-    this.mArrowVector.update();
-    if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
-        this.mArrow = new Arrow(
-            this.mHero.getXform().getPosition(),
-            this.mArrowVector.getPower(),
-            this.mArrowVector.getDegrees()
-        );
-        if(this.mArrow !== null) {
-            this.mPhysicsGameObjects.addToSet(this.mArrow);
-        }
-    }
-    
-    // Firing modes, should be moved to the Hero class as well.
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
-        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eTailControl);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {
-        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eHeadControl);
-    }
     
     this.updateMainCamera();
 };
@@ -177,26 +158,65 @@ BossBattle.prototype.updateMainCamera = function () {
 };
 
 // Initializes some platforms for the boss fight
-BossBattle.prototype.createPlatforms = function () {
+BossBattle.prototype.buildLevel = function () {
+    // Create the boundary for the battle
+    // Create the floor
+    this.mPhysicsGameObjects.addToSet(new Terrain(
+        this.kGroundTexture,
+        150, -55,
+        300, 150 
+    ));
+    
+    // Create the roof  
+    // do we want a roof?
+
+    // Create the left wall 
+    this.mPhysicsGameObjects.addToSet(new Terrain(
+        this.kWallTexture,
+        -100, 0,
+        200, 1000
+    ));
+
+    // Create the right wall
+    this.mPhysicsGameObjects.addToSet(new Terrain(
+        this.kWallTexture,
+        400, 0,
+        200, 1000
+    ));
+    
+    // Create the platforms
     this.mPhysicsGameObjects.addToSet(new Platform(
         this.kPlatformTexture,
-        -20, -50,
-        20, 20 / 4
+        40, 30,
+        20, 5
     ));
     
     this.mPhysicsGameObjects.addToSet(new Platform(
         this.kPlatformTexture,
-        0, 0,
-        20, 20 / 4
+        120, 30,
+        20, 5
     ));
     
-    var i;
-    var numBaseTerrain = 5;
-    for(i = 0; i < numBaseTerrain; i++) {
-        this.mPhysicsGameObjects.addToSet(new Terrain(
-            this.kPlatformTexture,
-            100 * i, -50,
-            100, 100 / 4
-        ));
-    }
+    this.mPhysicsGameObjects.addToSet(new Platform(
+        this.kPlatformTexture,
+        80, 60,
+        20, 5
+    ));
+    
+    this.mPhysicsGameObjects.addToSet(new Platform(
+        this.kPlatformTexture,
+        20, 80,
+        20, 5
+    ));
+    
+    this.mPhysicsGameObjects.addToSet(new Platform(
+        this.kPlatformTexture,
+        140, 80,
+        20, 5
+    ));
+    
+    // Torches
+    this.mPhysicsGameObjects.addToSet(new Torch(
+        this.kTorchTexture
+    ));
 };
