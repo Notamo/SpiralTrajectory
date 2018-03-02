@@ -101,6 +101,9 @@ Arrow.prototype.userCollisionHandling = function(obj){
         return true;
         
     }
+    if (obj instanceof Torch) {
+        return true;
+    }
     this.setCollided(true);
     return false;
 };
