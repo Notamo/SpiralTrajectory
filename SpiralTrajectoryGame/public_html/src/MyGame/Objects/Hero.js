@@ -34,15 +34,13 @@ function Hero(spriteTexture, physicsReference, cameraRef) {
     r.setRestitution(1);
     r.setFriction(1);  
     this.setRigidBody(r);
-    // Specific collision ignoring.
-    //this.toggleDrawRigidShape();
     
     this.mPhysicsSetRef = physicsReference;
     
     // ArrowVector is our "firing" mechanism, need a single instance.
     this.mArrowVector = new ArrowVector(
-        this.cArrowVectorMaxLength, 
-        cameraRef);
+        cameraRef
+    );
     
     this.mArrowSet = new ArrowSet();
     

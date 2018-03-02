@@ -8,24 +8,19 @@
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
-  GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain */
+  GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain,
+  Config */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 class ArrowVector {
     /**
      * A set of line renderables tracking state used
      * to fire an arrow.
-     * @param {Number} maxLength    the maximum number of world units that the arrow vector can be dragged
      * @param {Camera} cameraRef    a camera reference for accessing the mouse world coordinates  
      * @returns {ArrowVector}
      */
-    constructor(maxLength, cameraRef) {
-        if (maxLength > 1) {
-            this.mMaxLength = maxLength;
-        }
-        else {
-            this.mMaxLength = 10;
-        }
+    constructor(cameraRef) {
+        this.mMaxLength = Config.ArrowVector.MaxLength;
         this.mCameraRef = cameraRef;
         this.mLineSet = [];
         this.mVisible = false;

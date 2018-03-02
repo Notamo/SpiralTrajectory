@@ -5,7 +5,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, Arrow, ParticleGameObjectSet, Config, Config_Torch */
+ *       Platform, Arrow, ParticleGameObjectSet, Config  */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
