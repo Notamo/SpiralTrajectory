@@ -14,64 +14,56 @@
 
 // Initializes some platforms for the boss fight
 BossBattle.prototype.buildLevel = function () {
-    // Create the boundary for the battle
-    // Create the floor
-    this.mPhysicsGameObjects.addToSet(new Terrain(
-        Config.BossBattle.Textures.GroundTexture,
-        150, -55,
-        300, 150 
-    ));
-    
-    // Create the roof  
-    // do we want a roof?
+    this.createGround();
+    this.createWalls();
+    this.createPlatforms();
+    this.createTorches();
+};
 
-    // Create the left wall 
-    this.mPhysicsGameObjects.addToSet(new Terrain(
-        Config.BossBattle.Textures.WallTexture,
-        -100, 0,
-        200, 1000
-    ));
+BossBattle.prototype.createGround = function () {
+    for (var ground in Config.BossBattle.Ground) {
+        this.mPhysicsGameObjects.addToSet(new Terrain(
+            Config.BossBattle.Textures.GroundTexture,
+            Config.BossBattle.Ground[ground].X,
+            Config.BossBattle.Ground[ground].Y,
+            Config.BossBattle.Ground[ground].Width,
+            Config.BossBattle.Ground[ground].Height
+        ));
+    }
+};
 
-    // Create the right wall
-    this.mPhysicsGameObjects.addToSet(new Terrain(
-        Config.BossBattle.Textures.WallTexture,
-        400, 0,
-        200, 1000
-    ));
-    
-    // Create the platforms
-    this.mPhysicsGameObjects.addToSet(new Platform(
-        Config.BossBattle.Textures.PlatformTexture,
-        40, 30,
-        20, 5
-    ));
-    
-    this.mPhysicsGameObjects.addToSet(new Platform(
-        Config.BossBattle.Textures.PlatformTexture,
-        120, 30,
-        20, 5
-    ));
-    
-    this.mPhysicsGameObjects.addToSet(new Platform(
-        Config.BossBattle.Textures.PlatformTexture,
-        80, 60,
-        20, 5
-    ));
-    
-    this.mPhysicsGameObjects.addToSet(new Platform(
-        Config.BossBattle.Textures.PlatformTexture,
-        20, 80,
-        20, 5
-    ));
-    
-    this.mPhysicsGameObjects.addToSet(new Platform(
-        Config.BossBattle.Textures.PlatformTexture,
-        140, 80,
-        20, 5
-    ));
-    
-    // Torches
-    this.mPhysicsGameObjects.addToSet(new Torch(
-        Config.BossBattle.Textures.TorchTexture,
-    ));
+BossBattle.prototype.createWalls = function () {
+    for (var wall in Config.BossBattle.Walls) {
+        this.mPhysicsGameObjects.addToSet(new Terrain(
+            Config.BossBattle.Textures.WallTexture,
+            Config.BossBattle.Walls[wall].X,
+            Config.BossBattle.Walls[wall].Y,
+            Config.BossBattle.Walls[wall].Width,
+            Config.BossBattle.Walls[wall].Height
+        ));
+    }
+};
+
+BossBattle.prototype.createPlatforms = function () {
+    for (var platform in Config.BossBattle.Platforms) {
+        this.mPhysicsGameObjects.addToSet(new Platform(
+            Config.BossBattle.Textures.PlatformTexture,
+            Config.BossBattle.Platforms[platform].X,
+            Config.BossBattle.Platforms[platform].Y,
+            Config.BossBattle.Platforms[platform].Width,
+            Config.BossBattle.Platforms[platform].Height
+        ));
+    }
+};
+
+BossBattle.prototype.createTorches = function () {
+    for (var torch in Config.BossBattle.Torches.Ground) {
+        this.mPhysicsGameObjects.addToSet(new Torch (
+            Config.BossBattle.Textures.GroundTorchTexture,
+            Config.BossBattle.Torches.Ground[torch].X,
+            Config.BossBattle.Torches.Ground[torch].Y,
+            Config.BossBattle.Torches.Ground[torch].Width,
+            Config.BossBattle.Torches.Ground[torch].Height
+        ));
+    }
 };

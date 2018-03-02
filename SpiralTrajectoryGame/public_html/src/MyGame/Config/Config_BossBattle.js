@@ -19,7 +19,7 @@ Config.BossBattle = Object.freeze({
         PlatformTexture:        "assets/props/platform.png",
         GroundTexture:          "assets/props/platform.png",
         WallTexture:            "assets/wall.png",
-        TorchTexture:           "assets/props/torch1.png",
+        GroundTorchTexture:     "assets/props/torch1.png",
         TorchParticleTexture:   "assets/particles/particle.png",
         FlameParticleTexture:   "assets/particles/flameparticle.png"
     },
@@ -30,5 +30,75 @@ Config.BossBattle = Object.freeze({
         MainCameraBackgroundColor:      [0.8, 0.8, 0.8, 1],
         MainCameraInterpStiffness:      0.2,
         MainCameraInterpDuration:       30
-    }
+    },
+    Torches: {
+        Ground: [
+            {
+                X:      50,
+                Y:      5,
+                Width:  10,
+                Height: 10
+            }
+        ],
+        Wall: [
+            
+        ],
+        Ceiling: [
+            
+        ]
+    },
+    Walls: [
+        {
+            X:      -100,
+            Y:      0,
+            Width:  200,
+            Height: 1000
+        },
+        {
+            X:      400,
+            Y:      0,
+            Width:  200,
+            Height: 1000
+        }
+    ],
+    Ground: [
+        {
+            X:      150,
+            Y:      -55,
+            Width:  300,
+            Height: 150
+        }
+    ], 
+    Platforms: [
+        {
+            X:      40,
+            Y:      30,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      120,
+            Y:      30,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      80,
+            Y:      60,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      20,
+            Y:      80,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      140,
+            Y:      80,
+            Width:  20,
+            Height: 5
+        }
+    ]
 });
