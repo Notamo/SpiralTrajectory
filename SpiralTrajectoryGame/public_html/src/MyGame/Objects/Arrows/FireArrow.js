@@ -1,5 +1,52 @@
-class FireArrow extends Arrow {
-    constructor(position,power,degree){
-        super(position,power,degree);
-    }
-}
+/* File: Hero.js 
+ *
+ * Creates and initializes the Hero (Dye)
+ * overrides the update function of GameObject to define
+ * simple Dye behavior
+ */
+
+/*jslint node: true, vars: true */
+/*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle, Arrow
+ *       Platform */
+/* find out more about jslint: http://www.jslint.com/help.html */
+
+"use strict";
+
+
+var FireArrow = function(position,power,degree) {
+    Arrow.call(this,position,power,degree);
+        // Create the sprite
+    this.mArrow = new TextureRenderable("assets/projectiles/firearrow.png");
+    this.mArrow.setColor([1, 1, 1, 0]);
+    this.mArrow.getXform().setPosition(position[0], position[1]);
+    this.mArrow.getXform().setSize(2/1.5, 12/1.5);
+    this.power=power;
+    this.degree=degree;
+    this.mArrow.getXform().incRotationByDegree(degree+270);
+    GameObject.call(this, this.mArrow);
+    
+    this.kBasePower = 180;
+    this.mTimeSinceSpawn = 0;
+    this.mExpired=false;
+    this.mCollided = false;
+    
+    // Physics
+    var r = new RigidRectangle(
+        this.getXform(),
+        this.getXform().getWidth()*.8,
+        this.getXform().getHeight()
+    );
+    r.setMass(2);
+    r.setRestitution(.3);
+    r.setFriction(1);  
+    this.setRigidBody(r);
+    var x=this.degree*(Math.PI/180);
+    var y=this.degree*(Math.PI/180);
+    x=Math.cos(x);
+    y=Math.sin(y);
+    this.getRigidBody().setVelocity(x*this.power* this.kBasePower, y*this.power* this.kBasePower);
+    // Specific collision ignoring.
+    //this.toggleDrawRigidShape();
+};
+
+gEngine.Core.inheritPrototype(FireArrow, Arrow);
