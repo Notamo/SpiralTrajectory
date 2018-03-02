@@ -22,9 +22,6 @@ function BossBattle() {
     this.cMainCameraInterpolationStiffness = 0.2;
     this.cMainCameraInterpolationDuration = 30;
     
-    // ArrowVector
-    this.cArrowVectorMaxLength = 30;
-    
     // Color to clear the canvas to
     this.cCanvasClearColor = [0.8, 0.8, 0.8, 1];
     
@@ -55,7 +52,6 @@ function BossBattle() {
     this.mBoss = null;
     
     // UI objects
-    this.mArrowVector = null;
     
     // Object to track collisions? dunno if this is where we'll put it, temp for now
     this.mCollisions = [];
@@ -101,16 +97,10 @@ BossBattle.prototype.initialize = function () {
     // non-physics objects.
     this.mPhysicsGameObjects = new GameObjectSet();
     this.mNonPhysicsGameObjects = new GameObjectSet();
-    
+
     // Create the hero.
-    this.mHero = new Hero(this.kHeroSprite);
+    this.mHero = new Hero(this.kHeroSprite, this.mPhysicsGameObjects, this.mMainCamera);
     this.mPhysicsGameObjects.addToSet(this.mHero);
-    
-    // ArrowVector is our "firing" mechanism, need a single instance.
-    this.mArrowVector = new ArrowVector(
-        this.cArrowVectorMaxLength, 
-        this.mMainCamera
-    );
      
     //Create the boss
     this.mBoss = new Boss(this.kBossSprite, this.mHero);
@@ -126,7 +116,6 @@ BossBattle.prototype.draw = function () {
     gEngine.Core.clearCanvas(this.cCanvasClearColor);
     this.mMainCamera.setupViewProjection();
     this.mPhysicsGameObjects.draw(this.mMainCamera);
-    this.mArrowVector.draw(this.mMainCamera);
     this.mCollisions = [];
 };
 
@@ -147,25 +136,6 @@ BossBattle.prototype.update = function () {
     
     // Handle creation of new arrows. This might need to be moved to the Hero class
     // at some point.
-    this.mArrowVector.update();
-    if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
-        this.mArrow = new Arrow(
-            this.mHero.getXform().getPosition(),
-            this.mArrowVector.getPower(),
-            this.mArrowVector.getDegrees()
-        );
-        if(this.mArrow !== null) {
-            this.mPhysicsGameObjects.addToSet(this.mArrow);
-        }
-    }
-    
-    // Firing modes, should be moved to the Hero class as well.
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
-        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eTailControl);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {
-        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eHeadControl);
-    }
     
     this.updateMainCamera();
 };

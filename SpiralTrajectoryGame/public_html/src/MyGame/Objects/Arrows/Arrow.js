@@ -64,8 +64,7 @@ Arrow.prototype.update = function () {
             xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
         }
     }
-    if(this.mTimeSinceSpawn >300){
-        console.log("arrow expired")
+    if(this.mTimeSinceSpawn > 600){
         this.setExpired(true);
     }
     if(this.mCollided===true) {

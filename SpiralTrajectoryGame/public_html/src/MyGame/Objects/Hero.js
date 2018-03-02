@@ -12,7 +12,7 @@
 
 "use strict";
 
-function Hero(spriteTexture) {
+function Hero(spriteTexture, physicsReference, cameraRef) {
     // Create the sprite
     this.mArcher = new SpriteRenderable(spriteTexture);
     this.mArcher.setColor([1, 1, 1, 0]);
@@ -20,6 +20,9 @@ function Hero(spriteTexture) {
     this.mArcher.getXform().setSize(12, 12);
     this.mArcher.setElementPixelPositions(93, 403, 97, 440);
     GameObject.call(this, this.mArcher);
+    
+    // ArrowVector
+    this.cArrowVectorMaxLength = 30;
     
     // Physics
     var r = new RigidRectangle(
@@ -34,12 +37,29 @@ function Hero(spriteTexture) {
     // Specific collision ignoring.
     //this.toggleDrawRigidShape();
     
+    this.mPhysicsSetRef = physicsReference;
+    
+    // ArrowVector is our "firing" mechanism, need a single instance.
+    this.mArrowVector = new ArrowVector(
+        this.cArrowVectorMaxLength, 
+        cameraRef);
+    
+    this.mArrowSet = new ArrowSet();
+    
     this.mNoClip = false;
     this.mUpdatesSinceClip = 0;
     this.mJumpCount = 0;
     this.mMaxJumps = 2;
-}
+};
 gEngine.Core.inheritPrototype(Hero, GameObject);
+
+Hero.prototype.draw = function(aCamera) {
+    GameObject.prototype.draw.call(this, aCamera);
+    //super.draw(aCamera);
+    this.mArrowVector.draw(aCamera);
+    this.mArrowSet.draw(aCamera);
+
+};
 
 Hero.prototype.update = function () {
     var xform = this.getXform();
@@ -74,7 +94,28 @@ Hero.prototype.update = function () {
             this.mUpdatesSinceClip = 0;
         }
     }
-
+    
+    this.mArrowVector.update();
+    if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
+        var arrow = new Arrow(
+            xform.getPosition(),
+            this.mArrowVector.getPower(),
+            this.mArrowVector.getDegrees()
+        );
+        if (this.mArrowSet.addToSet(arrow)) {
+            this.mPhysicsSetRef.addToSet(arrow);
+        }
+    }
+    
+    // Firing modes, should be moved to the Hero class as well.
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
+        this.mArrowVector.setFireMode(ArrowVectoWr.eFiringModes.eTailControl);
+    }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {
+        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eHeadControl);
+    }
+    
+    this.mArrowSet.update();
     this.mRigidBody.setAngularVelocity(0);
     this.mRigidBody.update();
 };
@@ -82,8 +123,6 @@ Hero.prototype.update = function () {
 // Ignores collision with platform objects when the S key is pressed or
 // when the hero is jumping from below the platform
 Hero.prototype.userCollisionHandling = function (obj) {
-    var heroBB = this.getBBox();
-    var platformBB = obj.getBBox();
     
     if (obj instanceof Platform) {
         // NoClip is our setting for indicating the Hero is in a state which should avoid
