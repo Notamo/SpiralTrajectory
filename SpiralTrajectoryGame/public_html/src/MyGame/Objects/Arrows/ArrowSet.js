@@ -21,10 +21,10 @@ class ArrowSet extends GameObjectSet {
         
         // { Regular : 0, Fire : 1, Ice : 2 }
         // Cooldowns (frames) for each type of arrow
-        this.kCooldowns = [30, 300, 300];
+        this.kCooldowns = [20, 180, 180];
         this.mTimeSinceSpawn = [0, 0, 0];
         // max count of each arrow type
-        this.kMaxCount = [10, 4, 4];
+        this.kMaxCount = [25, 8, 8];
         
         this.mRegArrows = new GameObjectSet();
         this.mFireArrows = new GameObjectSet();
