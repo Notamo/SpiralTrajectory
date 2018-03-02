@@ -10,11 +10,11 @@
 
 "use strict";
 
-function Torch(spriteTexture) {
+function Torch(spriteTexture, x, y, w, h) {
     this.mTorch = new SpriteRenderable(spriteTexture);
     this.mTorch.setColor([1, 1, 1, 0]);
-    this.mTorch.getXform().setPosition(50, 5);
-    this.mTorch.getXform().setSize(10, 10);
+    this.mTorch.getXform().setPosition(x, y);
+    this.mTorch.getXform().setSize(w, h);
     GameObject.call(this, this.mTorch);
     
     var r = new RigidRectangle(
