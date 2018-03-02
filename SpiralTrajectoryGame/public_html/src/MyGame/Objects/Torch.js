@@ -56,7 +56,7 @@ Torch.prototype.update = function () {
 };
 
 Torch.prototype.userCollisionHandling = function (obj) {
-    if (obj instanceof Arrow) {
+    if (obj instanceof FireArrow) {
         this.lit = true;
     }
     
