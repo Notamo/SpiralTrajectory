@@ -11,12 +11,20 @@ Boss.eFireProjState = Object.freeze({
    eWarmupState: 0,         //Warm up to firing
    eBurstState: 1,           //Fire some missiles
    eDelayState: 2,          //wait for next FireState
-   eCooldownState: 3        //cool down to next primary state
 });
 
 
-Boss.prototype._fireProjectilesInit = function(projectileTexture) {
-  this.kProjTex = projectileTexture;
+Boss.prototype._fireProjectilesInit = function(projectileSprite) {
+  this.kProjSprite = projectileSprite;
+  
+  //range
+  this.kMinProjRange = 60;      //minimum range to fire projectiles
+  this.kMaxProjRange = 200;     //maximum fire projectiles range
+  //Cooldown
+  this.kFireProjCooldownLength = 3;     //time before the boss can fire again (seconds)
+  this.mFireProjCooldown = 0;
+  
+  
   
   //bursts
   this.kNumBursts = 3;          //number of bursts
@@ -31,16 +39,28 @@ Boss.prototype._fireProjectilesInit = function(projectileTexture) {
   
   //Delay State
   this.kBurstDelay = 30;        //frames between each burst
-  this.kBurstDelayFrame = 0;    //current frame waiting for next burst
+  this.mBurstDelayFrame = 0;    //current frame waiting for next burst
   
 
   
-  this.bossProjectiles = new GameObjectSet();
+  this.bossProjSet = new GameObjectSet();
   this.mFireProjState = Boss.eFireProjState.eWarmupState;
 };
 
-Boss.prototype._serviceFireProjState = function() {
-    switch(this.mFireProjectilesState)
+Boss.prototype._drawProjectiles = function(aCamera) {
+    this.bossProjSet.draw(aCamera);
+};
+
+Boss.prototype._updateProjectiles = function() {
+    this.bossProjSet.update();
+    //if(this.bossProjSet.size() > 0)
+      //  console.log(this.bossProjSet.size() + " Boss Projectiles");
+}
+
+Boss.prototype._serviceFireProj = function() {
+    
+    //console.log("_serviceFireProj");
+    switch(this.mFireProjState)
     {
         case Boss.eFireProjState.eWarmupState:
             this._serviceFireProjWarmupState();
@@ -51,22 +71,21 @@ Boss.prototype._serviceFireProjState = function() {
         case Boss.eFireProjState.eDelayState:
             this._serviceFireProjDelayState();
             break;
-        case Boss.eFireProjState.eCooldownState:
-            this._serviceFireProjCooldownState();
-            break;
     }
+    
+    
 };
 
 Boss.prototype._serviceFireProjWarmupState = function() {
     //no wawrmup for now
-    this.mFireProjState = Boss.eFireProjState.eFireState;
+    this.mFireProjState = Boss.eFireProjState.eBurstState;
 };
 
 Boss.prototype._serviceFireProjBurstState = function() {
-    
+    //console.log("BurstState");
     if(this.mShotDelayFrame === 0) {
         //make a shot
-        console.log("Fire Projectile!");
+        this._fireProjectile();
         this.mShotCount++;
         
         //check if we've fired all the shots in the burst
@@ -77,16 +96,16 @@ Boss.prototype._serviceFireProjBurstState = function() {
             
             //if this is our last burst
             if(this.mBurstCount === this.kNumBursts){
-                //move to the cooldown state
+                //move to chase state
                 this.mBurstCount = 0;
-                this.mFireProjState = Boss.eFireProjState.eCooldownState;
-                console.log("moving to cooldown state");
+                this.mFireProjState = Boss.eFireProjState.eWarmupState;
+                this.mCurrentState = Boss.eBossState.eChaseState;
+                console.log("moving to chase state");
                 return;
             }
             else {  //otherwise
                 //move to the delay state
                 this.mFireProjState = Boss.eFireProjState.eDelayState;
-                console.log("moving to delay state");
                 return;
             }
         }
@@ -94,13 +113,13 @@ Boss.prototype._serviceFireProjBurstState = function() {
     
     if(this.mShotDelayFrame === this.kShotDelay) {
         this.mShotDelayFrame = 0;
+    } 
+    else {    
+        this.mShotDelayFrame++;
     }
-    
-    this.mShotDelayFrame++;
 };
 
 Boss.prototype._serviceFireProjDelayState = function() {
-    
     if(this.mBurstDelayFrame === this.kBurstDelay) {
         this.mBurstDelayFrame = 0;
         this.mFireProjState = Boss.eFireProjState.eBurstState;
@@ -110,13 +129,9 @@ Boss.prototype._serviceFireProjDelayState = function() {
     this.mBurstDelayFrame++;
 }
 
-Boss.prototype._serviceFireProjCooldownState = function() {
-    //no cooldown for now
-    this.mFireProjState = Boss.eFireProjState.eWarmupState;
-    this.mCurrentState = Boss.eBossState.eChaseState;
-};
 
-
-Boss.prototpye._fireProjectile = function() {
+Boss.prototype._fireProjectile = function() {
     console.log("Firing Projectile!");
+    var newProjectile = new BossProjectile(this.kProjSprite, this.mHero, this.getXform().getPosition(), 0);
+    this.bossProjSet.addToSet(newProjectile);
 }

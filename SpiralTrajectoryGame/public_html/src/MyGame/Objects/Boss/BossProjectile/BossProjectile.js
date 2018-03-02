@@ -11,14 +11,13 @@ BossProjectile.eProjectileState = Object.freeze({
    eLifeExpiredState: 3    //lifetime expired
 });
 
-function BossProjectile(projectileTexture, hero, startPosition, startRotation) {
+function BossProjectile(projectileSprite, hero, startPosition, startRotation) {
     //make the projectile renderable
-    this.mProjectile = new SpriteRenderable(projectileTexture);
+    this.mProjectile = new TextureRenderable(projectileSprite);
     this.mProjectile.setColor([1, 1, 1, 0]);
     this.mProjectile.getXform().setPosition(startPosition[0], startPosition[1]);
-    this.mProjectile.getXform().setSize(1, 1);
+    this.mProjectile.getXform().setSize(10, 10);
     this.mProjectile.getXform().setOrientation(startRotation);
-    this.mProjectile.setElementPixelPositions(0, 0, 128, 128);
     GameObject.call(this, this.mProjectile);
     
     //a reference to the hero so we can chase them
@@ -30,8 +29,16 @@ function BossProjectile(projectileTexture, hero, startPosition, startRotation) {
     
     this.mSpeed = 1;
     
+    //INTERPOLATION IS NOT THE WAY TO GO :P
     this.mChasePos = new InterpolateVec2(this.getXform().getPosition(), 120, 0.05);
-    this.mChaseRot = new Interpolate(this.getXform().getRotationInRad(), 120, 0.05);
+    //this.mChaseRot = new Interpolate(this.getXform().getRotationInRad(), 120, 0.05);
+};
+
+gEngine.Core.inheritPrototype(BossProjectile, GameObject);
+
+BossProjectile.prototype.draw = function(aCamera) {
+    //console.log("BossProjectile Draw!");
+    GameObject.prototype.draw.call(this, aCamera);
 };
 
 BossProjectile.prototype.update = function()
@@ -40,10 +47,14 @@ BossProjectile.prototype.update = function()
     GameObject.prototype.update.call(this);
     
     this.mChasePos.updateInterpolation();
-    this.mChaseRot.updateInterpolation();
+    //this.mChaseRot.updateInterpolation();
     
     
-    this.mChasePos.setFinalValue(vec2.fromValues(hero.getXform().getPosition));
-    this.mChaseRot.setFinalValue(hero.getXform().getRotationInRad());
+    this.mChasePos.setFinalValue(this.mHero.getXform().getPosition());
+    //this.mChaseRot.setFinalValue(hero.getXform().getRotationInRad());
     
+    if(this.mTimeAlive >= this.kLifespan) {
+        this.mExpired = true;
+    }
+    this.mTimeAlive += (1/60);
 }
