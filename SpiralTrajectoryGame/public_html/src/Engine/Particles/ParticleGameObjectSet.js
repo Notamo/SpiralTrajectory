@@ -26,11 +26,12 @@ gEngine.Core.inheritPrototype(ParticleGameObjectSet, GameObjectSet);
  * @param {vec2} p Position of Emitter in WC space
  * @param {Number} n Number of particles to be emitted
  * @param {function} func Creater Function
+ * @param {Number}  Type of particles according to the Config.Torch.Types
  * @returns {void}
  * @memberOf ParticleGameObjectSet
  */
-ParticleGameObjectSet.prototype.addEmitterAt = function (p, n, func) {
-    var e = new ParticleEmitter(p, n, func);
+ParticleGameObjectSet.prototype.addEmitterAt = function (p, n, func, type) {
+    var e = new ParticleEmitter(p, n, func, type);
     this.mEmitterSet.push(e);
 };
 
