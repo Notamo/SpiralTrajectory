@@ -89,7 +89,7 @@ Hero.prototype.update = function () {
         if (this.mNoClip) {
             this.mUpdatesSinceClip++;
         }
-        if (this.mUpdatesSinceClip > 20) {
+        if (this.mUpdatesSinceClip > 60) {
             this.mNoClip = false;
             this.mUpdatesSinceClip = 0;
         }

@@ -106,7 +106,6 @@ class ArrowSet extends GameObjectSet {
         for (i = 0; i < size; i++) {
             arrow = this.getObjectAt(i);
             if (arrow.isExpired()) {
-                console.log("removing arrow from arrow set");
                 this.removeFromSet(arrow);
             }
         }
