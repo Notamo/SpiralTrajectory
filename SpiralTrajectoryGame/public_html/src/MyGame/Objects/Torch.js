@@ -43,7 +43,7 @@ Torch.prototype.userCollisionHandling = function (obj) {
         this.mParticles = new ParticleGameObjectSet();
         this.mParticles.addEmitterAt(
             this.getXform().getPosition(),
-            200,
+            20,
             this.createParticle
         );
     }
@@ -58,11 +58,11 @@ Torch.prototype.userCollisionHandling = function (obj) {
 
 Torch.prototype.createParticle = function (x, y) {
     var life = 30 + Math.random() * 200;
-    var p = new ParticleGameObject("assets/particle.png", x, y, life);
+    var p = new ParticleGameObject(Config.BossBattle.Textures.FlameParticleTexture, x, y + 2 , life);
     p.getRenderable().setColor([1, 0, 0, 1]);
     
     // size of the particle
-    var r = 3.5 + Math.random() * 2.5;
+    var r = 1 + Math.random() * 6;
     p.getXform().setSize(r, r);
     
     // final color
@@ -72,12 +72,13 @@ Torch.prototype.createParticle = function (x, y) {
     p.setFinalColor([fr, fg, fb, 0.6]);
     
     // velocity on the particle
-    var fx = 10 * Math.random() - 20 * Math.random();
-    var fy = 10 * Math.random();
+    var fx = 20 * Math.random() - 10;
+    var fy = 20 * Math.random() -10;
     p.getParticle().setVelocity([fx, fy]);
     
     // size delta
     p.setSizeDelta(0.98);
+    p.getParticle().setAcceleration([0,0]);
     
     return p;
 };
