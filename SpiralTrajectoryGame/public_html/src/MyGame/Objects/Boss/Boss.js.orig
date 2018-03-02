@@ -183,10 +183,17 @@ Boss.prototype.userCollisionHandling = function(obj){
         if(obj.getCollided() === false){
             this.dealDamage(2);
         }
+        
+        /*
+         * Fire & ice arrow handling here
+         */
     }
+<<<<<<< HEAD
+    
+=======
     if (obj instanceof Platform) {
         return true;
     }
-    
+>>>>>>> master
     return false;
 };

@@ -18,7 +18,7 @@
  * @returns {ParticleEmitter} New instance of ParticleEmitter
  * @class ParticleEmitter
  */
-function ParticleEmitter(pos, num, createrFunc) {
+function ParticleEmitter(pos, num, createrFunc, type) {
     // Smallest number of particle emitted per cycle
     this.kMinToEmit = 5;
 
@@ -27,8 +27,10 @@ function ParticleEmitter(pos, num, createrFunc) {
 
     // Number of particles left to be emitted
     this.mNumRemains = num;
-    
+        
     this.mParticleCreator = createrFunc;
+    
+    this.type = type;
 }
 ParticleEmitter.prototype.expired = function () { return (this.mNumRemains <= 0); };
 

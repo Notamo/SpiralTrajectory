@@ -23,7 +23,8 @@ function GameObject(renderableObj) {
     this.mCurrentFrontDir = vec2.fromValues(0, 1);  // this is the current front direction of the object
     this.mRigidBody = null;
     this.mDrawRenderable = true;
-    this.mDrawRigidShape = false; 
+    this.mDrawRigidShape = false;
+    this.mExpired = false;
 }
 
 /**
@@ -58,6 +59,21 @@ GameObject.prototype.setVisibility = function (f) { this.mVisible = f; };
  * @memberOf GameObject
  */
 GameObject.prototype.isVisible = function () { return this.mVisible; };
+
+/**
+ * Set the expired state of the GameObject
+ * @param {Boolean} f new state of GameObject
+ * @returns {void}
+ * @memberOf GameObject
+ */
+GameObject.prototype.setExpired = function (f) { this.mExpired = f; };
+
+/**
+ * Returs the expired state of the GameObject
+ * @returns {Boolean} returns true if this GameObject is expired
+ * @memberOf GameObject
+ */
+GameObject.prototype.isExpired = function () { return this.mExpired; };
 
 GameObject.prototype.setCurrentFrontDir = function (f) { vec2.normalize(this.mCurrentFrontDir, f); };
 
