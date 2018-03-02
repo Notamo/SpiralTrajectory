@@ -15,7 +15,7 @@
 function BossBattle() {
     // Constants/changeable values for different game features
     // Main Camera options
-    this.cMainCameraStartingPosition = vec2.fromValues(0, 0);
+    this.cMainCameraStartingPosition = vec2.fromValues(25, 1);
     this.cMainCameraWorldWidth = 200;
     this.cMainCameraViewport = [0, 0, 1200, 900];
     this.cMainCameraBackgroundColor = [0.8, 0.8, 0.8, 1];
@@ -36,8 +36,8 @@ function BossBattle() {
     this.kBossSprite = "assets/characters/boss_sprites.png";
     
     this.kPlatformTexture = "assets/props/platform.png";
-    this.kGroundTexture = "";
-    this.kWallTexture = "";
+    this.kGroundTexture = "assets/props/platform.png";
+    this.kWallTexture = "assets/wall.png";
     
     // Cameras
     this.mMainCamera = null;
@@ -65,6 +65,8 @@ BossBattle.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBossSprite);
     gEngine.Textures.loadTexture(this.arrow);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
+    gEngine.Textures.loadTexture(this.kGroundTexture);
+    gEngine.Textures.loadTexture(this.kWallTexture);
 };
 
 BossBattle.prototype.unloadScene = function () {
@@ -72,6 +74,8 @@ BossBattle.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBossSprite);
     gEngine.Textures.unloadTexture(this.arrow);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
+    gEngine.Textures.unloadTexture(this.kGroundTexture);
+    gEngine.Textures.unloadTexture(this.kWallTexture);
     gEngine.Core.startScene(new ResultsScreen());
 };
 
@@ -111,7 +115,7 @@ BossBattle.prototype.initialize = function () {
     this.mPhysicsGameObjects.addToSet(this.mBoss);
     
     // Create platforms
-    this.createPlatforms();
+    this.buildLevel();
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -172,26 +176,60 @@ BossBattle.prototype.updateMainCamera = function () {
 };
 
 // Initializes some platforms for the boss fight
-BossBattle.prototype.createPlatforms = function () {
+BossBattle.prototype.buildLevel = function () {
+    // Create the boundary for the battle
+    // Create the floor
+    this.mPhysicsGameObjects.addToSet(new Terrain(
+        this.kGroundTexture,
+        150, -55,
+        300, 150 
+    ));
+    
+    // Create the roof  
+    // do we want a roof?
+
+    // Create the left wall 
+    this.mPhysicsGameObjects.addToSet(new Terrain(
+        this.kWallTexture,
+        -100, 0,
+        200, 1000
+    ));
+
+    // Create the right wall
+    this.mPhysicsGameObjects.addToSet(new Terrain(
+        this.kWallTexture,
+        400, 0,
+        200, 1000
+    ));
+    
+    // Create the platforms
     this.mPhysicsGameObjects.addToSet(new Platform(
         this.kPlatformTexture,
-        100, 0,
-        20, 20 / 4
+        40, 30,
+        20, 5
     ));
     
     this.mPhysicsGameObjects.addToSet(new Platform(
         this.kPlatformTexture,
-        0, 0,
-        20, 20 / 4
+        120, 30,
+        20, 5
     ));
     
-    var i;
-    var numBaseTerrain = 5;
-    for(i = 0; i < numBaseTerrain; i++) {
-        this.mPhysicsGameObjects.addToSet(new Terrain(
-            this.kPlatformTexture,
-            100 * i, -50,
-            100, 100 / 4
-        ));
-    }
+    this.mPhysicsGameObjects.addToSet(new Platform(
+        this.kPlatformTexture,
+        80, 60,
+        20, 5
+    ));
+    
+    this.mPhysicsGameObjects.addToSet(new Platform(
+        this.kPlatformTexture,
+        20, 80,
+        20, 5
+    ));
+    
+    this.mPhysicsGameObjects.addToSet(new Platform(
+        this.kPlatformTexture,
+        140, 80,
+        20, 5
+    ));
 };
