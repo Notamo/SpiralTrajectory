@@ -30,6 +30,8 @@ function Torch(spriteTexture, x, y, w, h) {
     this.setRigidBody(r);
     
     this.mParticles = new ParticleGameObjectSet();
+    
+    this.kTorchLife = 1200;
 }
 gEngine.Core.inheritPrototype(Torch, GameObject);
 
@@ -48,7 +50,7 @@ Torch.prototype.update = function () {
          this.mParticles.update();
      }
      //this is the actual time you have before the light runs out, and extra hits during the lit time don't reset it.
-     if(this.litTimer>=1200){
+     if(this.litTimer>=this.kTorchLife){
          this.litTimer=0;
          this.lit=false;
      }
