@@ -25,8 +25,8 @@ function Boss(bossSprite, hero) {
     
     this.mGolem = new SpriteAnimateRenderable(this.kBossSprite);
     this.mGolem.setColor([1, 1, 1, 0]);
-    this.mGolem.getXform().setPosition(200, 30);
-    this.mGolem.getXform().setSize(52, 34);
+    this.mGolem.getXform().setPosition(175, 20);
+    this.mGolem.getXform().setSize(78, 51);
 
     this._setupAnimation(Boss.eBossAnim.eSpawnAnim, true);
     GameObject.call(this, this.mGolem);
