@@ -63,7 +63,8 @@ BossBattle.prototype.createTorches = function () {
             Config.BossBattle.Torches.Ground[torch].X,
             Config.BossBattle.Torches.Ground[torch].Y,
             Config.BossBattle.Torches.Ground[torch].Width,
-            Config.BossBattle.Torches.Ground[torch].Height
+            Config.BossBattle.Torches.Ground[torch].Height,
+            Config.Torch.Types.Ground
         ));
     }
 };
