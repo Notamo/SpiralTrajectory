@@ -16,7 +16,7 @@ function Hero(spriteTexture, physicsReference, cameraRef) {
     // Create the sprite
     this.mArcher = new SpriteRenderable(spriteTexture);
     this.mArcher.setColor([1, 1, 1, 0]);
-    this.mArcher.getXform().setPosition(0, 0);
+    this.mArcher.getXform().setPosition(25, 1);
     this.mArcher.getXform().setSize(12, 12);
     this.mArcher.setElementPixelPositions(93, 403, 97, 440);
     GameObject.call(this, this.mArcher);
