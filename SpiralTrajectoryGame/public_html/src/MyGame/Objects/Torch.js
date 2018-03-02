@@ -34,13 +34,15 @@ function Torch(spriteTexture, x, y, w, h) {
 gEngine.Core.inheritPrototype(Torch, GameObject);
 
 Torch.prototype.update = function () {
-    if(this.lit===true && Math.random() > .5){
+    if(this.lit===true ){
+        this.litTimer++;
+        if (Math.random() > ((this.litTimer%100)/100)) {
             this.mParticles.addEmitterAt(
             this.getXform().getPosition(),
             1,
             this.createParticle
         );
-        this.litTimer++;
+        }
     }
      if (this.mParticles !== null) {
          this.mParticles.update();
@@ -77,9 +79,12 @@ Torch.prototype.createParticle = function (x, y) {
     
     // final color
     var fr = 3.5 + Math.random();
-    var fg = 0.3 + 0.1 * Math.random();
-    var fb = 0.2 + 0.1 * Math.random();
+    var fg = 0.2 + 0.1 * Math.random();
+    var fb = 0.1 + 0.1 * Math.random();
     p.setFinalColor([fr, fg, fb, .5]);
+    if (Math.random() < .3) {
+        p.setFinalColor([0, 0, 0, 1]);
+    }
     
     // velocity on the particle
     var fx;
