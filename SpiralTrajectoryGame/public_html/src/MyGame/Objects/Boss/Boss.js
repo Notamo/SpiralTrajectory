@@ -39,7 +39,7 @@ function Boss(bossSprite, hero) {
     );
     r.setMass(1000);
     r.setRestitution(1);
-    r.setFriction(0);  
+    r.setFriction(.2);  
     this.setRigidBody(r);
     //athis.toggleDrawRigidShape();
     

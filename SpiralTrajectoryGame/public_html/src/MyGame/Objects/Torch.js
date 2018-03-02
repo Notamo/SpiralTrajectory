@@ -46,7 +46,6 @@ Torch.prototype.userCollisionHandling = function (obj) {
             200,
             this.createParticle
         );
-        this.mParticles.update();
     }
     
     // We don't want the torch actually blocking any of the game objects.
@@ -54,6 +53,7 @@ Torch.prototype.userCollisionHandling = function (obj) {
         obj instanceof Boss) {
         return true;
     }
+    return false;
 };
 
 Torch.prototype.createParticle = function (x, y) {
