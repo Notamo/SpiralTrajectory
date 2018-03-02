@@ -15,6 +15,8 @@ function Torch(spriteTexture) {
     this.mTorch.setColor([1, 1, 1, 0]);
     this.mTorch.getXform().setPosition(50, 5);
     this.mTorch.getXform().setSize(10, 10);
+    this.lit=false;
+    this.litTimer=0;
     GameObject.call(this, this.mTorch);
     
     var r = new RigidRectangle(
@@ -30,22 +32,31 @@ function Torch(spriteTexture) {
 gEngine.Core.inheritPrototype(Torch, GameObject);
 
 Torch.prototype.update = function () {
-     if (this.mParticles !== null) {
-         this.mParticles.update();
-         if (this.mParticles.size() === 0) {
-             this.mParticles = null;
-         }
-     }
-};
-
-Torch.prototype.userCollisionHandling = function (obj) {
-    if (obj instanceof Arrow) {
+    if(this.lit===true){
         this.mParticles = new ParticleGameObjectSet();
         this.mParticles.addEmitterAt(
             this.getXform().getPosition(),
             20,
             this.createParticle
         );
+        this.litTimer++;
+    }
+     if (this.mParticles !== null) {
+         this.mParticles.update();
+         if (this.mParticles.size() === 0) {
+             this.mParticles = null;
+         }
+     }
+     //this is the actual time you have before the light runs out, and extra hits during the lit time don't reset it.
+     if(this.litTimer>=600){
+         this.litTimer=0;
+         this.lit=false;
+     }
+};
+
+Torch.prototype.userCollisionHandling = function (obj) {
+    if (obj instanceof Arrow) {
+        this.lit=true;
     }
     
     // We don't want the torch actually blocking any of the game objects.
@@ -88,4 +99,8 @@ Torch.prototype.draw = function (camera) {
         this.mParticles.draw(camera);
     }
     GameObject.prototype.draw.call(this, camera);
+};
+
+Torch.prototype.isLit = function() {
+    return this.lit;
 };
