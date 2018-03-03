@@ -7,7 +7,7 @@
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
   GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain,
-  ArrowVector, Torch, Config */
+  ArrowVector, Torch, Config, Golem */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -57,8 +57,8 @@ BossBattle.prototype.initialize = function () {
         this.mMainCamera
     );
     this.mPhysicsGameObjects.addToSet(this.mHero);
-
-    this.mBoss = new Boss(Config.BossBattle.Textures.BossSprite, this.mHero);
+    
+    this.mBoss = new Golem(Config.BossBattle.Textures.BossSprite, this.mHero, this.mPhysicsGameObjects);
     this.mPhysicsGameObjects.addToSet(this.mBoss);
     
     this.buildLevel();

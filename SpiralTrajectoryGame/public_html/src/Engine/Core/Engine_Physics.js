@@ -172,7 +172,6 @@ gEngine.Physics = (function () {
                         if (objI.boundTest(objJ)) {
                             if (objI.collisionTest(objJ, info)) {
                                 // this is test area to allow objects to ignore collisions
-                                
                                 var ij = set.getObjectAt(i).userCollisionHandling(set.getObjectAt(j));
                                 var ji = set.getObjectAt(j).userCollisionHandling(set.getObjectAt(i));
                                 
@@ -181,12 +180,14 @@ gEngine.Physics = (function () {
                                 }  
                                 // end added code 
                                 // make sure info is always from i towards j
+                                
                                 vec2.subtract(iToj, objJ.getCenter(), objI.getCenter());
+                                
                                 if (vec2.dot(iToj, info.getNormal()) < 0) {
                                     info.changeDir();
-                                }
+                                } 
                                 // infoSet.push(info);
-                                positionalCorrection(objI, objJ, info);
+                                positionalCorrection(objI, objJ, info);                   
                                 resolveCollision(objI, objJ, info);
                                 // info = new CollisionInfo();
                             }
