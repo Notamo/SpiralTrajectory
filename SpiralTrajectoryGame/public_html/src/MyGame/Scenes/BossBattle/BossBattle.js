@@ -18,6 +18,7 @@ function BossBattle() {
     this.mNonPhysicsGameObjects = null;
     this.mHero = null;
     this.mBoss = null;
+    this.wall = null;
     this.mCollisions = [];
 }
 gEngine.Core.inheritPrototype(BossBattle, Scene);
@@ -62,11 +63,26 @@ BossBattle.prototype.initialize = function () {
     this.mPhysicsGameObjects.addToSet(this.mBoss);
     
     this.buildLevel();
+    
+    this.wall = new GameObjectSet();
+    for(var j=0; j<10; j++){
+        for(var i=0; i<11; i++){
+            var walls=new TextureRenderable(Config.BossBattle.Textures.BackgroundTexture);
+            walls.getXform().setPosition(
+                Config.BossBattle.Background[0].X+(50*j),
+                Config.BossBattle.Background[0].Y+(-50*(i))
+            );
+            walls.getXform().setSize(Config.BossBattle.Background[0].Width,
+                Config.BossBattle.Background[0].Height);
+            this.wall.addToSet(walls);
+        }
+    }
 };
 
 BossBattle.prototype.draw = function () {
     gEngine.Core.clearCanvas(Config.Engine.Misc.CanvasClearColor);
     this.mMainCamera.setupViewProjection();
+    this.wall.draw(this.mMainCamera);
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     this.mCollisions = [];
 };

@@ -109,15 +109,12 @@ Hero.prototype.update = function () {
         this.setArrowSelection(ArrowSet.eArrowType.eIceArrow);
     }
     if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
-<<<<<<< HEAD
         var arrow = new FireArrow(
             xform.getPosition(),
             this.mArrowVector.getPower(),
             this.mArrowVector.getDegrees()
         );
-=======
         var arrow = this.generateArrow();
->>>>>>> 62b03c37c750c072b85835ee86e85dccc93f2b1a
         if (this.mArrowSet.addToSet(arrow)) {
             this.mPhysicsSetRef.addToSet(arrow);
         }
