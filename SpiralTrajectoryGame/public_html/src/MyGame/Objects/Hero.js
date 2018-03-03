@@ -7,7 +7,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform */
+ *       Platform, ArrowSet */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -21,9 +21,6 @@ function Hero(spriteTexture, physicsReference, cameraRef) {
     this.mArcher.setElementPixelPositions(93, 403, 97, 440);
     GameObject.call(this, this.mArcher);
     
-    // ArrowVector
-    this.cArrowVectorMaxLength = 30;
-    
     // Physics
     var r = new RigidRectangle(
         this.getXform(),
@@ -34,15 +31,11 @@ function Hero(spriteTexture, physicsReference, cameraRef) {
     r.setRestitution(1);
     r.setFriction(1);  
     this.setRigidBody(r);
-    // Specific collision ignoring.
-    //this.toggleDrawRigidShape();
     
     this.mPhysicsSetRef = physicsReference;
     
     // ArrowVector is our "firing" mechanism, need a single instance.
-    this.mArrowVector = new ArrowVector(
-        this.cArrowVectorMaxLength, 
-        cameraRef);
+    this.mArrowVector = new ArrowVector(cameraRef);
     
     this.mArrowSet = new ArrowSet();
     
@@ -50,9 +43,17 @@ function Hero(spriteTexture, physicsReference, cameraRef) {
     this.mUpdatesSinceClip = 0;
     this.mJumpCount = 0;
     this.mMaxJumps = 2;
+    this.mArrowSelection = ArrowSet.eArrowType.eDefaultArrow;
 };
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
+Hero.prototype.setArrowSelection = function(type) {
+    this.mArrowSelection = type;
+};
+
+Hero.prototype.getArrowSelection = function() {
+    return this.mArrowSelection;
+};
 Hero.prototype.draw = function(aCamera) {
     GameObject.prototype.draw.call(this, aCamera);
     //super.draw(aCamera);
@@ -96,28 +97,62 @@ Hero.prototype.update = function () {
     }
     
     this.mArrowVector.update();
+    
+    // Arrow selction
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
+        this.setArrowSelection(ArrowSet.eArrowType.eDefaultArrow);
+    }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {
+        this.setArrowSelection(ArrowSet.eArrowType.eFireArrow);
+    }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {
+        this.setArrowSelection(ArrowSet.eArrowType.eIceArrow);
+    }
     if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
-        var arrow = new Arrow(
-            xform.getPosition(),
-            this.mArrowVector.getPower(),
-            this.mArrowVector.getDegrees()
-        );
+        var arrow = this.generateArrow();
         if (this.mArrowSet.addToSet(arrow)) {
             this.mPhysicsSetRef.addToSet(arrow);
         }
     }
     
     // Firing modes, should be moved to the Hero class as well.
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M)) {
         this.mArrowVector.setFireMode(ArrowVectoWr.eFiringModes.eTailControl);
     }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.N)) {
         this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eHeadControl);
     }
     
     this.mArrowSet.update();
     this.mRigidBody.setAngularVelocity(0);
     this.mRigidBody.update();
+};
+
+Hero.prototype.generateArrow = function() {
+    var arrow;
+    var type = this.getArrowSelection();
+    if (type == ArrowSet.eArrowType.eFireArrow) {
+        arrow = new FireArrow(
+            this.getXform().getPosition(),
+            this.mArrowVector.getPower(),
+            this.mArrowVector.getDegrees()
+        );
+    }
+    else if (type == ArrowSet.eArrowType.eIceArrow) {
+        arrow = new IceArrow(
+            this.getXform().getPosition(),
+            this.mArrowVector.getPower(),
+            this.mArrowVector.getDegrees()
+        );
+    }
+    else {
+        arrow = new Arrow(
+            this.getXform().getPosition(),
+            this.mArrowVector.getPower(),
+            this.mArrowVector.getDegrees()
+        );
+    }
+    return arrow;
 };
 
 // Ignores collision with platform objects when the S key is pressed or

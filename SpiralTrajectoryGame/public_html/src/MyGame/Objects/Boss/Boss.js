@@ -6,7 +6,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, GameObject, SpriteRenderable */
+/*global gEngine, GameObject, SpriteRenderable, vec2, Arrow, Platform */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -208,7 +208,7 @@ Boss.prototype._serviceChase = function(hero) {
 
 Boss.prototype._serviceDying = function() {
     //dying...
-    if(this.mGolem.mCurrentElm == this.mGolem.mNumElems - 1) {
+    if(this.mGolem.mCurrentElm === this.mGolem.mNumElems - 1) {
         this.mDead = true;
     }
 };
