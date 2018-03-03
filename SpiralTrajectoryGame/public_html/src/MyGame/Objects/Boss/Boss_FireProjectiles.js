@@ -42,7 +42,7 @@ Boss.prototype._fireProjectilesInit = function(projectileSprite) {
   this.mBurstDelayFrame = 0;    //current frame waiting for next burst
   
 
-  
+  this.mProjPrint = true;
   this.bossProjSet = new GameObjectSet();
   this.mFireProjState = Boss.eFireProjState.eWarmupState;
 };
@@ -101,6 +101,9 @@ Boss.prototype._serviceFireProjBurstState = function() {
                 this.mFireProjState = Boss.eFireProjState.eWarmupState;
                 this.mCurrentState = Boss.eBossState.eChaseState;
                 console.log("moving to chase state");
+                
+                //for testing
+                this.mProjPrint = true;
                 return;
             }
             else {  //otherwise
@@ -127,11 +130,12 @@ Boss.prototype._serviceFireProjDelayState = function() {
     }
         
     this.mBurstDelayFrame++;
-}
+};
 
 
 Boss.prototype._fireProjectile = function() {
     console.log("Firing Projectile!");
-    var newProjectile = new BossProjectile(this.kProjSprite, this.mHero, this.getXform().getPosition(), 0);
+    var newProjectile = new BossProjectile(this.kProjSprite, this.mHero, this.getXform().getPosition(), vec2.fromValues(0, 1), this.mProjPrint);
+    this.mProjPrint = false;
     this.bossProjSet.addToSet(newProjectile);
-}
+};
