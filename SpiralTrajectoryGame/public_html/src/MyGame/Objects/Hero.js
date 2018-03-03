@@ -95,7 +95,7 @@ Hero.prototype.update = function () {
     
     this.mArrowVector.update();
     if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
-        var arrow = new Arrow(
+        var arrow = new FireArrow(
             xform.getPosition(),
             this.mArrowVector.getPower(),
             this.mArrowVector.getDegrees()
