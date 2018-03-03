@@ -47,6 +47,64 @@ var FireArrow = function(position,power,degree) {
     this.getRigidBody().setVelocity(x*this.power* this.kBasePower, y*this.power* this.kBasePower);
     // Specific collision ignoring.
     //this.toggleDrawRigidShape();
+    
+    this.mParticles = new ParticleGameObjectSet();
 };
 
 gEngine.Core.inheritPrototype(FireArrow, Arrow);
+
+FireArrow.prototype.draw = function (camera) {
+    if (this.mParticles !== null) {
+        this.mParticles.draw(camera);
+    }
+    Arrow.prototype.draw.call(this, camera);
+};
+
+FireArrow.prototype.update = function() {
+    Arrow.prototype.update.call(this);
+    if (Math.random() < .3 && this.getCollided() == false) {
+        this.mParticles.addEmitterAt(
+            this.getXform().getPosition(),
+            1,
+            this.createParticle,
+            this.type
+            );  
+    }
+
+    this.mParticles.update();
+
+};
+
+FireArrow.prototype.createParticle = function (x, y) {
+    var life;
+    if (this.mTimeLimit - this.mTimeSinceSpawn < 180) {
+        life = this.mTimeLimit - this.mTimeSinceSpawn;
+    }
+    else {
+        life = 30 + 60*Math.random();
+    }
+    var p = new ParticleGameObject(
+        Config.BossBattle.Textures.FlameParticleTexture, 
+        x, 
+        y, 
+        life
+    );
+    p.getRenderable().setColor([1, .5, .4, .3]);
+    
+    // size of the particle
+    var r = .5 + Math.random()*2;
+    p.getXform().setSize(r, r);
+
+    p.setFinalColor([1, 1, 1, 1]);
+    
+    var vx = 5 - 10*Math.random();
+    var vy = 20 - 40*Math.random();
+
+    p.getParticle().setVelocity([vx, vy]);
+    p.setSizeDelta(1);
+    p.getParticle().setDrag(.98);
+
+    //p.getParticle().setAcceleration([0, -80]);
+    
+    return p;
+};
