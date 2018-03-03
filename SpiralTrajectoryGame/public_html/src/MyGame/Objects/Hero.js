@@ -109,6 +109,11 @@ Hero.prototype.update = function () {
         this.setArrowSelection(ArrowSet.eArrowType.eIceArrow);
     }
     if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
+        var arrow = new FireArrow(
+            xform.getPosition(),
+            this.mArrowVector.getPower(),
+            this.mArrowVector.getDegrees()
+        );
         var arrow = this.generateArrow();
         if (this.mArrowSet.addToSet(arrow)) {
             this.mPhysicsSetRef.addToSet(arrow);
@@ -176,8 +181,9 @@ Hero.prototype.userCollisionHandling = function (obj) {
         // that we're still here means we DO want to ignore it.
         return true;
     }
-    
-    this.mJumpCount = 0;
+    if (!(obj instanceof Arrow)) {
+        this.mJumpCount = 0;
+    }
     
      return false;
 };

@@ -22,6 +22,18 @@ https://opengameart.org/content/iron-torches
 bricks
 https://opengameart.org/content/wall-of-large-bricks
 
+Moon
+https://www.pexels.com/photo/astronomy-cloud-clouds-cosmos-239107/
+
+rocks
+https://opengameart.org/content/rock-pile
+
+castle tile set
+https://opengameart.org/content/pixel-art-castle-tileset
+
+castle props
+https://opengameart.org/content/2d-castle-platformer-assets-2
+
 normal map tool
 http://cpetry.github.io/NormalMap-Online/
 

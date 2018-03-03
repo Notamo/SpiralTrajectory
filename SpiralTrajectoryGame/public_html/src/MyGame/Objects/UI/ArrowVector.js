@@ -97,7 +97,8 @@ class ArrowVector {
         var pos2 = this.getEndPoint();
         var opp = pos1[1] - pos2[1];
         var adj = pos1[0] - pos2[0];
-        var angle = Math.acos(adj/this._getDistance());
+        // fix for division by zero when arrow is created with a zero vector
+        var angle = Math.acos(adj/(this._getDistance() +.00001));
         if (opp < 0) {
             angle *= -1;
         }

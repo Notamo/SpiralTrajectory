@@ -7,7 +7,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle, Arrow
- *       Platform */
+ *       Platform, Config */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -45,8 +45,66 @@ var IceArrow = function(position,power,degree) {
     x=Math.cos(x);
     y=Math.sin(y);
     this.getRigidBody().setVelocity(x*this.power* this.kBasePower, y*this.power* this.kBasePower);
+    
+    this.mParticles = new ParticleGameObjectSet();
+    
     // Specific collision ignoring.
     //this.toggleDrawRigidShape();
 };
 
 gEngine.Core.inheritPrototype(IceArrow, Arrow);
+
+IceArrow.prototype.draw = function (camera) {
+    if (this.mParticles !== null) {
+        this.mParticles.draw(camera);
+    }
+    Arrow.prototype.draw.call(this, camera);
+};
+
+IceArrow.prototype.update = function() {
+    Arrow.prototype.update.call(this);
+    if (this.mTimeSinceSpawn%10 == 8 && Math.random() < .8 && this.getCollided() == false) {
+        this.mParticles.addEmitterAt(
+            this.getXform().getPosition(),
+            1,
+            this.createParticle,
+            this.type
+            );  
+    }
+
+    this.mParticles.update();
+
+};
+
+IceArrow.prototype.createParticle = function (x, y) {
+    var life;
+    if (this.mTimeLimit - this.mTimeSinceSpawn < 180) {
+        life = this.mTimeLimit - this.mTimeSinceSpawn;
+    }
+    else {
+        life = 180;
+    }
+    var p = new ParticleGameObject(
+        Config.BossBattle.Textures.SnowParticleTexture, 
+        x, 
+        y, 
+        life
+    );
+    p.getRenderable().setColor([.4, .5, 1, .3]);
+    
+    // size of the particle
+    var r = .5 + Math.random()*2;
+    p.getXform().setSize(r, r);
+
+    p.setFinalColor([1, 1, 1, 1]);
+    
+    var vx = 1 - 2*Math.random();
+
+    p.getParticle().setVelocity([vx, 0]);
+    p.setSizeDelta(1);
+    p.getParticle().setDrag(.98);
+
+    //p.getParticle().setAcceleration([0, -80]);
+    
+    return p;
+};
