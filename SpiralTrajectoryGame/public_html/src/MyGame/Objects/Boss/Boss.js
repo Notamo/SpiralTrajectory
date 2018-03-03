@@ -21,8 +21,9 @@ Boss.eBossState = Object.freeze({
     eDyingState: 6
 });
 
-function Boss(bossSprite, projectileSprite, hero) {
+function Boss(bossSprite, projectileSprite, physicsReference, hero) {
     this.kBossSprite = bossSprite;
+    this.mPhysicsSetRef = physicsReference;
     
     this.mGolem = new SpriteAnimateRenderable(this.kBossSprite);
     this.mGolem.setColor([1, 1, 1, 0]);
@@ -68,6 +69,7 @@ gEngine.Core.inheritPrototype(Boss, GameObject);
 
 Boss.prototype.draw = function (aCamera) {
     GameObject.prototype.draw.call(this, aCamera);
+    
     this.mGolem.draw(aCamera);
     this._drawProjectiles(aCamera);
 };

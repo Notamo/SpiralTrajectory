@@ -58,7 +58,11 @@ BossBattle.prototype.initialize = function () {
     );
     this.mPhysicsGameObjects.addToSet(this.mHero);
 
-    this.mBoss = new Boss(Config.BossBattle.Textures.BossSprite, Config.BossBattle.Textures.BossProjectileSprite, this.mHero);
+    this.mBoss = new Boss(
+        Config.BossBattle.Textures.BossSprite,
+        Config.BossBattle.Textures.BossProjectileSprite, 
+        this.mPhysicsGameObjects,
+        this.mHero);
     this.mPhysicsGameObjects.addToSet(this.mBoss);
     
     this.buildLevel();

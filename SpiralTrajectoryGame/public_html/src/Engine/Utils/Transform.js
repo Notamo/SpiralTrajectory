@@ -202,6 +202,20 @@ Transform.prototype.setOrientation = function (orientation) {
 };
 
 /**
+ * Changes the sign of the width value
+ * @memberOf Transform
+ * @returns {Number} Orientation of the transform
+ */
+Transform.prototype.getOrientation = function() {
+  if(this.mFlipped === false){
+      return 1;
+  }
+  else {
+      return -1;
+  }
+};
+
+/**
  * Increment Width of the Transform.
  * @memberOf Transform
  * @param {Number} delta to increment the width by.

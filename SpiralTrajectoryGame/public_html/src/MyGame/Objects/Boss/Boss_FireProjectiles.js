@@ -34,7 +34,7 @@ Boss.prototype._fireProjectilesInit = function(projectileSprite) {
   this.mShotCount = 0;          //the number of shots in the current burst
   
   //shots
-  this.kShotDelay = 10;         //frames between each shot
+  this.kShotDelay = 5;         //frames between each shot
   this.mShotDelayFrame = 0;     //curent frame waiting for next shot
   
   //Delay State
@@ -43,16 +43,16 @@ Boss.prototype._fireProjectilesInit = function(projectileSprite) {
   
 
   this.mProjPrint = true;
-  this.bossProjSet = new GameObjectSet();
+  this.mBossProjSet = new GameObjectSet();
   this.mFireProjState = Boss.eFireProjState.eWarmupState;
 };
 
 Boss.prototype._drawProjectiles = function(aCamera) {
-    this.bossProjSet.draw(aCamera);
+    this.mBossProjSet.draw(aCamera);
 };
 
 Boss.prototype._updateProjectiles = function() {
-    this.bossProjSet.update();
+    this.mBossProjSet.update();
     //if(this.bossProjSet.size() > 0)
       //  console.log(this.bossProjSet.size() + " Boss Projectiles");
 }
@@ -135,7 +135,12 @@ Boss.prototype._serviceFireProjDelayState = function() {
 
 Boss.prototype._fireProjectile = function() {
     console.log("Firing Projectile!");
-    var newProjectile = new BossProjectile(this.kProjSprite, this.mHero, this.getXform().getPosition(), vec2.fromValues(0, 1), this.mProjPrint);
+    var p = vec2.fromValues(this.getXform().getOrientation() * 5, 12);
+    vec2.add(p, p, this.getXform().getPosition());
+    var newProjectile = new BossProjectile(this.kProjSprite, this.mHero, p, vec2.fromValues(-this.getXform().getOrientation(), 1), 100);
     this.mProjPrint = false;
-    this.bossProjSet.addToSet(newProjectile);
+    
+    this.mBossProjSet.addToSet(newProjectile)
+    this.mPhysicsSetRef.addToSet(newProjectile);
+
 };
