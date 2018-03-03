@@ -186,10 +186,10 @@ gEngine.Physics = (function () {
                                 if (vec2.dot(iToj, info.getNormal()) < 0) {
                                     info.changeDir();
                                 } 
-                                // infoSet.push(info);
-                                positionalCorrection(objI, objJ, info);                   
+                                //infoSet.push(info);
+                                positionalCorrection(objI, objJ, info);
                                 resolveCollision(objI, objJ, info);
-                                // info = new CollisionInfo();
+                                //info = new CollisionInfo();
                             }
                         }
                     }

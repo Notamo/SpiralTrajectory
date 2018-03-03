@@ -64,7 +64,7 @@ Config.Golem = Object.freeze({
         }
     },
     Properties: {
-        StartingHP: 1000,
+        StartingHP: 10000,
         Color:  [1, 1, 1, 0],
         Physics: {
             Mass:           0,

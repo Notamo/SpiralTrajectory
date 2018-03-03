@@ -5,12 +5,12 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, Arrow, ParticleGameObjectSet, Config  */
+ *       Platform, Arrow, ParticleGameObjectSet, Config, Golem  */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
 
-function Torch(spriteTexture, x, y, w, h, torchType) {
+function Torch(spriteTexture, x, y, w, h, torchType, golem) {
     this.type = torchType;
     this.mTorch = new SpriteRenderable(spriteTexture);
     this.mTorch.setColor(Config.Torch[this.type].Color);
@@ -30,6 +30,9 @@ function Torch(spriteTexture, x, y, w, h, torchType) {
     this.mParticles = new ParticleGameObjectSet();
     
     this.kTorchLife = 1200;
+    if (golem instanceof Golem) {
+        golem.addTorchRef(this);
+    }
 }
 gEngine.Core.inheritPrototype(Torch, GameObject);
 
@@ -153,4 +156,16 @@ Torch.prototype.draw = function (camera) {
 
 Torch.prototype.isLit = function() {
     return this.lit;
+};
+
+Torch.prototype.getBoost = function() {
+    if (this.lit === false) {
+        return 0.0;
+    }
+    
+    if (this.litTimer / this.kTorchLife < 0.5) {
+        return 1.0;
+    }
+    
+    return (1.0 - (this.litTimer / this.kTorchLife)) * 2;
 };
