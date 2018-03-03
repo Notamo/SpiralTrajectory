@@ -115,10 +115,8 @@ Config.BossBattle = Object.freeze({
     ],
     Background: [
         {
-            X:      0,
-            Y:      450,
-            Width:  100,
-            Height: 100
+            Width:  40,
+            Height: 40
         }
     ]
 });
