@@ -36,7 +36,7 @@ Config.BossBattle = Object.freeze({
         SpawnPosition: {
             X:  175,
             Y:  20
-        }
+        },
         Size: {
             Width:  78,
             Height: 51
