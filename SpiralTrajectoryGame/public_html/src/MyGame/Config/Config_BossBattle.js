@@ -32,6 +32,16 @@ Config.BossBattle = Object.freeze({
         MainCameraInterpStiffness:      0.2,
         MainCameraInterpDuration:       30
     },
+    Boss: {
+        SpawnPosition: {
+            X:  175,
+            Y:  20
+        }
+        Size: {
+            Width:  78,
+            Height: 51
+        }
+    },
     Torches: {
         Ground: [
             {
