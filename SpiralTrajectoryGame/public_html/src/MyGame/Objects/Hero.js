@@ -181,8 +181,9 @@ Hero.prototype.userCollisionHandling = function (obj) {
         // that we're still here means we DO want to ignore it.
         return true;
     }
-    
-    this.mJumpCount = 0;
+    if (!(obj instanceof Arrow)) {
+        this.mJumpCount = 0;
+    }
     
      return false;
 };
