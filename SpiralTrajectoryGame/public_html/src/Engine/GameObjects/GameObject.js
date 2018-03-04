@@ -103,18 +103,10 @@ GameObject.prototype.toggleDrawRigidShape = function() {
 
 GameObject.prototype.update = function () {
     // simple default behavior
-    if (this.mRigidBody !== null)
+    if (this.mRigidBody !== null){
             this.mRigidBody.update();
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.T)) {
-        this.toggleDrawRenderable();
     }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
-        if (this.mRigidBody !== null)
-            this.mRigidBody.toggleDrawBound();
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
-        this.toggleDrawRigidShape();
-    }
+    
 };
 
 GameObject.prototype.draw = function (aCamera) {
