@@ -21,24 +21,6 @@ function ParticleGameObjectSet() {
 }
 gEngine.Core.inheritPrototype(ParticleGameObjectSet, GameObjectSet);
 
-
-/**
- * Return the count of ParticleEmitters in set
- * @returns {Number} count of ParticleEmitters in set
- * @memberOf ParticleGameObjectSet
- */
-//ParticleGameObjectSet.prototype.size = function() { return this.mEmitterSet.length; };
-
-/**
- * Return the ParticleEmitter at index
- * @param {Number} index of ParticleEmitter to return
- * @returns {GameObject}
- * @memberOf GameObjectSet
- */
-/*ParticleGameObjectSet.prototype.getObjectAt = function (index) {
-    return this.mEmitterSet[index];
-};*/
-
 /**
  * the function to call to generate particles
  * @param {vec2} p Position of Emitter in WC space
