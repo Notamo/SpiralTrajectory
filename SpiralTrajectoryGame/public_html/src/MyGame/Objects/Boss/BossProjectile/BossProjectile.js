@@ -52,23 +52,35 @@ function BossProjectile(projectileSprite, hero, launchPos, launchDir, launchSpee
     //Projectile speed controls
     //assumed linear ramp for now
     this.kMinSpeed = 10;
-    this.kMaxSpeed = 100;
+    this.kMaxSpeed = 20;
     this.mSpeedSlope = (this.kMaxSpeed - this.kMinSpeed) / (this.kLifespan * 60);
     this.mCurSpeed = this.kMinSpeed;
     
+    
+    //Explode State
+    this.mExplodeParticles = new ParticleGameObjectSet();
 
     //Set initial velocity
     this.getRigidBody().setVelocity(launchDir[0] * launchSpeed, launchDir[1] * launchSpeed);
-    this.getRigidBody().setAngularVelocity(3);
+    //this.getRigidBody().setAngularVelocity(3);
     this.mCurState = BossProjectile.eProjState.eLaunchState;
     
 };
 
 gEngine.Core.inheritPrototype(BossProjectile, GameObject);
 
+BossProjectile.prototype.draw = function(aCamera) {
+    if(this.mExplodeParticles !== null) { 
+        this.mExplodeParticles.draw(aCamera);
+    }
+    
+    if(this.mCurState !== BossProjectile.eProjState.eExplodeState)
+        GameObject.prototype.draw.call(this, aCamera);
+};
+
 BossProjectile.prototype.update = function()
 {   
-    GameObject.prototype.update.call(this);
+    this.mExplodeParticles.update();
     
     switch(this.mCurState) {
         case BossProjectile.eProjState.eLaunchState:
@@ -81,6 +93,11 @@ BossProjectile.prototype.update = function()
             this._serviceExplode();
             break;
     };
+    
+    if(this.mCurState !== BossProjectile.eProjState.eExplodeState)
+        GameObject.prototype.update.call(this);
+    
+    
 };
 
 //Do an initial Launch
@@ -112,14 +129,21 @@ BossProjectile.prototype._serviceChase = function() {
     this._updateVelocity();
     
     if(this.mTimeAlive >= this.kLifespan) {
-        this.mExpired = true;
+        this._explode();
     }
     this.mTimeAlive += (1/60);
 };
 
 //particle effects, and then expire
 BossProjectile.prototype._serviceExplode = function() {
-    this.mExpired = true;
+    if(this.mExplodeParticles.size() === 0) {
+       this.mExpired = true;
+       console.log("dead");
+   }
+   else
+   {
+       //console.log("not dead");
+   }
 };
 
 BossProjectile.prototype.userCollisionHandling = function(obj) {
@@ -138,24 +162,37 @@ BossProjectile.prototype.userCollisionHandling = function(obj) {
             break;
         case BossProjectile.eProjState.eChaseState:
             if(obj instanceof Platform) {
-                this.mCurState = BossProjectile.eProjState.eExplodeState;
+                this._explode();
                 return true;
             }
 
             if(obj instanceof Terrain) {
-                this.mCurState = BossProjectile.eProjState.eExplodeState;
+                this._explode();
                 return true;
             }
 
             if(obj instanceof Hero) {
-                this.mCurState = BossProjectile.eProjState.eExplodeState;
+                this._explode();
+                //damage the hero?
                 return true;
             }
+            
             break;
         case BossProjectile.eProjState.eExplodeState:
+            return false;
             break;   
     }
     return false;
+};
+
+BossProjectile.prototype._explode = function() {
+    this.mExplodeParticles.addEmitterAt(
+            this.getXform().getPosition(),
+            1,
+            this.createParticle,
+            this.type
+    );
+    this.mCurState = BossProjectile.eProjState.eExplodeState;
 };
 
 //_updateVelocity
@@ -190,4 +227,32 @@ BossProjectile.prototype._updateVelocity = function() {
     vec2.normalize(curDirection, curDirection);
     vec2.rotate(newDir, curDirection, theta);
     this.getRigidBody().setVelocity(newDir[0] * this.mCurSpeed, newDir[1] * this.mCurSpeed);
+};
+
+BossProjectile.prototype.createParticle = function(x, y) {
+    
+    var life = 1000;//30 + 60 * Math.random();
+    var p = new ParticleGameObject(
+          Config.BossBattle.Textures.TorchParticleTexture,
+            x,
+            y,
+            life
+    );
+    console.log(p.mCyclesToLive + "cycles");
+    p.getRenderable().setColor([1, 0, 0, .3]);
+    p.setFinalColor([0, 0, 1, 1]);
+    
+    //particle size
+    var r = 5 + Math.random() * 10;
+    p.getXform().setSize(r, r);
+    
+    var vx = 1 - 2*Math.random();
+    var vy = Math.random();
+    
+    p.getParticle().setVelocity([vx, vy]);
+    p.setSizeDelta(0);
+    p.getParticle().setDrag(.98);
+    
+    
+    return p;
 };

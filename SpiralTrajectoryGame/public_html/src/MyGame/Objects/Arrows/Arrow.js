@@ -100,7 +100,6 @@ Arrow.prototype.userCollisionHandling = function(obj){
     }
     if (obj instanceof Boss && this.mCollided) {
         return true;
-        
     }
     if (obj instanceof Torch) {
         return true;
