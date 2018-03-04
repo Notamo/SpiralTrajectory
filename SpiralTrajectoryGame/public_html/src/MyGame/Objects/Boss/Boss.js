@@ -21,7 +21,7 @@ Boss.eBossState = Object.freeze({
     eDyingState: 6
 });
 
-function Boss(bossSprite, projectileSprite, physicsReference, hero) {
+function Boss(bossSprite, projectileSprite, physicsReference, mainCam, hero) {
     this.kBossSprite = bossSprite;
     this.mPhysicsSetRef = physicsReference;
     
@@ -44,6 +44,9 @@ function Boss(bossSprite, projectileSprite, physicsReference, hero) {
     r.setFriction(.2);  
     this.setRigidBody(r);
     //athis.toggleDrawRigidShape();
+    
+    //for camera shake on smash
+    this.mMainCam = mainCam;
     
     //the hero
     this.mHero = hero;
@@ -95,6 +98,14 @@ Boss.prototype.update = function () {
             this._serviceDying(this.mHero);
             break;
     }
+    
+    //Camera shake on smash
+    /*if(this.mSmashCamShake !== null) {
+        this.mSmashCamShake.updateShakeState();
+        
+        if(this.mSmashCamShake.shakeDone())
+            this.mSmashCamShake = null;
+    }*/
     
     this._updateProjectiles();
     

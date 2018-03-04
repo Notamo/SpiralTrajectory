@@ -63,6 +63,7 @@ BossBattle.prototype.initialize = function () {
         Config.BossBattle.Textures.BossSprite,
         Config.BossBattle.Textures.BossProjectileSprite, 
         this.mPhysicsGameObjects,
+        this.mMainCamera,
         this.mHero);
     this.mPhysicsGameObjects.addToSet(this.mBoss);
     

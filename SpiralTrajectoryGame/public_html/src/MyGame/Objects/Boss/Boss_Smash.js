@@ -16,13 +16,17 @@ Boss.eSmashState = Object.freeze({
 Boss.prototype._smashStateInit = function() {    
     this.kSmashRange = 30;              //how close the player needs to be
     
+    
     this.kSmashCooldownLength = 1;      //time before the boss can smash again
     this.kSmashChargeLength = .25;
     this.kLaunchMag = 100;
     
     this.mSmashCooldown = 0;
     this.mChargeTimer = this.kSmashChargeLength;
+    this.mSmashTellColor = [1, 0, 0, .125];
     this.mSmashTimer = this.kSmashLength;
+    
+    this.mSmashCamShake = null;
     
     this.mCurrentSmashState = Boss.eSmashState.eWindupState;
 };
@@ -54,7 +58,7 @@ Boss.prototype._serviceSmashWindup = function(hero) {
 Boss.prototype._serviceSmashCharge = function(hero) {
     
     //color interpolation goes here
-    this.mGolem.setColor([1, 0, 0, .125]);
+    this.mGolem.setColor(this.mSmashTellColor);
     //timer management
     if(this.mChargeTimer <= 0) {
         this.mCurrentSmashState = Boss.eSmashState.eSwingState;
@@ -77,6 +81,9 @@ Boss.prototype._serviceSmashDrop = function(hero) {
             else
                 hero.getRigidBody().setVelocity(this.kLaunchMag, this.kLaunchMag);
         }
+        
+        //shake the camera!
+        this.mMainCam.shake(1, 5, 2, 20);
         
         this.mGolem.setColor([1, 1, 1, 0]);
         this._setupAnimation(Boss.eBossAnim.eIdleAnim, true);
