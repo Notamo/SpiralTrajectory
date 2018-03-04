@@ -25,7 +25,7 @@ Golem.prototype._buildRigidbodies = function() {
             this,
             Config.Golem.Rigidbodies[rbody].XOffset,
             Config.Golem.Rigidbodies[rbody].YOffset,
-            Config.Golem.Rigidbodies[rbody].Type.call()
+            Config.Golem.Rigidbodies[rbody].DamageMultiplier
         );
         temp.getXform().setPosition(
             this.mGolem.getXform().getXPos() + Config.Golem.Rigidbodies[rbody].XOffset,
@@ -64,7 +64,7 @@ Golem.prototype._buildRigidbodies = function() {
         r.setRestitution(Config.Golem.Rigidbodies[rbody].Physics.Restitution);
         r.setFriction(Config.Golem.Rigidbodies[rbody].Physics.Friction);
         temp.setRigidBody(r);
-        temp.toggleDrawRigidShape();
+        //temp.toggleDrawRigidShape();
         this.mPhysicsSetRef.addToSet(temp);
         this.mRigidSet.insert(Config.Golem.Rigidbodies[rbody].Name, temp);
     }
@@ -90,11 +90,11 @@ Golem.prototype.switchDirection = function () {
     switch (this.mFacing) {
         case Config.Golem.States.FacingLeft:
             this.mFacing = Config.Golem.States.FacingRight;
-            this.getXform().setOrientation(-1);
+            this.getXform().setOrientation(Config.Golem.States.FacingRight);
             break;
         case Config.Golem.States.FacingRight:
             this.mFacing = Config.Golem.States.FacingLeft;
-            this.getXform().setOrientation(1);
+            this.getXform().setOrientation(Config.Golem.States.FacingLeft);
             break;
     }
 };

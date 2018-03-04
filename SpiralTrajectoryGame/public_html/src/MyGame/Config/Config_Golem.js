@@ -26,13 +26,14 @@ Config.Golem = Object.freeze({
                 Duration: 60,
                 XOffset: 2,
                 YOffset: 60,
-                Interval: 10000
+                Interval: 5000
             },
             ProjectileFiringInterval:   1000,
             ChanceToChaseHeroYPos:  0.01,
             MaxHeight: 120,
             MinHeight: 20,
-            MaxNonChaseXDistance: 85
+            MaxNonChaseXDistance: 85,
+            MinXDistance: 15
         },
         Smashing: {
             
@@ -44,13 +45,18 @@ Config.Golem = Object.freeze({
             
         },
         Dying: {
-            
+            Interpolation: {
+                Stiffness: 1,
+                Duration: 1,
+                XOffset: 0,
+                YOffset: 0
+            }
         },
         Dead: {
             
         },
-        FacingLeft: 0,
-        FacingRight: 1
+        FacingLeft: 1,
+        FacingRight: -1
     },
     Animations: {
         Spawn: {
@@ -101,7 +107,7 @@ Config.Golem = Object.freeze({
             Count:      7,
             Padding:    0,
             Type:       function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateRight; },
-            Speed:      4
+            Speed:      6
         }
     },
     Properties: {
@@ -125,6 +131,7 @@ Config.Golem = Object.freeze({
             YOffset:            19.4,
             WidthMultiplier:    0.2,
             HeightMultiplier:   0.13,
+            DamageMultiplier:   2.0,
             Physics: {
                 Mass:           0,
                 Restitution:    1,
@@ -138,6 +145,7 @@ Config.Golem = Object.freeze({
             YOffset:            5.5,
             WidthMultiplier:    0.23,
             HeightMultiplier:   0.44,
+            DamageMultiplier:   1.0,
             Physics: {
                 Mass:           0,
                 Restitution:    1,
@@ -151,6 +159,7 @@ Config.Golem = Object.freeze({
             YOffset:            8.5,
             WidthMultiplier:    0.15,
             HeightMultiplier:   0.3,
+            DamageMultiplier:   1.0,
             Physics: {
                 Mass:           0,
                 Restitution:    1,
@@ -165,6 +174,7 @@ Config.Golem = Object.freeze({
             WidthMultiplier:    1,
             HeightMultiplier:   1,
             Radius:             8.8,
+            DamageMultiplier:   1.0,
             Physics: {
                 Mass:           0,
                 Restitution:    0,
@@ -179,6 +189,7 @@ Config.Golem = Object.freeze({
             WidthMultiplier:    1,
             HeightMultiplier:   1,
             Radius:             8.8,
+            DamageMultiplier:   1.0,
             Physics: {
                 Mass:           0,
                 Restitution:    0,
@@ -193,6 +204,7 @@ Config.Golem = Object.freeze({
             WidthMultiplier:    1,
             HeightMultiplier:   1,
             Radius:             8,
+            DamageMultiplier:   1.0,
             Physics: {
                 Mass:           0,
                 Restitution:    0,
@@ -207,6 +219,7 @@ Config.Golem = Object.freeze({
             WidthMultiplier:    1,
             HeightMultiplier:   1,
             Radius:             6,
+            DamageMultiplier:   1.0,
             Physics: {
                 Mass:           0,
                 Restitution:    0,
@@ -221,6 +234,7 @@ Config.Golem = Object.freeze({
             WidthMultiplier:    1,
             HeightMultiplier:   1,
             Radius:             8,
+            DamageMultiplier:   1.0,
             Physics: {
                 Mass:           0,
                 Restitution:    0,
@@ -235,6 +249,7 @@ Config.Golem = Object.freeze({
             WidthMultiplier:    1,
             HeightMultiplier:   1,
             Radius:             4,
+            DamageMultiplier:   1.0,
             Physics: {
                 Mass:           0,
                 Restitution:    0,

@@ -25,8 +25,8 @@ GolemEmptyGameObject.prototype.userCollisionHandling = function (other) {
     
     if (other instanceof Arrow) { 
         if (other.getCollided() === false) {
-        this.mParent.hit(other.getDamage());
-    }
+            this.mParent.hit(other.getDamage() * this.mDamageMultiplier);
+        }
     }
     return false;
 };

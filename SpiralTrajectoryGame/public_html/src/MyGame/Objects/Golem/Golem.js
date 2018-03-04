@@ -31,6 +31,8 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef) {
     );
     GameObject.call(this, this.mGolem);
     
+    this.setVisibility(false);
+    
     // Interpolation
     this.mCenterX = new Interpolate(
         this.mGolem.getXform().getXPos(),

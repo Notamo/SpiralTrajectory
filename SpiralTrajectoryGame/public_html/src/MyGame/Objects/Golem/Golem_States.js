@@ -77,6 +77,15 @@ Golem.prototype._serviceSpawning = function () {
             this.mIgnoreCollision = true;
         }
         
+        this.mGolem.setColor(Config.Golem.Properties.Color);
+        this.mGolem.getXform().setPosition(
+            Config.BossBattle.Boss.SpawnPosition.X,
+            Config.BossBattle.Boss.SpawnPosition.Y
+        );
+        this.mGolem.getXform().setSize(
+            Config.BossBattle.Boss.Size.Width,
+            Config.BossBattle.Boss.Size.Height
+        );
         this.setVisibility(true);
         this._animate(Config.Golem.Animations.Spawn, true);
         this.mStateStartTime = Date.now();
@@ -109,10 +118,18 @@ Golem.prototype._serviceIdle = function () {
         this.mCurrentStateInitialized = true;
     } 
     
-    // Begin patrolling after the boss takes damaage or some time passes.
-    if (this.mCurrentHP < this.mMaxHP || 
+    // Transition to other states.
+    if (this.mCurrentHP <= 0) {
+        this.mCurrentState = Config.Golem.States.Dying;
+        this.mCurrentStateInitialized = false;
+    } else if (this.mCurrentHP < this.mMaxHP || 
         Date.now() >= this.mStateStartTime + Config.BossBattle.Boss.MaxTimeIdle) {
         this.mCurrentState = Config.Golem.States.Patrolling;
+        this.mCurrentStateInitialized = false;
+    }
+    
+    if (this.mCurrentHP <= 0) {
+        this.mCurrentState = Config.Golem.States.Dying;
         this.mCurrentStateInitialized = false;
     }
     
@@ -201,6 +218,10 @@ Golem.prototype._servicePatrolling = function () {
     }
 
     // Conditions to transition to other states.
+    if (this.mCurrentHP <= 0) {
+        this.mCurrentState = Config.Golem.States.Dying;
+        this.mCurrentStateInitialized = false;
+    }
     
     this.interpolate();
     this.mGolem.updateAnimation();
@@ -219,9 +240,62 @@ Golem.prototype._serviceRetreating = function () {
 };
 
 Golem.prototype._serviceDying = function () {
+    // Initialize state.
+    if (this.mCurrentStateInitialized === false) {
+        // We want collisions if the boss is idle
+        if (this.mIgnoreCollision === false) {
+            this.ignoreCollision();
+            this.mIgnoreCollision = true;
+        }
+        
+        this.setVisibility(true);
+        this._animate(Config.Golem.Animations.Death, true);
+        this.mCenterX.configInterpolation(
+            Config.Golem.States.Patrolling.Interpolation.Stiffness,
+            Config.Golem.States.Patrolling.Interpolation.Duration
+        );
+        this.mCenterY.configInterpolation(
+            Config.Golem.States.Patrolling.Interpolation.Stiffness,
+            Config.Golem.States.Patrolling.Interpolation.Duration
+        );
+        this.mStateStartTime = Date.now();
+        this.mMiscTracker = Date.now();
+        this.xOffset = Config.Golem.States.Patrolling.Interpolation.XOffset;
+        this.yOffset = Config.Golem.States.Patrolling.Interpolation.YOffset;
+        this.mCurrentStateInitialized = true;
+    }
     
+    // When death anim is complete we transition to the dead state.
+    if (this._animationComplete()) {
+        this.mCurrentState = Config.Golem.States.Dead;
+        this.mCurrentStateInitialized = false;
+    }
+    
+    this.mGolem.updateAnimation();
 };
 
 Golem.prototype._serviceDead = function () {
-    
+    // Initialize state.
+    if (this.mCurrentStateInitialized === false) {
+        // We want collisions if the boss is idle
+        if (this.mIgnoreCollision === false) {
+            this.ignoreCollision();
+            this.mIgnoreCollision = true;
+        }
+        
+        this.setVisibility(false);
+        this.mCenterX.configInterpolation(
+            Config.Golem.States.Patrolling.Interpolation.Stiffness,
+            Config.Golem.States.Patrolling.Interpolation.Duration
+        );
+        this.mCenterY.configInterpolation(
+            Config.Golem.States.Patrolling.Interpolation.Stiffness,
+            Config.Golem.States.Patrolling.Interpolation.Duration
+        );
+        this.mStateStartTime = Date.now();
+        this.mMiscTracker = Date.now();
+        this.xOffset = Config.Golem.States.Patrolling.Interpolation.XOffset;
+        this.yOffset = Config.Golem.States.Patrolling.Interpolation.YOffset;
+        this.mCurrentStateInitialized = true;
+    }
 };

@@ -55,7 +55,6 @@ Arrow.prototype.getTimeAlive = function () {
 };
 
 Arrow.prototype.update = function () {
-    
     this.mTimeSinceSpawn++;
     var xform = this.mArrow.getXform();
     var vel = this.getRigidBody().getVelocity();

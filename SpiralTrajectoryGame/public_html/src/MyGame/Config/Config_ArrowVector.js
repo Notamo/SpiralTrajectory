@@ -10,5 +10,5 @@
 var Config = Config || {};
 
 Config.ArrowVector = Object.freeze({
-    MaxLength: 60
+    MaxLength: 30
 });
