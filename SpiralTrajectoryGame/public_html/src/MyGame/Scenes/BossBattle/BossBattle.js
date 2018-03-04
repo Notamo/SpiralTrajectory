@@ -18,6 +18,9 @@ function BossBattle() {
     this.mNonPhysicsGameObjects = null;
     this.mHero = null;
     this.mBoss = null;
+    this.mBgL0 = null;
+    this.mBgL1 = null;
+    this.mFg = null;
     this.wall = null;
     this.mCollisions = [];
 }
@@ -69,14 +72,54 @@ BossBattle.prototype.initialize = function () {
     
     this.buildLevel();
     
+    this.initializeBackground();
+    
+    
+    
     this.wall = new TiledGameObject(new TextureRenderable(Config.BossBattle.Textures.TileBackgroundTexture));
     this.wall.getXform().setSize(Config.BossBattle.Background[0].Width, Config.BossBattle.Background[0].Height);
+};
+
+BossBattle.prototype.initializeBackground = function() {
+    var farBG = new IllumRenderable(Config.BossBattle.Textures.FarBackgroundTexture, Config.BossBattle.Textures.FarBackgroundNormal);
+    farBG.setElementPixelPositions(0, 1024, 0, 512);
+    farBG.getXform().setSize(400, 200);
+    farBG.getXform().setPosition(0, 0);
+    farBG.getMaterial().setSpecular([0.2, 0.1, 0.1, 1]);
+    farBG.getMaterial().setShininess(50);
+    farBG.getXform().setZPos(-10);
+    // Need a light
+    //farBG.addLight();   // only the directional light
+    this.mBgL0 = new ParallaxGameObject(farBG, 5, this.mMainCamera);
+    this.mBgL0.setCurrentFrontDir([0, -1, 0]);
+    this.mBgL0.setIsTiled(false);
+    
+    var midBG = new IllumRenderable(Config.BossBattle.Textures.MidBackgroundTexture, Config.BossBattle.Textures.MidBackgroundNormal);
+    midBG.setElementPixelPositions(0, 1024, 0, 512);
+    midBG.getXform().setSize(354, 178);
+    midBG.getXform().setPosition(148, 82);
+    midBG.getMaterial().setSpecular([0.2, 0.1, 0.1, 1]);
+    midBG.getMaterial().setShininess(50);
+    midBG.getXform().setZPos(-1);
+    // Need lights
+    //farBG.addLight();   
+    this.mBgL1 = new ParallaxGameObject(midBG , 1.01, this.mMainCamera);
+    this.mBgL1.setCurrentFrontDir([0, -1, 0]);
+    this.mBgL1.setIsTiled(false);
+    
+    
+        // add to layer managers ...
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mBgL0);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBgL1);
+   
+    //gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mFg);
 };
 
 BossBattle.prototype.draw = function () {
     gEngine.Core.clearCanvas(Config.Engine.Misc.CanvasClearColor);
     this.mMainCamera.setupViewProjection();
-    this.wall.draw(this.mMainCamera);
+    gEngine.LayerManager.drawAllLayers(this.mMainCamera);
+    //this.wall.draw(this.mMainCamera);
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     this.mCollisions = [];
 };
@@ -93,6 +136,8 @@ BossBattle.prototype.update = function () {
         this.mPhysicsGameObjects, 
         this.mCollisions
     );
+    
+    gEngine.LayerManager.updateAllLayers();
 
     this.updateMainCamera();
 };
