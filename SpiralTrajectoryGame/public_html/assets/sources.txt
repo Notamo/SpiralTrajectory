@@ -34,6 +34,9 @@ https://opengameart.org/content/pixel-art-castle-tileset
 castle props
 https://opengameart.org/content/2d-castle-platformer-assets-2
 
+boss projectile
+https://opengameart.org/content/colored-summoning-circles
+
 normal map tool
 http://cpetry.github.io/NormalMap-Online/
 
