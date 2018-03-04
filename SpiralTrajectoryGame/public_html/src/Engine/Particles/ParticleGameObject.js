@@ -63,6 +63,8 @@ ParticleGameObject.prototype.setSizeDelta = function(d) {
  * @memberOf ParticleGameObject
  */
 ParticleGameObject.prototype.hasExpired = function() {
+    //for testing
+    if(this.mCyclesToLive <= 0) console.log("expired!");
     return (this.mCyclesToLive < 0);
 };
 

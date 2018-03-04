@@ -190,7 +190,7 @@ BossProjectile.prototype._explode = function() {
             this.getXform().getPosition(),
             1,
             this.createParticle,
-            this.type
+            0
     );
     this.mCurState = BossProjectile.eProjState.eExplodeState;
 };
