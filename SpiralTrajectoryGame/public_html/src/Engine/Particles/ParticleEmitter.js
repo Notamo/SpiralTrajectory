@@ -31,7 +31,8 @@ function ParticleEmitter(pos, num, createrFunc, type) {
     this.mParticleCreator = createrFunc;
     
     this.type = type;
-}
+};
+
 ParticleEmitter.prototype.expired = function () { return (this.mNumRemains <= 0); };
 
 ParticleEmitter.prototype.emitParticles = function (pSet) {

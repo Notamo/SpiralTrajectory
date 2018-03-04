@@ -17,13 +17,21 @@ Config.BossBattle = Object.freeze({
         IceArrowSprite:         "assets/projectiles/icearrow.png",
         FireArrowSprite:        "assets/projectiles/firearrow.png",
         BossSprite:             "assets/characters/boss_sprites.png",
+        BossProjectileSprite:   "assets/projectiles/bossprojectile.png",
         PlatformTexture:        "assets/props/platform.png",
         GroundTexture:          "assets/props/platform.png",
         WallTexture:            "assets/wall.png",
         GroundTorchTexture:     "assets/props/torch1.png",
         TorchParticleTexture:   "assets/particles/particle.png",
         FlameParticleTexture:   "assets/particles/flameparticle.png",
-        SnowParticleTexture:    "assets/particles/snowparticle.png"
+        SnowParticleTexture:    "assets/particles/snowparticle.png",
+        TileBackgroundTexture:  "assets/background/backgroundtile.png",
+        FarBackgroundTexture:   "assets/background/backgroundfar.png",
+        FarBackgroundNormal:    "assets/background/normal/backgroundfar.png",
+        MidBackgroundTexture:   "assets/background/backgroundmid.png",
+        MidBackgroundNormal:    "assets/background/normal/backgroundmid.png",
+        ForegroundTexture:      "assets/background/foreground.png",
+        ForegroundNormal:       "assets/background/normal/foreground.png"
     },
     Cameras: {
         MainCameraStartingPosition:     vec2.fromValues(25, 1),
@@ -114,6 +122,12 @@ Config.BossBattle = Object.freeze({
             Y:      80,
             Width:  20,
             Height: 5
+        }
+    ],
+    Background: [
+        {
+            Width:  40,
+            Height: 40
         }
     ]
 });

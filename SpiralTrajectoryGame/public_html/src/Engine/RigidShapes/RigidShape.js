@@ -9,6 +9,7 @@ function RigidShape(xf) {
     this.mLine.setColor([1, 1, 1, 1]);
     
     this.mXform = xf;
+    this.mHasGravity = true;                                                    //added
     this.mAcceleration = gEngine.Physics.getSystemAcceleration();
     this.mVelocity = vec2.fromValues(0, 0);
     
@@ -31,10 +32,22 @@ RigidShape.prototype.getFriction = function() { return this.mFriction; };
 RigidShape.prototype.getRestitution = function() { return this.mRestitution; };
 RigidShape.prototype.getAngularVelocity = function() { return this.mAngularVelocity; };
 
+//Added to help with elements like projectiles
+RigidShape.prototype.setGravity = function(g) {
+  this.mHasGravity = g;
+  if(g === true) {
+      this.mAcceleration = gEngine.Physics.getSystemAcceleration();
+  } else {
+      this.mAcceleration = [0, 0];
+  }
+};
 RigidShape.prototype.setMass = function(m) { 
     if (m > 0) {
         this.mInvMass = 1 / m;
-        this.mAcceleration = gEngine.Physics.getSystemAcceleration();
+        if(this.mHasGravity)
+            this.mAcceleration = gEngine.Physics.getSystemAcceleration();
+        else
+            this.mAcceleration = [0, 0];
     } else {
         this.mInvMass = 0;
         this.mAcceleration = [0, 0];
@@ -90,7 +103,7 @@ RigidShape.prototype.travel = function() {
 
 RigidShape.prototype.adjustPositionBy = function(v, delta) {
     var p = this.mXform.getPosition();
-    vec2.scaleAndAdd(p, p, v, delta)
+    vec2.scaleAndAdd(p, p, v, delta);
 };
 
 var kRigidShapeDelta = 0.01;

@@ -17,11 +17,13 @@ Boss.eBossState = Object.freeze({
     eIdleState: 2,          //not doing anything, unaware of player
     eChaseState: 3,         //player too far to attack, chasing player
     eSmashState: 4,          //In range, Smash the player!
-    eDyingState: 5
+    eFireProjState: 5,
+    eDyingState: 6
 });
 
-function Boss(bossSprite, hero) {
+function Boss(bossSprite, projectileSprite, physicsReference, mainCam, hero) {
     this.kBossSprite = bossSprite;
+    this.mPhysicsSetRef = physicsReference;
     
     this.mGolem = new SpriteAnimateRenderable(this.kBossSprite);
     this.mGolem.setColor([1, 1, 1, 0]);
@@ -43,9 +45,11 @@ function Boss(bossSprite, hero) {
     this.setRigidBody(r);
     //athis.toggleDrawRigidShape();
     
+    //for camera shake on smash
+    this.mMainCam = mainCam;
+    
     //the hero
     this.mHero = hero;
-    
     this.mDead = false;
     this.kMaxHealth = 100;
     this.mCurrentHealth = this.kMaxHealth;
@@ -54,7 +58,13 @@ function Boss(bossSprite, hero) {
     this.mSpawnComplete = false;
     this.mAggroRange = 60;       //how close the player needs to be to aggro
     this.mChaseSpeed = .5;
+    
+    
+    this.kFireProjRange = 60;       //how far the player needs to be to go to projectile firing state
+    
+    //State Initialization
     this._smashStateInit();
+    this._fireProjectilesInit(projectileSprite);
 
     this.mCurrentState = Boss.eBossState.eSpawnState;
 }
@@ -62,7 +72,9 @@ gEngine.Core.inheritPrototype(Boss, GameObject);
 
 Boss.prototype.draw = function (aCamera) {
     GameObject.prototype.draw.call(this, aCamera);
+    
     this.mGolem.draw(aCamera);
+    this._drawProjectiles(aCamera);
 };
 
 Boss.prototype.update = function () {
@@ -79,10 +91,23 @@ Boss.prototype.update = function () {
         case Boss.eBossState.eSmashState:
             this._serviceSmash(this.mHero);
             break;
+        case Boss.eBossState.eFireProjState:
+            this._serviceFireProj();
+            break;
         case Boss.eBossState.eDyingState:
             this._serviceDying(this.mHero);
             break;
     }
+    
+    //Camera shake on smash
+    /*if(this.mSmashCamShake !== null) {
+        this.mSmashCamShake.updateShakeState();
+        
+        if(this.mSmashCamShake.shakeDone())
+            this.mSmashCamShake = null;
+    }*/
+    
+    this._updateProjectiles();
     
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.L)) {
         this.dealDamage(100);
@@ -148,19 +173,40 @@ Boss.prototype._serviceIdle = function(hero) {
 Boss.prototype._serviceChase = function(hero) {
     var heroPos = hero.getXform().getPosition();
     var bossPos = this.getXform().getPosition();
-
+    var heroBossDist = vec2.distance(bossPos, heroPos);
+    
     //Cooldowns
     if(this.mSmashCooldown > 0)
         this.mSmashCooldown -= (1/60);
     
+    if(this.mFireProjCooldown > 0)
+        this.mFireProjCooldown -= (1/60);
+    
+    
     //if the player is in smashing range, stop and fgo to smash State
-    if(vec2.distance(bossPos, heroPos) <= this.kSmashRange && this.mSmashCooldown <= 0) {
+    if(heroBossDist <= this.kSmashRange && this.mSmashCooldown <= 0) {
+        this.mSmashCooldown = this.kSmashCooldownLength;
         this.mCurrentState = Boss.eBossState.eSmashState;
         this.getRigidBody().setVelocity(0, 0);                  //stop motion to attack
 
         this._setupAnimation(Boss.eBossAnim.eSmashAnim, true);
         return;
     }
+    
+    //if player is in projectile range, shoot some projectiles
+    if(this.mFireProjCooldown <= 0) {
+        if(heroBossDist >= this.kMinProjRange && heroBossDist <= this.kMaxProjRange) {
+            this.mFireProjCooldown = this.kFireProjCooldownLength;
+            this.mCurrentState = Boss.eBossState.eFireProjState;
+            this.getRigidBody().setVelocity(0, 0);
+            
+            console.log("moving to fireproj state!");
+            //Do some animation setup?
+            return;
+        }
+    }
+    
+    //if the player is further than
     
     //move towards the player at this.mChaseSpeed
     var chaseVel = vec2.fromValues(0, 0);
@@ -169,6 +215,8 @@ Boss.prototype._serviceChase = function(hero) {
     vec2.scale(chaseVel, chaseVel, this.mChaseSpeed * vec2.distance(heroPos, bossPos));
     
     this.getRigidBody().setVelocity(chaseVel[0], 0);
+    
+    
 };
 
 Boss.prototype._serviceDying = function() {
@@ -187,5 +235,6 @@ Boss.prototype.userCollisionHandling = function(obj){
     if (obj instanceof Platform) {
         return true;
     }
+    
     return false;
 };

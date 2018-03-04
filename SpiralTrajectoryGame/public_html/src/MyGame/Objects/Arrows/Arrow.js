@@ -25,6 +25,7 @@ function Arrow(position,power,degree) {
     
     this.kBasePower = 180;
     this.mTimeSinceSpawn = 0;
+    this.mTimeLimit = 600;
     this.mExpired=false;
     this.mCollided = false;
     this.mCollidedObj = null;
@@ -66,7 +67,7 @@ Arrow.prototype.update = function () {
             xform.setRotationInRad(Math.atan(vel[1]/(vel[0] + .0001)) + Math.PI/2);
         }
     }
-    if(this.mTimeSinceSpawn > 600){
+    if(this.mTimeSinceSpawn > this.mTimeLimit){
         this.setExpired(true);
     }
     if(this.mCollided === true) {
@@ -107,7 +108,7 @@ Arrow.prototype.userCollisionHandling = function(obj){
             return true;
         }
     }
-
+  
     if (obj instanceof Torch) {
         return true;
     }

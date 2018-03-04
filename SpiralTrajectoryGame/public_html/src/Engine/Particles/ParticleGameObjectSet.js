@@ -61,7 +61,7 @@ ParticleGameObjectSet.prototype.update = function () {
     for (i=0; i<this.size(); i++) {
         obj = this.getObjectAt(i);
         if (obj.hasExpired()) {
-            this.removeFromSet(obj);
+           this.removeFromSet(obj);
         }
     }
     
