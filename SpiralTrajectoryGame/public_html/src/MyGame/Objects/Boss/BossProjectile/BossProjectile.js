@@ -4,12 +4,6 @@
  * 
  */
 
-BossProjectile.eProjState = Object.freeze({
-   eLaunchState: 0,         //initial launch by the boss
-   eChaseState: 1,          //from the launch, chase the player
-   eExplodeState: 2        //detonate, whether by hitting player, obstacle, or lifetime expire
-});
-
 function BossProjectile(projectileSprite, hero, launchPos, launchDir, launchSpeed) {
     //make the projectile renderable
     this.mProjectile = new TextureRenderable(projectileSprite);
@@ -35,78 +29,64 @@ function BossProjectile(projectileSprite, hero, launchPos, launchDir, launchSpee
     
     //Launching
     this.mLaunchDir = launchDir;
-    this.kLaunchTime = 60;
     this.mLaunchFrame = 0;
-    
-    //to make sure these don't last forever
-    this.kLifespan = 2;
     this.mTimeAlive = 0;
     
     //Projectile accuracy Controls
-    //assumed linear ramp for now
-    this.kMinAcc = 0.01;    //1%
-    this.kMaxAcc = .1;      //10%
-    this.mAccSlope = (this.kMaxAcc - this.kMinAcc) / (this.kLifespan * 60);
-    this.mCurAcc = this.kMinAcc;
-    
+    this.mAccSlope = (Config.BossProjectile.MaxAccuracy - Config.BossProjectile.MinAccuracy) / 
+                        (Config.BossProjectile.Lifespan * 60);
+    this.mCurAcc = Config.BossProjectile.MinAccuracy;
     //Projectile speed controls
-    //assumed linear ramp for now
-    this.kMinSpeed = 10;
-    this.kMaxSpeed = 20;
-    this.mSpeedSlope = (this.kMaxSpeed - this.kMinSpeed) / (this.kLifespan * 60);
-    this.mCurSpeed = this.kMinSpeed;
-    
-    
-    //Explode State
-    this.mExplodeParticles = new ParticleGameObjectSet();
+    this.mSpeedSlope = (Config.BossProjectile.MaxSpeed - Config.BossProjectile.MinSpeed) / 
+                        (Config.BossProjectile.Lifespan * 60);
+    this.mCurSpeed = Config.BossProjectile.MinSpeed;
+
+    //Explostion particle effects
+    this.mParticles = new ParticleGameObjectSet();
 
     //Set initial velocity
     this.getRigidBody().setVelocity(launchDir[0] * launchSpeed, launchDir[1] * launchSpeed);
-    //this.getRigidBody().setAngularVelocity(3);
-    this.mCurState = BossProjectile.eProjState.eLaunchState;
+    this.mCurState = Config.BossProjectile.States.Launch;
     
 };
 
 gEngine.Core.inheritPrototype(BossProjectile, GameObject);
 
 BossProjectile.prototype.draw = function(aCamera) {
-    if(this.mExplodeParticles !== null) { 
-        this.mExplodeParticles.draw(aCamera);
+    if(this.mParticles !== null) { 
+        this.mParticles.draw(aCamera);
     }
     
-    if(this.mCurState !== BossProjectile.eProjState.eExplodeState)
+    if(this.mCurState !== Config.BossProjectile.States.Explode)
         GameObject.prototype.draw.call(this, aCamera);
 };
 
 BossProjectile.prototype.update = function()
 {   
-    this.mExplodeParticles.update();
+    this.mParticles.update();
     
     switch(this.mCurState) {
-        case BossProjectile.eProjState.eLaunchState:
+        case Config.BossProjectile.States.Launch:
             this._serviceLaunch();
             break;
-        case BossProjectile.eProjState.eChaseState:
+        case Config.BossProjectile.States.Chase:
             this._serviceChase();
             break;
-        case BossProjectile.eProjState.eExplodeState:
+        case Config.BossProjectile.States.Explode:
             this._serviceExplode();
             break;
     };
     
-    if(this.mCurState !== BossProjectile.eProjState.eExplodeState)
+    if(this.mCurState !== Config.BossProjectile.States.Explode)
         GameObject.prototype.update.call(this);
-    
-    
 };
 
 //Do an initial Launch
 BossProjectile.prototype._serviceLaunch = function() {
     this.mRigidBody.update();
     
-    if(this.mLaunchFrame >= this.kLaunchTime) {
-        //this.mRigidBody.setGravity(false);
-        this.mCurState = BossProjectile.eProjState.eChaseState;
+    if(this.mLaunchFrame >= Config.BossProjectile.LaunchTime) {
+        this.mCurState = Config.BossProjectile.States.Chase;
         return;
     }
     this.mLaunchFrame++;
@@ -115,20 +95,20 @@ BossProjectile.prototype._serviceLaunch = function() {
 //Chase the player
 BossProjectile.prototype._serviceChase = function() {
     //Speed/Accuracy Slope Mgmt
-    if(this.mCurSpeed > this.kMaxSpeed)
-        this.mCurSpeed = this.kMaxSpeed;
+    if(this.mCurSpeed > Config.BossProjectile.MaxSpeed)
+        this.mCurSpeed = Config.BossProjectile.MaxSpeed;
     else
         this.mCurSpeed += this.mSpeedSlope;
     
-    if(this.mCurAcc > this.kMaxAcc)
-        this.mCurAcc = this.kMaxAcc;
+    if(this.mCurAcc > Config.BossProjectile.MaxAccuracy)
+        this.mCurAcc = Config.BossProjectile.MaxAccuracy;
     else
         this.mCurAcc += this.mAccSlope;
     
     this.mRigidBody.update();
     this._updateVelocity();
     
-    if(this.mTimeAlive >= this.kLifespan) {
+    if(this.mTimeAlive >= Config.BossProjectile.Lifespan) {
         this._explode();
     }
     this.mTimeAlive += (1/60);
@@ -136,63 +116,64 @@ BossProjectile.prototype._serviceChase = function() {
 
 //particle effects, and then expire
 BossProjectile.prototype._serviceExplode = function() {
-    if(this.mExplodeParticles.size() === 0) {
+    if(this.mParticles.size() === 0) {
        this.mExpired = true;
-       console.log("dead");
-   }
-   else
-   {
-       //console.log("not dead");
    }
 };
 
 BossProjectile.prototype.userCollisionHandling = function(obj) {
 
+    
+    
     switch(this.mCurState) {
-        case BossProjectile.eProjState.eLaunchState:
-                if(obj instanceof Terrain) {
-                //this.mCurState = BossProjectile.eProjState.eExplodeState;
+        case Config.BossProjectile.States.Launch:
+            if(obj instanceof Terrain) {
                 return true;
             }
             
             if(obj instanceof Platform && this.mLaunchFrame < 10) {
-                return false;
-            }
-            return true;
-            break;
-        case BossProjectile.eProjState.eChaseState:
-            if(obj instanceof Platform) {
-                this._explode();
-                return true;
-            }
-
-            if(obj instanceof Terrain) {
-                this._explode();
-                return true;
-            }
-
-            if(obj instanceof Hero) {
-                this._explode();
-                //damage the hero?
                 return true;
             }
             
-            break;
-        case BossProjectile.eProjState.eExplodeState:
             return false;
+            
+            break;
+        case Config.BossProjectile.States.Chase:
+            if(obj instanceof Platform) {
+                console.log("platform boom");
+                this._explode();
+                return false;
+            }
+
+            if(obj instanceof Terrain) {
+                console.log("terrain boom");
+                this._explode();
+                return false;
+            }
+
+            if(obj instanceof Hero) {
+                console.log("hero boom");
+                this._explode();
+                return false;
+            }
+            
+            return true;
+            break;
+        case Config.BossProjectile.States.Explode:
+            return true;
             break;   
     }
-    return false;
+    return true;
 };
 
 BossProjectile.prototype._explode = function() {
-    this.mExplodeParticles.addEmitterAt(
+    this.mParticles.addEmitterAt(
             this.getXform().getPosition(),
-            1,
+            Config.BossProjectile.Explosion.NumParticles,
             this.createParticle,
             0
     );
-    this.mCurState = BossProjectile.eProjState.eExplodeState;
+    this.mCurState = Config.BossProjectile.States.Explode;
 };
 
 //_updateVelocity
@@ -229,30 +210,40 @@ BossProjectile.prototype._updateVelocity = function() {
     this.getRigidBody().setVelocity(newDir[0] * this.mCurSpeed, newDir[1] * this.mCurSpeed);
 };
 
-BossProjectile.prototype.createParticle = function(x, y) {
-    
-    var life = 1000;//30 + 60 * Math.random();
+BossProjectile.prototype.createParticle = function (x, y) {
+    var life = Config.BossProjectile.Explosion.Lifespan;
+    var xOffset = 0;
+    var yOffset = 0;
     var p = new ParticleGameObject(
-          Config.BossBattle.Textures.TorchParticleTexture,
-            x,
-            y,
-            life
+        Config.BossBattle.Textures.TorchParticleTexture, 
+        x + xOffset, 
+        y + yOffset, 
+        life
     );
-    console.log(p.mCyclesToLive + "cycles");
-    p.getRenderable().setColor([1, 0, 0, .3]);
-    p.setFinalColor([0, 0, 1, 1]);
     
-    //particle size
-    var r = 5 + Math.random() * 10;
+    p.getRenderable().setColor(Config.BossProjectile.Explosion.StartColor);
+    p.setFinalColor(Config.BossProjectile.Explosion.FinalColor);
+    
+    // size of the particle
+    var r = Config.BossProjectile.Explosion.MinSize + 
+            Config.BossProjectile.Explosion.SizeMultiplier *
+            Math.random();
     p.getXform().setSize(r, r);
-    
-    var vx = 1 - 2*Math.random();
-    var vy = Math.random();
-    
+
+    //shoot in a random direction
+    var vx = Config.BossProjectile.Explosion.BaseVelocity[0] + 
+             Config.BossProjectile.Explosion.VelocityMultiplier[0] * Math.random();
+    var vy = Config.BossProjectile.Explosion.BaseVelocity[1] + 
+             Config.BossProjectile.Explosion.VelocityMultiplier[1] * Math.random();
     p.getParticle().setVelocity([vx, vy]);
-    p.setSizeDelta(0);
-    p.getParticle().setDrag(.98);
+
+    p.setSizeDelta(Config.BossProjectile.Explosion.SizeDelta);
     
+    
+    var accDir = vec2.fromValues(-vx, -vy);
+    vec2.normalize(accDir, accDir);
+    vec2.scale(accDir, accDir, Config.BossProjectile.Explosion.Deceleration);
+    p.getParticle().setAcceleration([accDir[0], accDir[1]]);
     
     return p;
 };
