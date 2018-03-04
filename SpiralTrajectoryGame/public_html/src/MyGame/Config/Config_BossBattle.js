@@ -34,8 +34,11 @@ Config.BossBattle = Object.freeze({
         MainCameraInterpDuration:       30
     },
     Boss: {
+        SpawnDistance: 50,
+        MaxTimeBeforeSpawn: 5000,
+        MaxTimeIdle: 2000,
         SpawnPosition: {
-            X:  60,
+            X:  150,
             Y:  20
         },
         Size: {

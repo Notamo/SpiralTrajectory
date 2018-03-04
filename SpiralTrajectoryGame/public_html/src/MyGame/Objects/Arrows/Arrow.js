@@ -7,7 +7,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, Hero, Torch */
+ *       Platform, Hero, Torch, GolemEmptyGameObject */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -111,6 +111,12 @@ Arrow.prototype.userCollisionHandling = function(obj){
 
     if (obj instanceof Torch) {
         return true;
+    }
+    
+    if (obj instanceof GolemEmptyGameObject) {
+        if (obj.mIgnoreCollision === true) {
+            return true;
+        }
     }
     
     this.setCollided(true);

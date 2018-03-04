@@ -69,3 +69,15 @@ Golem.prototype._buildRigidbodies = function() {
         this.mRigidSet.insert(Config.Golem.Rigidbodies[rbody].Name, temp);
     }
 };
+
+Golem.prototype.ignoreCollision = function () {
+    this.mRigidSet.execFuncForAll(function () {
+        this.ignoreCollision();
+    });
+};
+
+Golem.prototype.allowCollision = function () {
+    this.mRigidSet.execFuncForAll(function () {
+        this.allowCollision();
+    });
+};

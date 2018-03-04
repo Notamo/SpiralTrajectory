@@ -9,11 +9,16 @@
 
 function GolemEmptyGameObject(parent, xOffset, yOffset, multiplier) {
     this.mDamageMultiplier = multiplier;
+    this.mIgnoreCollision = false;
     EmptyGameObject.call(this, parent, xOffset, yOffset);
 }
 gEngine.Core.inheritPrototype(GolemEmptyGameObject, EmptyGameObject);
 
 GolemEmptyGameObject.prototype.userCollisionHandling = function (other) {
+    if (this.mIgnoreCollision === true) {
+        return true;
+    }
+    
     if (other instanceof GolemEmptyGameObject) {
         return true;
     }
@@ -24,4 +29,12 @@ GolemEmptyGameObject.prototype.userCollisionHandling = function (other) {
     }
     }
     return false;
+};
+
+GolemEmptyGameObject.prototype.ignoreCollision = function () {
+    this.mIgnoreCollision = true;
+};
+
+GolemEmptyGameObject.prototype.allowCollision = function() {
+    this.mIgnoreCollision = false;
 };

@@ -28,3 +28,10 @@ Golem.prototype._animate = function (animation, reset) {
         this.mGolem.resetAnimation();
     }
 };
+
+Golem.prototype._animationComplete = function () {
+    if (this.mGolem.mCurrentElm >= this.mGolem.mNumElems - 1) {
+        return true;
+    }
+    return false;
+};

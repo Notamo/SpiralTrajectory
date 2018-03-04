@@ -21,6 +21,10 @@ RigidSet.prototype.get = function (key) {
     return this.mRigidBodySet[key];
 };
 
+RigidSet.prototype.size = function () {
+    return this.mRigidBodySet.length;
+};
+
 RigidSet.prototype.update = function () {            
     for (var elem in this.mRigidBodySet) {
         this.mRigidBodySet[elem].update();
@@ -30,6 +34,12 @@ RigidSet.prototype.update = function () {
 RigidSet.prototype.draw = function (camera) {
     for (var elem in this.mRigidBodySet) {
         this.mRigidBodySet[elem].draw(camera);
+    }
+};
+
+RigidSet.prototype.execFuncForAll = function (func) {
+    for (var elem in this.mRigidBodySet) {
+        func.call(this.get(elem));
     }
 };
 

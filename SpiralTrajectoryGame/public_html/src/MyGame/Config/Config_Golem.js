@@ -12,14 +12,43 @@ var Config = Config || {};
 
 Config.Golem = Object.freeze({
     States: {
-        WaitingToSpawn:     0,      // Pre-spawn state, dunno if even needed.
-        Spawning:           1,      // Spawning in
-        Idle:               2,      // Idle, basiclaly not firing range atks, not sure if this is going to be used.
-        Patrolling:         3,      // Moving around, firing ranged attacks
-        Smashing:           4,      // Triggered if player gets too close, golem will try to smash.
-        AttackingPlatform:  5,      // Smashing a platform the player is on.
-        Dying:              6,      // Death animation.
-        Dead:               7       // Maybe same state as WaitingToSpawn? Not sure yet.
+        WaitingToSpawn: {
+        },    
+        Spawning: {
+            
+        },
+        Idle: {
+            
+        },
+        Patrolling: {
+            Interpolation: {
+                Stiffness: 0.01,
+                Duration: 60,
+                XOffset: 2,
+                YOffset: 60,
+                Interval: 10000
+            },
+            ProjectileFiringInterval:   1000,
+            ChanceToChaseHeroYPos:  0.01,
+            MaxHeight: 120,
+            MinHeight: 20,
+            MaxNonChaseXDistance: 85
+        },
+        Smashing: {
+            
+        },
+        AttackingPlatform: {
+            
+        },
+        Retreating: {
+            
+        },
+        Dying: {
+            
+        },
+        Dead: {
+            
+        }
     },
     Animations: {
         Spawn: {
@@ -33,6 +62,16 @@ Config.Golem = Object.freeze({
             Speed:      4
         },
         Idle: {
+            TopLeftX:   982,
+            TopLeftY:   0,
+            Width:      256,
+            Height:     170,
+            Count:      6,
+            Padding:    0,
+            Type:       function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateSwing; },
+            Speed:      4
+        },
+        Patrolling: {
             TopLeftX:   982,
             TopLeftY:   0,
             Width:      256,
@@ -70,7 +109,11 @@ Config.Golem = Object.freeze({
             Mass:           0,
             Restitution:    1,
             Friction:       0.2
-        } 
+        },
+        Interpolation: {
+            DefaultSitffness:  0.1,
+            DefaultDuration:   2
+        }
     },
     Rigidbodies: {
         Head: {
