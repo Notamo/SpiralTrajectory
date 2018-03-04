@@ -16,16 +16,18 @@ Boss.eFireProjState = Object.freeze({
 
 Boss.prototype._fireProjectilesInit = function(projectileSprite) {
   this.kProjSprite = projectileSprite;
+  this.kFireTellColor = [1, 0, 1, .25];
   
   //range
   this.kMinProjRange = 60;      //minimum range to fire projectiles
   this.kMaxProjRange = 200;     //maximum fire projectiles range
+  //Warmup/"Tell"
+  this.kWarmupLength = 1;
+  this.mWarmupTime = 0;
   //Cooldown
   this.kFireProjCooldownLength = 3;     //time before the boss can fire again (seconds)
   this.mFireProjCooldown = 0;
-  
-  
-  
+
   //bursts
   this.kNumBursts = 3;          //number of bursts
   this.mBurstCount = 0;         //the burst we're on
@@ -42,7 +44,14 @@ Boss.prototype._fireProjectilesInit = function(projectileSprite) {
   this.mBurstDelayFrame = 0;    //current frame waiting for next burst
   
 
-  this.mProjPrint = true;
+  //Firing parameters
+  this.kRelLaunchPos = vec2.fromValues(0, 15);
+  this.mBaseFireDir = vec2.fromValues(1, 1);
+  this.mXFireSpread = .1;
+  this.mYFireSpread = 1;
+  this.kFireSpeed = 10;
+  
+  
   this.mBossProjSet = new GameObjectSet();
   this.mFireProjState = Boss.eFireProjState.eWarmupState;
 };
@@ -53,13 +62,10 @@ Boss.prototype._drawProjectiles = function(aCamera) {
 
 Boss.prototype._updateProjectiles = function() {
     this.mBossProjSet.update();
-    //if(this.bossProjSet.size() > 0)
-      //  console.log(this.bossProjSet.size() + " Boss Projectiles");
 }
 
 Boss.prototype._serviceFireProj = function() {
     
-    //console.log("_serviceFireProj");
     switch(this.mFireProjState)
     {
         case Boss.eFireProjState.eWarmupState:
@@ -77,8 +83,16 @@ Boss.prototype._serviceFireProj = function() {
 };
 
 Boss.prototype._serviceFireProjWarmupState = function() {
-    //no wawrmup for now
-    this.mFireProjState = Boss.eFireProjState.eBurstState;
+    
+    //tell for now is a color
+    this.mGolem.setColor(this.kFireTellColor);
+    
+    if(this.mWarmupTime > this.kWarmupLength) {
+        this.mFireProjState = Boss.eFireProjState.eBurstState;
+        this.mWarmupTime = 0;
+        return;
+    }
+    this.mWarmupTime += (1/60);
 };
 
 Boss.prototype._serviceFireProjBurstState = function() {
@@ -101,7 +115,7 @@ Boss.prototype._serviceFireProjBurstState = function() {
                 this.mFireProjState = Boss.eFireProjState.eWarmupState;
                 this.mCurrentState = Boss.eBossState.eChaseState;
                 console.log("moving to chase state");
-                
+                this.mGolem.setColor([1, 1, 1, 0]);
                 //for testing
                 this.mProjPrint = true;
                 return;
@@ -135,12 +149,20 @@ Boss.prototype._serviceFireProjDelayState = function() {
 
 Boss.prototype._fireProjectile = function() {
     console.log("Firing Projectile!");
-    var p = vec2.fromValues(this.getXform().getOrientation() * 5, 12);
-    vec2.add(p, p, this.getXform().getPosition());
-    var newProjectile = new BossProjectile(this.kProjSprite, this.mHero, p, vec2.fromValues(-this.getXform().getOrientation(), 1), 100);
-    this.mProjPrint = false;
+    var launchPos = vec2.fromValues(0, 0);
+    vec2.add(launchPos, this.kRelLaunchPos, this.getXform().getPosition());
+    
+    //make a random launch direction
+    var offset = vec2.fromValues(this.mXFireSpread * Math.random() - this.mXFireSpread/2, this.mYFireSpread * Math.random()  - this.mYFireSpread/2);
+    var launchDir = vec2.fromValues(0, 0);
+    vec2.add(launchDir, this.mBaseFireDir, offset);
+    
+    launchDir[0] *= -this.getXform().getOrientation();
+    vec2.normalize(launchDir, launchDir);
+    
+    var newProjectile = new BossProjectile(this.kProjSprite, this.mHero, launchPos, launchDir, this.kFireSpeed);
     
     this.mBossProjSet.addToSet(newProjectile)
     this.mPhysicsSetRef.addToSet(newProjectile);
-
 };
+

@@ -24,7 +24,7 @@ function BossProjectile(projectileSprite, hero, launchPos, launchDir, launchSpee
     var r = new RigidCircle(
             this.getXform(),
             2.5); //10 x 10 so radius is 5
-    //r.setGravity(false);
+    r.setGravity(false);
     r.setMass(0.1);
     r.setRestitution(1);
     r.setFriction(1);
@@ -35,6 +35,8 @@ function BossProjectile(projectileSprite, hero, launchPos, launchDir, launchSpee
     
     //Launching
     this.mLaunchDir = launchDir;
+    this.kLaunchTime = 60;
+    this.mLaunchFrame = 0;
     
     //to make sure these don't last forever
     this.kLifespan = 2;
@@ -42,8 +44,8 @@ function BossProjectile(projectileSprite, hero, launchPos, launchDir, launchSpee
     
     //Projectile accuracy Controls
     //assumed linear ramp for now
-    this.kMinAcc = 0.1;    //10%
-    this.kMaxAcc = 0.1;      //15%
+    this.kMinAcc = 0.01;    //1%
+    this.kMaxAcc = .1;      //10%
     this.mAccSlope = (this.kMaxAcc - this.kMinAcc) / (this.kLifespan * 60);
     this.mCurAcc = this.kMinAcc;
     
@@ -83,16 +85,16 @@ BossProjectile.prototype.update = function()
 BossProjectile.prototype._serviceLaunch = function() {
     this.mRigidBody.update();
     
-    //switch states when it starts falling?
-    if(this.mRigidBody.getVelocity()[1] <= 0){
-        this.mRigidBody.setGravity(false);
+    if(this.mLaunchFrame >= this.kLaunchTime) {
+        //this.mRigidBody.setGravity(false);
         this.mCurState = BossProjectile.eProjState.eChaseState;
+        return;
     }
+    this.mLaunchFrame++;
 };
 
 //Chase the player
 BossProjectile.prototype._serviceChase = function() {
-    console.log()
     //Speed/Accuracy Slope Mgmt
     if(this.mCurSpeed > this.kMaxSpeed)
         this.mCurSpeed = this.kMaxSpeed;
@@ -123,8 +125,12 @@ BossProjectile.prototype.userCollisionHandling = function(obj) {
     switch(this.mCurState) {
         case BossProjectile.eProjState.eLaunchState:
                 if(obj instanceof Terrain) {
-                this.mCurState = BossProjectile.eProjState.eExplodeState;
+                //this.mCurState = BossProjectile.eProjState.eExplodeState;
                 return true;
+            }
+            
+            if(obj instanceof Platform && this.mLaunchFrame < 10) {
+                return false;
             }
             return true;
             break;
