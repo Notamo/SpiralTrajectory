@@ -1,8 +1,9 @@
-/* File: Config_BossBattle.js 
+/* 
+ * File: Config_BossBattle.js 
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, Config, BossBattle, vec2*/
+/*global gEngine, Config, BossBattle, vec2 */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -41,8 +42,11 @@ Config.BossBattle = Object.freeze({
         MainCameraInterpDuration:       30
     },
     Boss: {
+        SpawnDistance: 50,
+        MaxTimeBeforeSpawn: 5000,
+        MaxTimeIdle: 2000,
         SpawnPosition: {
-            X:  175,
+            X:  150,
             Y:  20
         },
         Size: {

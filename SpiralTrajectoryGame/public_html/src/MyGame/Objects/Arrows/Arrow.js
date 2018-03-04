@@ -7,7 +7,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform */
+ *       Platform, Hero, Torch, GolemEmptyGameObject */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -28,6 +28,8 @@ function Arrow(position,power,degree) {
     this.mTimeLimit = 600;
     this.mExpired=false;
     this.mCollided = false;
+    this.mCollidedObj = null;
+    this.mCollidedOffset = null;
     
     // Physics
     var r = new RigidRectangle(
@@ -68,11 +70,15 @@ Arrow.prototype.update = function () {
     if(this.mTimeSinceSpawn > this.mTimeLimit){
         this.setExpired(true);
     }
-    if(this.mCollided===true) {
-        this.mRigidBody.setFriction(1);
+    if(this.mCollided === true) {
+        //this.mRigidBody.setFriction(1);
+        xform.setXPos(this.mCollidedObj.getXform().getXPos() + this.mCollidedOffset[0]);
+        xform.setYPos(this.mCollidedObj.getXform().getYPos() + this.mCollidedOffset[1]);
     }
-    this.mRigidBody.update();
-
+    if (!this.mCollided) {
+        this.mRigidBody.update();
+    }
+    this.setCurrentFrontDir(vel);
 };
 
 Arrow.prototype.getPosition = function(){
@@ -89,7 +95,11 @@ Arrow.prototype.getCollided = function() {
 
 
 Arrow.prototype.userCollisionHandling = function(obj){
-    if(obj instanceof Arrow){
+    if (this.mCollided === true) {
+        return true;
+    }
+    
+    if (obj instanceof Arrow){
         return true;
     }
     
@@ -98,17 +108,31 @@ Arrow.prototype.userCollisionHandling = function(obj){
             return true;
         }
     }
-    if (obj instanceof Boss && this.mCollided) {
-        return true;
-    }
+  
     if (obj instanceof Torch) {
         return true;
     }
+    
+    if (obj instanceof GolemEmptyGameObject) {
+        if (obj.mIgnoreCollision === true) {
+            return true;
+        }
+    }
+    
     this.setCollided(true);
+    this.mCollidedObj = obj;
+    this.mCollidedOffset = vec2.fromValues(
+            this.getXform().getXPos() - obj.getXform().getXPos(),
+            this.getXform().getYPos() - obj.getXform().getYPos()
+    );
     return false;
 };
 
 Arrow.prototype.flat = function(){
     this.mRigidBody.setFriction(1);
     this.isDead=true;
+};
+
+Arrow.prototype.getDamage = function () {
+    return this.power * this.kBasePower;
 };
