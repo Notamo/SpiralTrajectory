@@ -69,7 +69,7 @@ BossBattle.prototype.initialize = function () {
     
     this.buildLevel();
     
-    this.wall = new TiledGameObject(new TextureRenderable(Config.BossBattle.Textures.BackgroundTexture));
+    this.wall = new TiledGameObject(new TextureRenderable(Config.BossBattle.Textures.TileBackgroundTexture));
     this.wall.getXform().setSize(Config.BossBattle.Background[0].Width, Config.BossBattle.Background[0].Height);
 };
 

@@ -24,7 +24,10 @@ Config.BossBattle = Object.freeze({
         TorchParticleTexture:   "assets/particles/particle.png",
         FlameParticleTexture:   "assets/particles/flameparticle.png",
         SnowParticleTexture:    "assets/particles/snowparticle.png",
-        BackgroundTexture:      "assets/background/backgroundtile.png"
+        TileBackgroundTexture:  "assets/background/backgroundtile.png",
+        FarBackgroundTexture:   "assets/background/backgroundfar.png",
+        MidBackgroundTexture:   "assets/background/backgroundmid.png",
+        ForegroundTexture:      "assets/background/foreground.png",
     },
     Cameras: {
         MainCameraStartingPosition:     vec2.fromValues(25, 1),
