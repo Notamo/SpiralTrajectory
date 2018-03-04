@@ -35,8 +35,12 @@ function ParallaxGameObject(renderableObj, scale, aCamera) {
     this.mParallaxScale = 1;
     this.setParallaxScale(scale);
     TiledGameObject.call(this, renderableObj);
+    this.speed = 0
 }
 gEngine.Core.inheritPrototype(ParallaxGameObject, TiledGameObject);
+
+ParallaxGameObject.prototype.getSpeed = function () { return this.speed};
+ParallaxGameObject.prototype.setSpeed = function (s) { this.speed = s};
 
 /**
  * renderableObj xfrom is accessible, it is in WC space!!<p>
