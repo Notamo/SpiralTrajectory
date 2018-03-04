@@ -191,6 +191,15 @@ Golem.prototype._servicePatrolling = function () {
     this.mCenterX.setFinalValue(golemXform.getXPos() + this.xOffset);
     this.mCenterY.setFinalValue(golemXform.getYPos() + this.yOffset);
     
+    // Have the boss face the hero
+    if (heroXform.getXPos() < golemXform.getXPos() && 
+        this.mFacing === Config.Golem.States.FacingRight) {
+        this.switchDirection();
+    } else if (heroXform.getXPos() > golemXform.getXPos() &&
+        this.mFacing === Config.Golem.States.FacingLeft) {
+        this.switchDirection();
+    }
+
     // Conditions to transition to other states.
     
     this.interpolate();

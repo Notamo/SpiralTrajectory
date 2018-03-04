@@ -46,6 +46,7 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef) {
     // Physics
     this.mRigidSet = new RigidSet();
     this._buildRigidbodies();
+    this.mFacing = Config.Golem.States.FacingLeft;
     
     // HP
     this.mMaxHP = Config.Golem.Properties.StartingHP;

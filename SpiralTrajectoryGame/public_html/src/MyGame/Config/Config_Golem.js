@@ -48,7 +48,9 @@ Config.Golem = Object.freeze({
         },
         Dead: {
             
-        }
+        },
+        FacingLeft: 0,
+        FacingRight: 1
     },
     Animations: {
         Spawn: {
