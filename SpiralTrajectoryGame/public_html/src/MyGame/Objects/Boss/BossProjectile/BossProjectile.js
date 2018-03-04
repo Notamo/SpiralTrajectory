@@ -59,7 +59,9 @@ function BossProjectile(projectileSprite, hero, launchPos, launchDir, launchSpee
 
     //Set initial velocity
     this.getRigidBody().setVelocity(launchDir[0] * launchSpeed, launchDir[1] * launchSpeed);
+    this.getRigidBody().setAngularVelocity(3);
     this.mCurState = BossProjectile.eProjState.eLaunchState;
+    
 };
 
 gEngine.Core.inheritPrototype(BossProjectile, GameObject);

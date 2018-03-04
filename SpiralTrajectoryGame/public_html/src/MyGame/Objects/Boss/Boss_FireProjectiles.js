@@ -22,7 +22,7 @@ Boss.prototype._fireProjectilesInit = function(projectileSprite) {
   this.kMinProjRange = 60;      //minimum range to fire projectiles
   this.kMaxProjRange = 200;     //maximum fire projectiles range
   //Warmup/"Tell"
-  this.kWarmupLength = 1;
+  this.kWarmupLength = 1;       
   this.mWarmupTime = 0;
   //Cooldown
   this.kFireProjCooldownLength = 3;     //time before the boss can fire again (seconds)
@@ -78,8 +78,6 @@ Boss.prototype._serviceFireProj = function() {
             this._serviceFireProjDelayState();
             break;
     }
-    
-    
 };
 
 Boss.prototype._serviceFireProjWarmupState = function() {
@@ -114,10 +112,8 @@ Boss.prototype._serviceFireProjBurstState = function() {
                 this.mBurstCount = 0;
                 this.mFireProjState = Boss.eFireProjState.eWarmupState;
                 this.mCurrentState = Boss.eBossState.eChaseState;
-                console.log("moving to chase state");
+
                 this.mGolem.setColor([1, 1, 1, 0]);
-                //for testing
-                this.mProjPrint = true;
                 return;
             }
             else {  //otherwise
@@ -148,21 +144,26 @@ Boss.prototype._serviceFireProjDelayState = function() {
 
 
 Boss.prototype._fireProjectile = function() {
-    console.log("Firing Projectile!");
     var launchPos = vec2.fromValues(0, 0);
     vec2.add(launchPos, this.kRelLaunchPos, this.getXform().getPosition());
     
     //make a random launch direction
     var offset = vec2.fromValues(this.mXFireSpread * Math.random() - this.mXFireSpread/2, this.mYFireSpread * Math.random()  - this.mYFireSpread/2);
+    
     var launchDir = vec2.fromValues(0, 0);
     vec2.add(launchDir, this.mBaseFireDir, offset);
     
     launchDir[0] *= -this.getXform().getOrientation();
     vec2.normalize(launchDir, launchDir);
     
-    var newProjectile = new BossProjectile(this.kProjSprite, this.mHero, launchPos, launchDir, this.kFireSpeed);
+    //Make the projectile
+    var newProjectile = new BossProjectile(this.kProjSprite, 
+                                    this.mHero, 
+                                    launchPos, 
+                                    launchDir, 
+                                    this.kFireSpeed);
     
-    this.mBossProjSet.addToSet(newProjectile)
+    this.mBossProjSet.addToSet(newProjectile);
     this.mPhysicsSetRef.addToSet(newProjectile);
 };
 
