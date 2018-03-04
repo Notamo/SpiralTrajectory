@@ -91,13 +91,13 @@ BossBattle.prototype.initializeBackground = function() {
     // Need a light
     //farBG.addLight();   // only the directional light
     this.mBgL0 = new ParallaxGameObject(farBG, 5, this.mMainCamera);
-    this.mBgL0.setCurrentFrontDir([0, -1, 0]);
-    this.mBgL0.setIsTiled(false);
+    this.mBgL0.setCurrentFrontDir([-1, 0, 0]);
+    this.mBgL0.setSpeed(.01);
     
     var midBG = new IllumRenderable(Config.BossBattle.Textures.MidBackgroundTexture, Config.BossBattle.Textures.MidBackgroundNormal);
     midBG.setElementPixelPositions(0, 1024, 0, 512);
-    midBG.getXform().setSize(354, 178);
-    midBG.getXform().setPosition(148, 82);
+    midBG.getXform().setSize(354, 177);
+    midBG.getXform().setPosition(148, 81);
     midBG.getMaterial().setSpecular([0.2, 0.1, 0.1, 1]);
     midBG.getMaterial().setShininess(50);
     midBG.getXform().setZPos(-1);
@@ -107,20 +107,34 @@ BossBattle.prototype.initializeBackground = function() {
     this.mBgL1.setCurrentFrontDir([0, -1, 0]);
     this.mBgL1.setIsTiled(false);
     
+    var FG = new IllumRenderable(Config.BossBattle.Textures.ForegroundTexture, Config.BossBattle.Textures.ForegroundNormal);
+    FG.setElementPixelPositions(0, 1024, 0, 512);
+    FG.getXform().setSize(354, 178);
+    FG.getXform().setPosition(148, 81);
+    FG.getMaterial().setSpecular([0.2, 0.1, 0.1, 1]);
+    FG.getMaterial().setShininess(50);
+    FG.getXform().setZPos(2);
+    // Need lights
+    //farBG.addLight();   
+    this.mFg = new ParallaxGameObject(FG , 1, this.mMainCamera);
+    this.mFg.setCurrentFrontDir([-1, 0, 0]);
+    this.mFg.setIsTiled(false);
     
-        // add to layer managers ...
+    
+    // add to layer managers ...
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mBgL0);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBgL1);
-   
-    //gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mFg);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mFg);
 };
 
 BossBattle.prototype.draw = function () {
     gEngine.Core.clearCanvas(Config.Engine.Misc.CanvasClearColor);
     this.mMainCamera.setupViewProjection();
-    gEngine.LayerManager.drawAllLayers(this.mMainCamera);
+    gEngine.LayerManager.drawLayer(gEngine.eLayer.eBackground,this.mMainCamera);
+    gEngine.LayerManager.drawLayer(gEngine.eLayer.eShadowReceiver,this.mMainCamera);
     //this.wall.draw(this.mMainCamera);
     this.mPhysicsGameObjects.draw(this.mMainCamera);
+    gEngine.LayerManager.drawLayer(gEngine.eLayer.eFront,this.mMainCamera);
     this.mCollisions = [];
 };
 
