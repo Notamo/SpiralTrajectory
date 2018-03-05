@@ -104,7 +104,7 @@ BossBattle.prototype.initializeBackground = function() {
     
     var midBG = new IllumRenderable(Config.BossBattle.Textures.MidBackgroundTexture, Config.BossBattle.Textures.MidBackgroundNormal);
     midBG.setElementPixelPositions(0, 1024, 0, 512);
-    midBG.getXform().setSize(354, 177);
+    midBG.getXform().setSize(348, 174);
     midBG.getXform().setPosition(148, 81);
     midBG.getMaterial().setSpecular([0.2, 0.1, 0.1, 1]);
     midBG.getMaterial().setShininess(50);
@@ -145,7 +145,7 @@ BossBattle.prototype.draw = function () {
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     
    // gEngine.LayerManager.drawLayer(gEngine.eLayer.eFront,this.mMainCamera);
-    gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD,this.mMainCamera);
+    //gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD,this.mMainCamera);
     this.mCollisions = [];
     
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD, this.mMainCamera);
