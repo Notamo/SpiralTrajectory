@@ -7,10 +7,16 @@
 "use strict";
 
 BossBattle.prototype._initializeUI = function() {    
-    this.mestText = new UIText("Hello World!");
-    this.mestText.getUIXform().setPosition(-.48, .48);
+    this.mestText = new UIText("Hello World!", vec2.fromValues(25, 450), null);
+    this.mestText.setTextHeight(5);
+    var arrowSelectSprites = [Config.BossBattle.Textures.UIArrowIcon,
+                              Config.BossBattle.Textures.UIFireArrowIcon,
+                              Config.BossBattle.Textures.UIIceArrowIcon];
+                         
+    this.arrowSelector = new UIArrowSelection(arrowSelectSprites, Config.BossBattle.Textures.UIArrowBorders, vec2.fromValues(150, 850), 100);
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mestText);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.arrowSelector);
 };
 
 BossBattle.prototype._updateUI = function() {

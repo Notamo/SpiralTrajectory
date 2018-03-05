@@ -20,18 +20,12 @@
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
         <group>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_Torch.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem_EmptyGameObject.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Arrows/ArrowSet.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem_Animation.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Boss/Boss_Animations.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_BossBattle.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Arrows/Arrow.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_Golem.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_Hero.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem_Rigidbody.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem_States.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Renderables/FontRenderable.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/Splash/SplashScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Utils/Transform.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/index.html</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/BossBattle/BossBattle.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_BossBattle.js</file>
         </group>
     </open-files>
 </project-private>

@@ -31,7 +31,11 @@ Config.BossBattle = Object.freeze({
         MidBackgroundTexture:   "assets/background/backgroundmid.png",
         MidBackgroundNormal:    "assets/background/normal/backgroundmid.png",
         ForegroundTexture:      "assets/background/foreground.png",
-        ForegroundNormal:       "assets/background/normal/foreground.png"
+        ForegroundNormal:       "assets/background/normal/foreground.png",
+        UIArrowIcon:            "assets/UI/arrowicon.png",
+        UIFireArrowIcon:        "assets/UI/firearrowicon.png",
+        UIIceArrowIcon:         "assets/UI/icearrowicon.png",
+        UIArrowBorders:         "assets/UI/activearrowborder.png"
     },
     Cameras: {
         MainCameraStartingPosition:     vec2.fromValues(25, 1),
