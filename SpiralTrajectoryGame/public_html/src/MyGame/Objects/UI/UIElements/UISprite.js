@@ -3,11 +3,11 @@
  */
 "use strict";
 
-function UISprite(sprite, position, size, pxPos) {
+function UISprite(sprite, position, size, uvPos) {
     this.mSprite = new SpriteRenderable(sprite);
-    if(pxPos !== null)
-        this.mSprite.setElementPixelPositions(pxPos[0], pxPos[1], pxPos[2], pxPos[3]);
-    UIElement.call(this, this.mTex, position, size);
+    if(uvPos !== null)
+        this.mSprite.setElementUVCoordinate(uvPos[0], uvPos[1], uvPos[2], uvPos[3]);
+    UIElement.call(this, this.mSprite, position, size);
 }
 gEngine.Core.inheritPrototype(UISprite, UIElement);
 

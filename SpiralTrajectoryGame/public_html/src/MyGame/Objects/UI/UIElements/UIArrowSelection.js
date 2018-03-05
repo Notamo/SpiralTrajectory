@@ -28,7 +28,7 @@ function UIArrowSelection(sprites, borderSprite, position, iconSize) {
 gEngine.Core.inheritPrototype(UIArrowSelection, UIElement);
 
 UIArrowSelection.prototype.draw = function(aCamera) {
-    UIElement.prototype.draw(this, aCamera);
+    UIElement.prototype.draw.call(this, aCamera);
     
     var i;
     for(i = 0; i < this.mArrows.length; i++) {

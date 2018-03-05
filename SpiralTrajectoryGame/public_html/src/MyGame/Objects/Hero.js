@@ -34,6 +34,10 @@ function Hero(spriteTexture, physicsReference, cameraRef) {
     
     this.mPhysicsSetRef = physicsReference;
     
+    //Player HP
+    this.mMaxHP = 100;
+    this.mCurrentHP = this.mMaxHP;
+    
     // ArrowVector is our "firing" mechanism, need a single instance.
     this.mArrowVector = new ArrowVector(cameraRef);
     
