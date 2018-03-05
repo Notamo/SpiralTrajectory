@@ -5,13 +5,12 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, Arrow, ParticleGameObjectSet, Config, Golem  */
+ *       Platform, Arrow, ParticleGameObjectSet, Config, Golem, FireArrow, Boss */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
 
 function Torch(spriteTexture, x, y, w, h, torchType, golem) {
-    console.log(torchType);
     this.type = torchType;
     this.mTorch = new SpriteRenderable(spriteTexture);
     this.mTorch.setColor(Config.Torch[this.type].Color);
@@ -30,7 +29,7 @@ function Torch(spriteTexture, x, y, w, h, torchType, golem) {
     this.setRigidBody(r); 
     this.mParticles = new ParticleGameObjectSet();
     
-    this.kTorchLife = 1200;
+    this.kTorchLife = Config.Torch[this.type].MaxTimeLit;
     if (golem instanceof Golem) {
         golem.addTorchRef(this);
     }

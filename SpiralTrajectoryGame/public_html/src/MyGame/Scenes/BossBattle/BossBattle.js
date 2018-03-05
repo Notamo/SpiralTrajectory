@@ -22,6 +22,7 @@ function BossBattle() {
     this.mBgL1 = null;
     this.mFg = null;
     this.mCollisions = [];
+    this.mVictory = false;
 }
 gEngine.Core.inheritPrototype(BossBattle, Scene);
 
@@ -29,13 +30,20 @@ BossBattle.prototype.loadScene = function () {
     for (var texture in Config.BossBattle.Textures) {
         gEngine.Textures.loadTexture(Config.BossBattle.Textures[texture]);
     }
+    for(var texture in Config.UI.Textures) {
+        gEngine.Textures.loadTexture(Config.UI.Textures[texture]);
+    }
 };
 
 BossBattle.prototype.unloadScene = function () {
+    this._unloadUI();
     for (var texture in Config.BossBattle.Textures) {
         gEngine.Textures.unloadTexture(Config.BossBattle.Textures[texture]);
     }
-    gEngine.Core.startScene(new ResultsScreen());
+    for(var texture in Config.UI.Textures) {
+        gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
+    }
+    gEngine.Core.startScene(new ResultsScreen(this.mVictory));
 };
 
 BossBattle.prototype.initialize = function () {
@@ -146,9 +154,9 @@ BossBattle.prototype.draw = function () {
 BossBattle.prototype.update = function () {
     // This is our toggle to switch scenes, temporary binding to the R key, but
     // will need to be changed for the final game.
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
-        gEngine.GameLoop.stop();
-    }
+    //if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
+    //    gEngine.GameLoop.stop();
+   // }
 
     this.mNonPhysicsGameObjects.update();
     this.mPhysicsGameObjects.update();
@@ -161,6 +169,13 @@ BossBattle.prototype.update = function () {
 
     this.updateMainCamera();
     this._updateUI();
+    if (this.mHero.getStatus() === false) {
+        this.mVictory = false;
+        gEngine.GameLoop.stop();
+    } else if (this.mBoss.getCurrentState() === Config.Golem.States.Dead) {
+        this.mVictory = true;
+        gEngine.GameLoop.stop();
+    }
 };
 
 // Updates the main camera to follow the hero

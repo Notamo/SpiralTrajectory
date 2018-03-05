@@ -35,7 +35,7 @@ function Hero(spriteTexture, physicsReference, cameraRef) {
     this.mPhysicsSetRef = physicsReference;
     
     //Player HP
-    this.mMaxHP = 100;
+    this.mMaxHP = 1000;
     this.mCurrentHP = this.mMaxHP;
     
     // ArrowVector is our "firing" mechanism, need a single instance.
@@ -203,4 +203,12 @@ Hero.prototype.userCollisionHandling = function (obj) {
     }
     
     return false;
+};
+
+Hero.prototype.getStatus = function () {
+    return (this.mCurrentHP > 0);
+};
+
+Hero.prototype.hit = function (damage) {
+    this.mCurrentHP -= damage;
 };

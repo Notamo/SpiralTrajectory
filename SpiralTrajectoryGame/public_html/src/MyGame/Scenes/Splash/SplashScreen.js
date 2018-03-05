@@ -6,7 +6,7 @@
 /*jslint node: true, vars: true */
 /*global gEngine, Scene, GameObjectset, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, BossBattle
-  GameObject */
+  GameObject, Config */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
@@ -26,13 +26,16 @@ gEngine.Core.inheritPrototype(SplashScreen, Scene);
 
 SplashScreen.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.arrow);
-        for(var texture in Config.UI.Textures) {
+    for(var texture in Config.UI.Textures) {
         gEngine.Textures.loadTexture(Config.UI.Textures[texture]);
     }
 };
 
 SplashScreen.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.arrow);
+    for(var texture in Config.UI.Textures) {
+        gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
+    }
     gEngine.Core.startScene(new BossBattle());
 };
 

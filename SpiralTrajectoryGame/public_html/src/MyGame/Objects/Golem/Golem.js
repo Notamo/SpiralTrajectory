@@ -84,7 +84,6 @@ Golem.prototype.update = function () {
 
 Golem.prototype.hit = function (damage) {    
     this.mCurrentHP -= (damage * this.mTorchBoost);
-    console.log(this.mCurrentHP);
 };
 
 Golem.prototype.addTorchRef = function (torch) {
@@ -103,4 +102,8 @@ Golem.prototype.interpolate = function () {
     this.mCenterY.updateInterpolation();
     this.mGolem.getXform().setXPos(this.mCenterX.getValue());
     this.mGolem.getXform().setYPos(this.mCenterY.getValue());
+};
+
+Golem.prototype.getCurrentState = function () {
+    return this.mCurrentState;
 };

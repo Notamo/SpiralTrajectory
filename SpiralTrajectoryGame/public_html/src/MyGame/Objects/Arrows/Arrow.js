@@ -107,6 +107,8 @@ Arrow.prototype.userCollisionHandling = function(obj){
         if (this.getTimeAlive() < 30 || this.mCollided) {
             return true;
         }
+        
+        obj.hit(this.getDamage());
     }
   
     if (obj instanceof Torch) {

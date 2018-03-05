@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+/* global BossBattle, vec2, Config, gEngine */
+
 "use strict";
 
 BossBattle.prototype._initializeUI = function() {    
@@ -32,10 +34,9 @@ BossBattle.prototype._initializeUI = function() {
                                Config.UI.HeroHealthBar.Buffer);
     this.mHeroHP.setMaxHP(this.mHero.mMaxHP);
     this.mHeroHP.setCurrentHP(this.mHero.mCurrentHP);
-                               
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTestText);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mArrowSelector);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mBossName)
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mBossName);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mBossHP);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mHeroHP);
 };
@@ -54,5 +55,11 @@ BossBattle.prototype._updateUI = function() {
     this.mHeroHP.setCurrentHP(this.mHero.mCurrentHP);
 };
 
-
+BossBattle.prototype._unloadUI = function () {
+    gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mTestText);
+    gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mArrowSelector);
+    gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mBossName);
+    gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mBossHP);
+    gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mHeroHP);
+};
 

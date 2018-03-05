@@ -70,6 +70,7 @@ GolemBlastProjectile.prototype.update = function () {
     var temp = [];
     if (this.mTouchedHero === false && this.mProjectile.pixelTouches(this.mHero.getRenderable(), temp)) {
         this.mTouchedHero = true;
+        this.mHero.hit(this.mBaseDamage);
     }
     
     if (projectileXform.getXPos() < -50 ||
