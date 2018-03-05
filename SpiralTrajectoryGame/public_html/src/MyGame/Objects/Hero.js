@@ -7,7 +7,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, ArrowSet */
+ *       Platform, ArrowSet, ArrowVector, Platform, Arrow */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -129,7 +129,7 @@ Hero.prototype.update = function () {
     
     // Firing modes, should be moved to the Hero class as well.
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M)) {
-        this.mArrowVector.setFireMode(ArrowVectoWr.eFiringModes.eTailControl);
+        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eTailControl);
     }
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.N)) {
         this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eHeadControl);
@@ -143,14 +143,14 @@ Hero.prototype.update = function () {
 Hero.prototype.generateArrow = function() {
     var arrow;
     var type = this.getArrowSelection();
-    if (type == ArrowSet.eArrowType.eFireArrow) {
+    if (type === ArrowSet.eArrowType.eFireArrow) {
         arrow = new FireArrow(
             this.getXform().getPosition(),
             this.mArrowVector.getPower(),
             this.mArrowVector.getDegrees()
         );
     }
-    else if (type == ArrowSet.eArrowType.eIceArrow) {
+    else if (type === ArrowSet.eArrowType.eIceArrow) {
         arrow = new IceArrow(
             this.getXform().getPosition(),
             this.mArrowVector.getPower(),
