@@ -64,7 +64,7 @@ Hero.prototype.draw = function(aCamera) {
 
 Hero.prototype.update = function () {
     var xform = this.getXform();
-    
+
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         this.getRigidBody().adjustPositionBy([-10,0], .1);
         this.getXform().setOrientation(-1);
@@ -163,7 +163,6 @@ Hero.prototype.generateArrow = function() {
 // Ignores collision with platform objects when the S key is pressed or
 // when the hero is jumping from below the platform
 Hero.prototype.userCollisionHandling = function (obj) {
-    
     if (obj instanceof Platform) {
         // NoClip is our setting for indicating the Hero is in a state which should avoid
         // collisions with platforms. If it's true, return true.
@@ -185,5 +184,5 @@ Hero.prototype.userCollisionHandling = function (obj) {
         this.mJumpCount = 0;
     }
     
-     return false;
+    return false;
 };
