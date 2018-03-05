@@ -65,7 +65,7 @@ IceArrow.prototype.draw = function (camera) {
 IceArrow.prototype.update = function() {
     Arrow.prototype.update.call(this);
     if (this.mTimeSinceSpawn%10 == 8 && Math.random() < .8) {
-        if (this.mTimeSinceSpawn + this.mParticleLifeLimit < this.mTimeLimit) {
+        if ((this.mTimeLimit - this.mTimeSinceSpawn) > this.mParticleLifeLimit) {
             this.mParticles.addEmitterAt(
                 this.getXform().getPosition(),
                 1,
@@ -81,11 +81,11 @@ IceArrow.prototype.update = function() {
 
 IceArrow.prototype.createParticle = function (x, y) {
     var life;
-    if (this.mTimeLimit - this.mTimeSinceSpawn > this.mParticleLifeLimit) {
+    if (this.mTimeLimit - this.mTimeSinceSpawn < 180) {
         life = this.mTimeLimit - this.mTimeSinceSpawn;
     }
     else {
-        life = this.mParticleLifeLimit;
+        life = 180;
     }
     var p = new ParticleGameObject(
         Config.BossBattle.Textures.SnowParticleTexture, 
@@ -106,8 +106,6 @@ IceArrow.prototype.createParticle = function (x, y) {
     p.getParticle().setVelocity([vx, 0]);
     p.setSizeDelta(1);
     p.getParticle().setDrag(.98);
-
-    //p.getParticle().setAcceleration([0, -80]);
     
     return p;
 };
