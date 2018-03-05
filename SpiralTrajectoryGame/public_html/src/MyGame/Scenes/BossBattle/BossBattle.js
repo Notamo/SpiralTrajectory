@@ -84,6 +84,8 @@ BossBattle.prototype.initialize = function () {
     
     this.wall = new TiledGameObject(new TextureRenderable(Config.BossBattle.Textures.TileBackgroundTexture));
     this.wall.getXform().setSize(Config.BossBattle.Background[0].Width, Config.BossBattle.Background[0].Height);
+
+    this._initializeUI();
 };
 
 BossBattle.prototype.initializeBackground = function() {
@@ -142,6 +144,8 @@ BossBattle.prototype.draw = function () {
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eFront,this.mMainCamera);
     this.mCollisions = [];
+    
+    gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD, this.mMainCamera);
 };
 
 BossBattle.prototype.update = function () {
@@ -160,6 +164,7 @@ BossBattle.prototype.update = function () {
     gEngine.LayerManager.updateAllLayers();
 
     this.updateMainCamera();
+    this._updateUI();
 };
 
 // Updates the main camera to follow the hero
