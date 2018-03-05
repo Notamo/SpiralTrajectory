@@ -21,6 +21,7 @@ function BossBattle() {
     this.mBgL0 = null;
     this.mBgL1 = null;
     this.mFg = null;
+    this.kBgMusic = null;
     this.mCollisions = [];
     this.mVictory = false;
 }
@@ -33,6 +34,8 @@ BossBattle.prototype.loadScene = function () {
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.loadTexture(Config.UI.Textures[texture]);
     }
+    gEngine.AudioClips.loadAudio("assets/audio/music/bossbattle.mp3");
+
 };
 
 BossBattle.prototype.unloadScene = function () {
@@ -77,6 +80,9 @@ BossBattle.prototype.initialize = function () {
     );
 
     this.mPhysicsGameObjects.addToSet(this.mBoss);
+    
+    this.kBgMusic = "assets/audio/music/bossbattle.mp3";
+    gEngine.AudioClips.playBackgroundAudio(this.kBgMusic);
     
     this.buildLevel();
     
