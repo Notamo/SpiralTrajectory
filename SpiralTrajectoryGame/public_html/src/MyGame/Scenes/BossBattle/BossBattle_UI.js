@@ -9,11 +9,11 @@
 BossBattle.prototype._initializeUI = function() {    
     this.mestText = new UIText("Arrow Types", vec2.fromValues(25, 780), null);
     this.mestText.setTextHeight(4);
-    var arrowSelectSprites = [Config.BossBattle.Textures.UIArrowIcon,
-                              Config.BossBattle.Textures.UIFireArrowIcon,
-                              Config.BossBattle.Textures.UIIceArrowIcon];
+    var arrowSelectSprites = [Config.UI.Textures.UIArrowIcon,
+                              Config.UI.Textures.UIFireArrowIcon,
+                              Config.UI.Textures.UIIceArrowIcon];
                          
-    this.arrowSelector = new UIArrowSelection(arrowSelectSprites, Config.BossBattle.Textures.UIArrowBorders, vec2.fromValues(150, 850), 100);
+    this.arrowSelector = new UIArrowSelection(arrowSelectSprites, Config.UI.Textures.UIArrowBorders, vec2.fromValues(150, 850), 100);
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mestText);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.arrowSelector);

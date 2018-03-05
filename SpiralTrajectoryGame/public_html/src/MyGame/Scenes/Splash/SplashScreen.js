@@ -26,6 +26,9 @@ gEngine.Core.inheritPrototype(SplashScreen, Scene);
 
 SplashScreen.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.arrow);
+        for(var texture in Config.UI.Textures) {
+        gEngine.Textures.loadTexture(Config.UI.Textures[texture]);
+    }
 };
 
 SplashScreen.prototype.unloadScene = function () {
