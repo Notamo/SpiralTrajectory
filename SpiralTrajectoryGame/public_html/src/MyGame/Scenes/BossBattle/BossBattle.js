@@ -80,15 +80,12 @@ BossBattle.prototype.initialize = function () {
     
     this.buildLevel();
     
-    this.initializeBackground();
-    
-    this.wall = new TiledGameObject(new TextureRenderable(Config.BossBattle.Textures.TileBackgroundTexture));
-    this.wall.getXform().setSize(Config.BossBattle.Background[0].Width, Config.BossBattle.Background[0].Height);
+    this._initializeBackground();
 
     this._initializeUI();
 };
 
-BossBattle.prototype.initializeBackground = function() {
+BossBattle.prototype._initializeBackground = function() {
     var farBG = new IllumRenderable(Config.BossBattle.Textures.FarBackgroundTexture, Config.BossBattle.Textures.FarBackgroundNormal);
     farBG.setElementPixelPositions(0, 1024, 0, 512);
     farBG.getXform().setSize(400, 200);
@@ -140,7 +137,6 @@ BossBattle.prototype.draw = function () {
     this.mMainCamera.setupViewProjection();
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eBackground,this.mMainCamera);
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eShadowReceiver,this.mMainCamera);
-    //this.wall.draw(this.mMainCamera);
     this.mNonPhysicsGameObjects.draw(this.mMainCamera);
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     
