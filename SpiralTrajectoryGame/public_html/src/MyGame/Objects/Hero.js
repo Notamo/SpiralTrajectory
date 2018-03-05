@@ -122,7 +122,7 @@ Hero.prototype.update = function () {
     
     // Firing modes, should be moved to the Hero class as well.
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M)) {
-        this.mArrowVector.setFireMode(ArrowVectoWr.eFiringModes.eTailControl);
+        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eTailControl);
     }
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.N)) {
         this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eHeadControl);

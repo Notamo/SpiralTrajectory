@@ -7,8 +7,8 @@
 "use strict";
 
 BossBattle.prototype._initializeUI = function() {    
-    this.mestText = new UIText("Hello World!", vec2.fromValues(25, 450), null);
-    this.mestText.setTextHeight(5);
+    this.mestText = new UIText("Arrow Types", vec2.fromValues(25, 780), null);
+    this.mestText.setTextHeight(4);
     var arrowSelectSprites = [Config.BossBattle.Textures.UIArrowIcon,
                               Config.BossBattle.Textures.UIFireArrowIcon,
                               Config.BossBattle.Textures.UIIceArrowIcon];
@@ -20,8 +20,10 @@ BossBattle.prototype._initializeUI = function() {
 };
 
 BossBattle.prototype._updateUI = function() {
-    //console.log("updateUI");
-    this.mestText.setText("Hello");
+    this.arrowSelector.select(this.mHero.getArrowSelection());
+    var cooldowns = this.mHero.mArrowSet.getCooldownStatus();
+    for(var i = 0; i < cooldowns.length; i++)
+        this.arrowSelector.setActive(i, cooldowns[i]);
     
 };
 

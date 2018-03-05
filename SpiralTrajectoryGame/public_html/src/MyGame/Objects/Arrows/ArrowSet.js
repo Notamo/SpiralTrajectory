@@ -118,6 +118,15 @@ class ArrowSet extends GameObjectSet {
     }
 }
 
+ArrowSet.prototype.getCooldownStatus = function() {
+    var status = [false, false, false];
+    var i;
+    for(i = 0; i < 3; i++)
+        status[i] = this.mTimeSinceSpawn[i] > this.kCooldowns[i];
+    
+    return status;
+};
+
 ArrowSet.eArrowType = Object.freeze({
         eDefaultArrow: 0,
         eFireArrow: 1,
