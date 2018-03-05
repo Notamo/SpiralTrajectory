@@ -19,8 +19,8 @@ Config.BossBattle = Object.freeze({
         BossSprite:             "assets/characters/boss_sprites.png",
         BossProjectileSprite:   "assets/projectiles/bossprojectile.png",
         PlatformTexture:        "assets/props/platform.png",
-        GroundTexture:          "assets/props/platform.png",
-        WallTexture:            "assets/wall.png",
+        GroundTexture:          "assets/groundtexture.png",
+        WallTexture:            "assets/walltexture.png",
         GroundTorchTexture:     "assets/props/torch1.png",
         WallTorchTexture:       "assets/props/torch2.png",
         TorchParticleTexture:   "assets/particles/particle.png",
@@ -70,94 +70,119 @@ Config.BossBattle = Object.freeze({
                 Height: 30
             }
         ],
-        Wall: [
-            {
-                X:      5,
-                Y:      175,
-                Width:  20,
-                Height: 40,
-                Orientation: 1
-            },
-            {
-                X:      295,
-                Y:      175,
-                Width:  20,
-                Height: 40,
-                Orientation: -1
-            }
-        ],
         Ceiling: [
             
         ]
     },
     Walls: [
         {
-            X:      -20,
-            Y:      50,
-            Width:  40,
-            Height: 120
+            X:      -76,
+            Y:      45,
+            Width:  100,
+            Height: 100
         },
         {
-            X:      -20,
-            Y:      170,
-            Width:  40,
-            Height: 120
+            X:      -76,
+            Y:      145,
+            Width:  100,
+            Height: 100
         },
         {
-            X:      -20,
-            Y:      290,
-            Width:  40,
-            Height: 120
+            X:      -76,
+            Y:      245,
+            Width:  100,
+            Height: 100
         },
         {
-            X:      -20,
-            Y:      370,
-            Width:  40,
-            Height: 120
+            X:      -76,
+            Y:      345,
+            Width:  100,
+            Height: 100
         },
         {
-            X:      320,
-            Y:      50,
-            Width:  40,
-            Height: 120
+            X:      -76,
+            Y:      445,
+            Width:  100,
+            Height: 100
         },
         {
-            X:      320,
-            Y:      170,
-            Width:  40,
-            Height: 120
+            X:      374,
+            Y:      45,
+            Width:  100,
+            Height: 100
         },
         {
-            X:      320,
-            Y:      290,
-            Width:  40,
-            Height: 120
+            X:      374,
+            Y:      145,
+            Width:  100,
+            Height: 100
         },
         {
-            X:      320,
-            Y:      370,
-            Width:  40,
-            Height: 120
+            X:      374,
+            Y:      245,
+            Width:  100,
+            Height: 100
         },
         {
-            X:      -100,
-            Y:      0,
-            Width:  200,
-            Height: 1000
+            X:      374,
+            Y:      345,
+            Width:  100,
+            Height: 100
         },
         {
-            X:      400,
-            Y:      0,
-            Width:  200,
-            Height: 1000
+            X:      374,
+            Y:      445,
+            Width:  100,
+            Height: 100
         }
-        
     ],
     Ground: [
         {
-            X:      150,
-            Y:      -55,
-            Width:  600,
+            X:      -120,
+            Y:      -78.5,
+            Width:  75,
+            Height: 150
+        }, 
+        {
+            X:      -45,
+            Y:      -78.5,
+            Width:  75,
+            Height: 150
+        }, 
+        {
+            X:      30,
+            Y:      -78.5,
+            Width:  75,
+            Height: 150
+        },        
+        {
+            X:      105,
+            Y:      -78.5,
+            Width:  75,
+            Height: 150
+        },
+        {
+            X:      180,
+            Y:      -78.5,
+            Width:  75,
+            Height: 150
+        },
+        {
+            X:      255,
+            Y:      -78.5,
+            Width:  75,
+            Height: 150
+        },
+        {
+            X:      330,
+            Y:      -78.5,
+            Width:  75,
+            Height: 150
+        },
+        {
+            X:      405,
+            Y:      -78.5,
+            Width:  75,
             Height: 150
         }
     ], 
@@ -245,12 +270,6 @@ Config.BossBattle = Object.freeze({
             Y:      20,
             Width:  20,
             Height: 5
-        }
-    ],
-    Background: [
-        {
-            Width:  40,
-            Height: 40
         }
     ]
 });

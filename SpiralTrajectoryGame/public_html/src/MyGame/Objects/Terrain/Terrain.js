@@ -18,7 +18,7 @@ function Terrain(spriteTexture, x, y, w, h) {
     xform.setPosition(x, y);
     GameObject.call(this, this.terrain);
     
-    var r = new RigidRectangle(xform, w, h*.64);
+    var r = new RigidRectangle(xform, w, h);
     r.setMass(0);
     this.setRigidBody(r);
     
