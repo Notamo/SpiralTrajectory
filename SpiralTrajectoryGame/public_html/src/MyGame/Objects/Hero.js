@@ -118,6 +118,13 @@ Hero.prototype.update = function () {
         if (this.mArrowSet.addToSet(arrow)) {
             this.mPhysicsSetRef.addToSet(arrow);
         }
+        
+        if (this.mArrowVector.getDegrees() < 90 && this.mArrowVector.getDegrees() > -90) {
+            this.getXform().setOrientation(1);
+        } else if (this.mArrowVector.getDegrees() > 90 || this.mArrowVector.getDegrees() < -90) {
+            this.getXform().setOrientation(-1);
+        }
+        
     }
     
     // Firing modes, should be moved to the Hero class as well.
