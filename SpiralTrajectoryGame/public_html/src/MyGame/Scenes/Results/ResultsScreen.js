@@ -65,9 +65,10 @@ ResultsScreen.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(2.5);
     //Creation of arrow and Both FontRenderables
     this.mArrow=new Arrow(pos,1,50);
-    if (this.mResults) {
+    if (this.mResult) {
         this.kMusicCue = "assets/audio/music/victory.mp3" ;
-    } else {
+    } 
+    else {
         this.kMusicCue = "assets/audio/music/gameover.mp3";
     }
     gEngine.AudioClips.playACue(this.kMusicCue);

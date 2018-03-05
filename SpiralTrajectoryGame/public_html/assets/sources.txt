@@ -53,3 +53,9 @@ boss music
 https://opengameart.org/content/lord-of-destruction-background-music
 www.soundemperor.com
 
+victory cue
+https://opengameart.org/content/win-music-1
+
+gameover
+https://opengameart.org/content/game-over-theme-ii
+Cleyton Kauffman - https://soundcloud.com/cleytonkauffman
