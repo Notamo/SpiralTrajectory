@@ -46,6 +46,7 @@ BossBattle.prototype.unloadScene = function () {
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
     }
+    gEngine.AudioClips.stopBackgroundAudio();
     gEngine.Core.startScene(new ResultsScreen(this.mVictory));
 };
 

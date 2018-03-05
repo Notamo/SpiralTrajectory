@@ -14,6 +14,7 @@
 function ResultsScreen(result) {
     this.kNextSceneName = "SplashScreen";
     this.kResultsScreenBackground = "";
+    this.kMusicCue = null;
     this.arrow = "assets/projectiles/arrow.png";
     this.title = null;
     this.msg = null;
@@ -31,6 +32,8 @@ ResultsScreen.prototype.loadScene = function () {
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.loadTexture(Config.UI.Textures[texture]);
     }
+    gEngine.AudioClips.loadAudio("assets/audio/music/victory.mp3");
+    gEngine.AudioClips.loadAudio("assets/audio/music/gameover.mp3");
 };
 
 ResultsScreen.prototype.unloadScene = function () {
@@ -44,6 +47,8 @@ ResultsScreen.prototype.unloadScene = function () {
     } else {
         nextScene = new SplashScreen();
     }
+    gEngine.AudioClips.unloadAudio("assets/audio/music/victory.mp3");
+    gEngine.AudioClips.unloadAudio("assets/audio/music/gameover.mp3");
     gEngine.Core.startScene(nextScene);
 };
 
@@ -60,6 +65,12 @@ ResultsScreen.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(2.5);
     //Creation of arrow and Both FontRenderables
     this.mArrow=new Arrow(pos,1,50);
+    if (this.mResults) {
+        this.kMusicCue = "assets/audio/music/victory.mp3" ;
+    } else {
+        this.kMusicCue = "assets/audio/music/gameover.mp3";
+    }
+    gEngine.AudioClips.playACue(this.kMusicCue);
     var tempMsg = this.mResult === true ? "You won!" : "You lost...";
     this.title=new FontRenderable(tempMsg);
     this.title.setColor([.5, .5, .5, 1]);
