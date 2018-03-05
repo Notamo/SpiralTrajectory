@@ -122,14 +122,28 @@ Golem.prototype._servicePatrolling = function () {
     }
     
     // Projectile firing
-    
+    if (this.mCurrentProjectileState === null) {
+        if (this.mTimeLastProjectileFired === null || 
+            Date.now() >= this.mTimeLastProjectileFired + Config.Golem.States.Patrolling.ProjectileFiringInterval) {
+            var nextProjectile = Math.random();
+            if (nextProjectile < Config.Golem.Projectiles.Salvo.Chance) {
+                this.mCurrentProjectileState = Config.Golem.Projectiles.Salvo;
+            } else if (nextProjectile < Config.Golem.Projectiles.Burst.Chance) {
+                this.mCurrentProjectileState = Config.Golem.Projectiles.Burst;
+            } else {
+                this.mCurrentProjectileState = Config.Golem.Projectiles.Blast;
+            }
+        }
+    } else {
+        // Projectile attack in progress, do appropriate things.
+        this._updateProjectileState();
+    }
 
     // Conditions to transition to other states.
     if (this.mCurrentHP <= 0) {
         this.mCurrentState = Config.Golem.States.Dying;
         this.mCurrentStateInitialized = false;
     }
-    
     this.interpolate();
     this.mGolem.updateAnimation();
 };

@@ -44,6 +44,7 @@ function Hero(spriteTexture, physicsReference, cameraRef) {
     this.mJumpCount = 0;
     this.mMaxJumps = 2;
     this.mArrowSelection = ArrowSet.eArrowType.eDefaultArrow;
+    this.mLastPlatform = null;
 };
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
@@ -167,10 +168,16 @@ Hero.prototype.generateArrow = function() {
     return arrow;
 };
 
+Hero.prototype.getLastPlatform = function () {
+    return this.mLastPlatform;
+};
+
+
 // Ignores collision with platform objects when the S key is pressed or
 // when the hero is jumping from below the platform
 Hero.prototype.userCollisionHandling = function (obj) {
     if (obj instanceof Platform) {
+        this.mLastPlatform = obj;
         // NoClip is our setting for indicating the Hero is in a state which should avoid
         // collisions with platforms. If it's true, return true.
         if (this.mNoClip) {

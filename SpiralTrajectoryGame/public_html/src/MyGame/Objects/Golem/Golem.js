@@ -8,9 +8,10 @@
 
 "use strict";
 
-function Golem(sprite, heroRef, physicsGameObjectArrayRef) {
-    // Save the reference to the physics set.
+function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectArrayRef) {
+    // Save the reference to the game object sets.
     this.mPhysicsSetRef = physicsGameObjectArrayRef;
+    this.mNonPhysicsSetRef = nonPhysicsGameObjectArrayRef;
     
     // Save a reference to the hero.
     this.mHero = heroRef;
@@ -59,10 +60,13 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef) {
     this.mCurrentState = Config.Golem.States.WaitingToSpawn;
     this.mCurrentStateInitialized = false;
     this.mIgnoreCollision = false;
+    this.mCurrentProjectileState = null;
+    this.mPreviousProjectileState = null;
     
     // Time tracking
     this.mStateStartTime = null;
     this.mMiscTracker = null;
+    this.mTimeLastProjectileFired = null;
 }
 gEngine.Core.inheritPrototype(Golem, GameObject);
 

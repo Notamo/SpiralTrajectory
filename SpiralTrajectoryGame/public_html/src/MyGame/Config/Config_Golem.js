@@ -28,7 +28,7 @@ Config.Golem = Object.freeze({
                 YOffset: 60,
                 Interval: 5000
             },
-            ProjectileFiringInterval:   1000,
+            ProjectileFiringInterval:   5000,
             ChanceToChaseHeroYPos:  0.01,
             MaxHeight: 120,
             MinHeight: 20,
@@ -57,6 +57,53 @@ Config.Golem = Object.freeze({
         },
         FacingLeft: 1,
         FacingRight: -1
+    },
+    Projectiles: {
+        Salvo: {
+            Chance: 0.35,
+            Physics: {
+                Gravity: false,
+                Mass: 0.1,
+                Friction: 1,
+                Restitution: 1 
+            },
+            Color: [1, 1, 1, 0],
+            Count: 8,
+            Radius: 5,
+            TravelHeight: vec2.fromValues(0, 40),
+            LaunchOffset: vec2.fromValues(0, 15),
+            DefaultFireDirection: vec2.fromValues(0.1, 1),
+            DefaultVelocity: vec2.fromValues(0, 30),
+            TargetOffset: vec2.fromValues(10, 0),
+            MinAccuracy: 0.01,
+            MaxAccuracy: 0.1,
+            AccuracyDivisor: 0.03,
+            MinSpeed: 10,
+            MaxSpeed: 100,
+            SpeedDivisor: 0.03
+        },
+        Burst: {
+            Chance: 0.8
+            
+        },
+        Blast: {
+            Chance: 1.0,
+            Physics: {
+                Gravity: false,
+                Mass: 0.1,
+                Friction: 1,
+                Restitution: 1 
+            },
+            StartRadius: 10,
+            EndRadius: 50,
+            Color: [1, 1, 1, 0],
+            WindupTime:  180,
+            RotationDelta: 0.5,
+            YOffset: 8,
+            BasePower: vec2.fromValues(1.5, 1.5),
+            PowerDelta: vec2.fromValues(1.025, 1.025),
+            BaseDamage: 100
+        }
     },
     Animations: {
         Spawn: {

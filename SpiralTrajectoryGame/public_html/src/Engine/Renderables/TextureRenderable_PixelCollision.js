@@ -17,6 +17,14 @@
  * @returns {Boolean} true if collision is detected
  */
 TextureRenderable.prototype.pixelTouches = function(other, wcTouchPos) {
+    if (this.mColorArray === null) {
+        this.setColorArray();
+    }
+
+    if (other.mColorArray === null) {
+        other.setColorArray();
+    }
+    
     var pixelTouch = false;
     var xIndex = 0, yIndex;
     var otherIndex = [0, 0];
@@ -27,8 +35,8 @@ TextureRenderable.prototype.pixelTouches = function(other, wcTouchPos) {
     var otherYDir = [0, 1];
     vec2.rotate(xDir, xDir, this.mXform.getRotationInRad());
     vec2.rotate(yDir, yDir, this.mXform.getRotationInRad());
-    vec2.rotate(otherXDir, otherXDir, other.mXform.getRotationInRad());
-    vec2.rotate(otherYDir, otherYDir, other.mXform.getRotationInRad());
+    vec2.rotate(otherXDir, otherXDir, other.getXform().getRotationInRad());
+    vec2.rotate(otherYDir, otherYDir, other.getXform().getRotationInRad());
 
     while ((!pixelTouch) && (xIndex < this.mTexWidth)) {
         yIndex = 0;

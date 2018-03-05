@@ -61,7 +61,12 @@ BossBattle.prototype.initialize = function () {
     );
     this.mPhysicsGameObjects.addToSet(this.mHero);
     
-    this.mBoss = new Golem(Config.BossBattle.Textures.BossSprite, this.mHero, this.mPhysicsGameObjects);
+    this.mBoss = new Golem(
+        Config.BossBattle.Textures.BossSprite, 
+        this.mHero, 
+        this.mPhysicsGameObjects,
+        this.mNonPhysicsGameObjects
+    );
 
 /*
     // old boss
@@ -136,7 +141,9 @@ BossBattle.prototype.draw = function () {
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eBackground,this.mMainCamera);
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eShadowReceiver,this.mMainCamera);
     //this.wall.draw(this.mMainCamera);
+    this.mNonPhysicsGameObjects.draw(this.mMainCamera);
     this.mPhysicsGameObjects.draw(this.mMainCamera);
+    
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eFront,this.mMainCamera);
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD,this.mMainCamera);
     this.mCollisions = [];
@@ -149,6 +156,7 @@ BossBattle.prototype.update = function () {
         gEngine.GameLoop.stop();
     }
 
+    this.mNonPhysicsGameObjects.update();
     this.mPhysicsGameObjects.update();
     gEngine.Physics.processCollision(
         this.mPhysicsGameObjects, 
