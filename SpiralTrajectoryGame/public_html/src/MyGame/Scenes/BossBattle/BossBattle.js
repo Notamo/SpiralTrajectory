@@ -21,7 +21,6 @@ function BossBattle() {
     this.mBgL0 = null;
     this.mBgL1 = null;
     this.mFg = null;
-    this.wall = null;
     this.mCollisions = [];
 }
 gEngine.Core.inheritPrototype(BossBattle, Scene);
@@ -82,8 +81,6 @@ BossBattle.prototype.initialize = function () {
     
     
     
-    this.wall = new TiledGameObject(new TextureRenderable(Config.BossBattle.Textures.TileBackgroundTexture));
-    this.wall.getXform().setSize(Config.BossBattle.Background[0].Width, Config.BossBattle.Background[0].Height);
 };
 
 BossBattle.prototype.initializeBackground = function() {
@@ -141,6 +138,7 @@ BossBattle.prototype.draw = function () {
     //this.wall.draw(this.mMainCamera);
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eFront,this.mMainCamera);
+    gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD,this.mMainCamera);
     this.mCollisions = [];
 };
 
