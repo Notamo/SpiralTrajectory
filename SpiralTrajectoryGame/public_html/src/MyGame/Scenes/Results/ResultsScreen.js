@@ -68,7 +68,7 @@ ResultsScreen.prototype.initialize = function () {
     this.title.setTextHeight(5);
     this.msg=new FontRenderable("Press B to play again, S for splash screen.");
     this.msg.setColor([.5, .5, .5, 1]);
-    this.msg.getXform().setPosition(37,35);
+    this.msg.getXform().setPosition(10,35);
     this.msg.setTextHeight(3);
     this.mMainCamera.setBackgroundColor([.5, .5, .5, 1]);
 };
