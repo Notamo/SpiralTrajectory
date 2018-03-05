@@ -68,4 +68,19 @@ BossBattle.prototype.createTorches = function () {
             this.mBoss
         ));
     }
+    
+    var temp;
+    for (var torch in Config.BossBattle.Torches.Wall) {
+        temp = new Torch (
+            Config.BossBattle.Textures.WallTorchTexture,
+            Config.BossBattle.Torches.Wall[torch].X,
+            Config.BossBattle.Torches.Wall[torch].Y,
+            Config.BossBattle.Torches.Wall[torch].Width,
+            Config.BossBattle.Torches.Wall[torch].Height,
+            (Config.BossBattle.Torches.Wall[torch].Orientation > 0 ? Config.Torch.Types.WallLeft : Config.Torch.Types.WallRight),
+            this.mBoss
+        );
+        temp.getXform().setOrientation(Config.BossBattle.Torches.Wall[torch].Orientation);
+        this.mPhysicsGameObjects.addToSet(temp);
+    }
 };

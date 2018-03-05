@@ -68,23 +68,11 @@ BossBattle.prototype.initialize = function () {
         this.mNonPhysicsGameObjects
     );
 
-/*
-    // old boss
-    this.mBoss = new Boss(
-        Config.BossBattle.Textures.BossSprite,
-        Config.BossBattle.Textures.BossProjectileSprite, 
-        this.mPhysicsGameObjects,
-        this.mMainCamera,
-        this.mHero);
-        */
-
     this.mPhysicsGameObjects.addToSet(this.mBoss);
     
     this.buildLevel();
     
     this.initializeBackground();
-    
-    
     
     this.wall = new TiledGameObject(new TextureRenderable(Config.BossBattle.Textures.TileBackgroundTexture));
     this.wall.getXform().setSize(Config.BossBattle.Background[0].Width, Config.BossBattle.Background[0].Height);
@@ -119,7 +107,7 @@ BossBattle.prototype.initializeBackground = function() {
     this.mBgL1.setCurrentFrontDir([0, -1, 0]);
     this.mBgL1.setIsTiled(false);
     
-    var FG = new IllumRenderable(Config.BossBattle.Textures.ForegroundTexture, Config.BossBattle.Textures.ForegroundNormal);
+   /* var FG = new IllumRenderable(Config.BossBattle.Textures.ForegroundTexture, Config.BossBattle.Textures.ForegroundNormal);
     FG.setElementPixelPositions(0, 1024, 0, 512);
     FG.getXform().setSize(354, 178);
     FG.getXform().setPosition(148, 81);
@@ -132,11 +120,11 @@ BossBattle.prototype.initializeBackground = function() {
     this.mFg.setCurrentFrontDir([-1, 0, 0]);
     this.mFg.setIsTiled(false);
     
-    
+    */
     // add to layer managers ...
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mBgL0);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBgL1);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mFg);
+  //  gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mFg);
 };
 
 BossBattle.prototype.draw = function () {
@@ -148,7 +136,7 @@ BossBattle.prototype.draw = function () {
     this.mNonPhysicsGameObjects.draw(this.mMainCamera);
     this.mPhysicsGameObjects.draw(this.mMainCamera);
     
-    gEngine.LayerManager.drawLayer(gEngine.eLayer.eFront,this.mMainCamera);
+   // gEngine.LayerManager.drawLayer(gEngine.eLayer.eFront,this.mMainCamera);
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD,this.mMainCamera);
     this.mCollisions = [];
     

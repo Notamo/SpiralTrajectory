@@ -11,6 +11,7 @@
 "use strict";
 
 function Torch(spriteTexture, x, y, w, h, torchType, golem) {
+    console.log(torchType);
     this.type = torchType;
     this.mTorch = new SpriteRenderable(spriteTexture);
     this.mTorch.setColor(Config.Torch[this.type].Color);

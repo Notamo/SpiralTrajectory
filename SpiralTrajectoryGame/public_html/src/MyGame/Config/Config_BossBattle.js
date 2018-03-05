@@ -22,6 +22,7 @@ Config.BossBattle = Object.freeze({
         GroundTexture:          "assets/props/platform.png",
         WallTexture:            "assets/wall.png",
         GroundTorchTexture:     "assets/props/torch1.png",
+        WallTorchTexture:       "assets/props/torch2.png",
         TorchParticleTexture:   "assets/particles/particle.png",
         FlameParticleTexture:   "assets/particles/flameparticle.png",
         SnowParticleTexture:    "assets/particles/snowparticle.png",
@@ -47,7 +48,7 @@ Config.BossBattle = Object.freeze({
         MaxTimeIdle: 2000,
         SpawnPosition: {
             X:  150,
-            Y:  20
+            Y:  50
         },
         Size: {
             Width:  78,
@@ -57,20 +58,87 @@ Config.BossBattle = Object.freeze({
     Torches: {
         Ground: [
             {
-                X:      50,
+                X:      5,
                 Y:      5,
-                Width:  10,
-                Height: 10
+                Width:  30,
+                Height: 30
+            },
+            {
+                X:      295,
+                Y:      5,
+                Width:  30,
+                Height: 30
             }
         ],
         Wall: [
-            
+            {
+                X:      5,
+                Y:      175,
+                Width:  20,
+                Height: 40,
+                Orientation: 1
+            },
+            {
+                X:      295,
+                Y:      175,
+                Width:  20,
+                Height: 40,
+                Orientation: -1
+            }
         ],
         Ceiling: [
             
         ]
     },
     Walls: [
+        {
+            X:      -20,
+            Y:      50,
+            Width:  40,
+            Height: 120
+        },
+        {
+            X:      -20,
+            Y:      170,
+            Width:  40,
+            Height: 120
+        },
+        {
+            X:      -20,
+            Y:      290,
+            Width:  40,
+            Height: 120
+        },
+        {
+            X:      -20,
+            Y:      370,
+            Width:  40,
+            Height: 120
+        },
+        {
+            X:      320,
+            Y:      50,
+            Width:  40,
+            Height: 120
+        },
+        {
+            X:      320,
+            Y:      170,
+            Width:  40,
+            Height: 120
+        },
+        {
+            X:      320,
+            Y:      290,
+            Width:  40,
+            Height: 120
+        },
+        {
+            X:      320,
+            Y:      370,
+            Width:  40,
+            Height: 120
+        },
         {
             X:      -100,
             Y:      0,
@@ -83,12 +151,13 @@ Config.BossBattle = Object.freeze({
             Width:  200,
             Height: 1000
         }
+        
     ],
     Ground: [
         {
             X:      150,
             Y:      -55,
-            Width:  300,
+            Width:  600,
             Height: 150
         }
     ], 
@@ -120,6 +189,60 @@ Config.BossBattle = Object.freeze({
         {
             X:      140,
             Y:      80,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      30,
+            Y:      120,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      10,
+            Y:      150,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      120,
+            Y:      150,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      200,
+            Y:      160,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      250,
+            Y:      140,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      190,
+            Y:      100,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      280,
+            Y:      80,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      200,
+            Y:      40,
+            Width:  20,
+            Height: 5
+        },
+        {
+            X:      275,
+            Y:      20,
             Width:  20,
             Height: 5
         }

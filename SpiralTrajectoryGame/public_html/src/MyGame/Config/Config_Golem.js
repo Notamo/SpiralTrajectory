@@ -30,7 +30,7 @@ Config.Golem = Object.freeze({
             },
             ProjectileFiringInterval:   5000,
             ChanceToChaseHeroYPos:  0.01,
-            MaxHeight: 120,
+            MaxHeight: 180,
             MinHeight: 20,
             MaxNonChaseXDistance: 85,
             MinXDistance: 15

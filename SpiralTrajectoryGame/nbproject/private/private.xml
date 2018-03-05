@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
+        <file>
+            <url>public_html/src/MyGame/Objects/Boss/BossProjectile/BossProjectile.js</url>
+            <bookmark id="2">
+                <name/>
+                <line>194</line>
+                <key/>
+            </bookmark>
+        </file>
         <file>
             <url>public_html/src/MyGame/Objects/Hero.js</url>
             <bookmark id="1">
@@ -20,12 +28,18 @@
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
         <group>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Renderables/FontRenderable.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/Splash/SplashScreen.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Utils/Transform.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/index.html</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/BossBattle/BossBattle.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_BossBattle.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Projectiles/Golem_SalvoProjectile.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/GameObjects/GameObject.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_BossBattle.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Projectiles/Golem_BlastProjectile.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_Golem.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Arrows/FireArrow.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Boss/Boss_FireProjectiles.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem_Combat.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Boss/BossProjectile/BossProjectile.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem_RangeAttacks.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem_States.js</file>
         </group>
     </open-files>
 </project-private>
