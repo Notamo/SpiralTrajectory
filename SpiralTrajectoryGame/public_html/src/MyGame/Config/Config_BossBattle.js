@@ -58,16 +58,16 @@ Config.BossBattle = Object.freeze({
     Torches: {
         Ground: [
             {
-                X:      5,
-                Y:      5,
-                Width:  30,
-                Height: 30
+                X:      10,
+                Y:      10,
+                Width:  20,
+                Height: 20
             },
             {
-                X:      295,
-                Y:      5,
-                Width:  30,
-                Height: 30
+                X:      290,
+                Y:      10,
+                Width:  20,
+                Height: 20
             }
         ],
         Ceiling: [
