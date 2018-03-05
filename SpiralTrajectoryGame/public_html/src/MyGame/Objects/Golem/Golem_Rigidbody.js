@@ -37,10 +37,10 @@ Golem.prototype._buildRigidbodies = function() {
         );
 
         r = new RigidRectangle(
-                    temp.getXform(),
-                    temp.getXform().getWidth(),
-                    temp.getXform().getHeight()
-                );
+            temp.getXform(),
+            temp.getXform().getWidth(),
+            temp.getXform().getHeight()
+        );
 
         switch (Config.Golem.Rigidbodies[rbody].Type.call()) {
             case Config.Engine.RigidShapeTypes.Rectangle:
