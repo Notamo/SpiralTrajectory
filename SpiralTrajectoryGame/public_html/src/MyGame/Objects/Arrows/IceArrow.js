@@ -63,13 +63,15 @@ IceArrow.prototype.draw = function (camera) {
 
 IceArrow.prototype.update = function() {
     Arrow.prototype.update.call(this);
-    if (this.mTimeSinceSpawn%10 == 8 && Math.random() < .8 && this.getCollided() == false) {
-        this.mParticles.addEmitterAt(
-            this.getXform().getPosition(),
-            1,
-            this.createParticle,
-            this.type
-            );  
+    if (this.mTimeSinceSpawn%10 == 8 && Math.random() < .8) {
+        if ((this.mTimeLimit - this.mTimeSinceSpawn) > 180) {
+            this.mParticles.addEmitterAt(
+                this.getXform().getPosition(),
+                1,
+                this.createParticle,
+                this.type
+                );  
+        }
     }
 
     this.mParticles.update();
