@@ -28,8 +28,11 @@ UIHealthBar.prototype.update = function() {
     UIElement.prototype.update.call(this);
     
     var s = this.getUIXform().getSize();
+    var p = this.getUIXform().getPosition();
     this.mHPElem.getUIXform().setSize((s[0] - 2*this.mBuffer) * (this.mCurHP / this.mMaxHP), s[1] - 2*this.mBuffer);
     
+    //left align
+    this.mHPElem.getUIXform().setPosition(p[0] - s[0]/2 + this.mBuffer + (this.mHPElem.getUIXform().getSize()[0]/2), p[1]);
     this.mHPElem.update();
 };
 
