@@ -62,7 +62,7 @@ FontRenderable.prototype.draw = function (aCamera) {
         yOffset = heightOfOneChar * charInfo.mCharHeightOffset * 0.5;
 
         this.mOneChar.getXform().setPosition(xPos - xOffset, yPos - yOffset);
-
+        this.mOneChar.getXform().setZPos(this.mXform.getZPos());
         this.mOneChar.draw(aCamera);
 
         xPos += widthOfOneChar;
