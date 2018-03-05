@@ -59,3 +59,7 @@ https://opengameart.org/content/win-music-1
 gameover
 https://opengameart.org/content/game-over-theme-ii
 Cleyton Kauffman - https://soundcloud.com/cleytonkauffman
+
+bow sfx
+https://opengameart.org/content/bow-arrow-shot
+

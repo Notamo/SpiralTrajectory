@@ -35,6 +35,7 @@ BossBattle.prototype.loadScene = function () {
         gEngine.Textures.loadTexture(Config.UI.Textures[texture]);
     }
     gEngine.AudioClips.loadAudio("assets/audio/music/bossbattle.mp3");
+    gEngine.AudioClips.loadAudio("assets/audio/sfx/shoot.mp3");
 
 };
 
@@ -47,6 +48,7 @@ BossBattle.prototype.unloadScene = function () {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
     }
     gEngine.AudioClips.stopBackgroundAudio();
+    gEngine.AudioClips.unloadAudio("assets/audio/sfx/shoot.mp3");
     gEngine.Core.startScene(new ResultsScreen(this.mVictory));
 };
 

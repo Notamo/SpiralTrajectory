@@ -35,7 +35,10 @@ Config.BossBattle = Object.freeze({
         ForegroundNormal:       "assets/background/normal/foreground.png"
     },
     Audio: {
-        BossMusic:          "assets/audio/music/bossbattle.mp3"
+        BossMusic:              "assets/audio/music/bossbattle.mp3",
+        VictoryMusic:           "assets/audio/music/victory.mp3",
+        DefeatMusic:            "assets/audio/music/gameover.mp3",
+        BowShot:                "assets/audio/sfx/shoot.mp3"
     },
     Cameras: {
         MainCameraStartingPosition:     vec2.fromValues(25, 1),
