@@ -64,7 +64,6 @@ FireArrow.prototype.draw = function (camera) {
 FireArrow.prototype.update = function() {
     Arrow.prototype.update.call(this);
     if (Math.random() < .3) {
-        console.log(this.kParticleLifeLimit);
         if (this.mTimeSinceSpawn + this.kParticleLifeLimit < this.mTimeLimit) {
             this.mParticles.addEmitterAt(
                 this.getXform().getPosition(),
