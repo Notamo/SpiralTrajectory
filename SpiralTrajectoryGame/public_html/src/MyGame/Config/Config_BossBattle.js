@@ -72,23 +72,23 @@ Config.BossBattle = Object.freeze({
             {
                 X:      290,
                 Y:      10,
-                Width:  20,
-                Height: 20
+                Width:  15,
+                Height: 30
             }
         ],
         Wall: [
                         {
-                X:      -16,
+                X:      -18.5,
                 Y:      190,
-                Width:  20,
-                Height: 20,
+                Width:  15,
+                Height: 30,
                 Orientation: 1
             },
             {
-                X:      315,
+                X:      317,
                 Y:      190,
-                Width:  20,
-                Height: 20,
+                Width:  15,
+                Height: 30,
                 Orientation: -1
             }
         ],
