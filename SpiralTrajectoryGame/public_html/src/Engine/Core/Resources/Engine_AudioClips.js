@@ -86,37 +86,59 @@ gEngine.AudioClips = (function () {
     };
 
     /**
-     * Play an audioclip one time. no loop
+     * Play an audioclip one time. no loop. Optional parameter to set volume
      * @memberOf gEngine.AudioClips
      * @param {String} clipName
+     * @param {Number} volume
      * @returns {void}
      */
-    var playACue = function (clipName) {
+    var playACue = function (clipName, volume ) {
         var clipInfo = gEngine.ResourceMap.retrieveAsset(clipName);
         if (clipInfo !== null) {
+            if (typeof(volume) !== "number") {
+                volume = 1;
+            }
             // SourceNodes are one use only.
             var sourceNode = mAudioContext.createBufferSource();
+            // Create a gain node.
+            var gainNode = mAudioContext.createGain();
+            // Connect the source to the gain node.
+            sourceNode.connect(gainNode);
+            gainNode.gain.setValueAtTime(volume, 0);
             sourceNode.buffer = clipInfo;
-            sourceNode.connect(mAudioContext.destination);
+            gainNode.connect(mAudioContext.destination);
             sourceNode.start(0);
         }
     };
 
     /**
      * Play a audioclip on repeat. Stops current background clip if playing.
+     * Optional parameter volume to set the volume of the clip
      * @memberOf gEngine.AudioClips
      * @param {String} clipName
+     * @param {Number} volume
      * @returns {void}
      */
-    var playBackgroundAudio = function (clipName) {
+    var playBackgroundAudio = function (clipName, volume) {
         var clipInfo = gEngine.ResourceMap.retrieveAsset(clipName);
         if (clipInfo !== null) {
+            
+            if (typeof(volume) !== "number") {
+                volume = 1;
+            }   
             // Stop audio if playing.
             stopBackgroundAudio();
 
+
             mBgAudioNode = mAudioContext.createBufferSource();
+            // Create a gain node.
+            var gainNode = mAudioContext.createGain();
+            // Connect the source to the gain node.
+            mBgAudioNode.connect(gainNode);
+            gainNode.connect(mAudioContext.destination);
+            // setting volume
+            gainNode.gain.setValueAtTime(volume, 0);
             mBgAudioNode.buffer = clipInfo;
-            mBgAudioNode.connect(mAudioContext.destination);
             mBgAudioNode.loop = true;
             mBgAudioNode.start(0);
         }
