@@ -115,3 +115,7 @@ IceArrow.prototype.createParticle = function (x, y) {
     
     return p;
 };
+
+IceArrow.prototype.getEffectDuration = function () {
+    return Config.Arrows.Ice.EffectDuration;
+};

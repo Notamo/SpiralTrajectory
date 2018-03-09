@@ -138,3 +138,7 @@ Arrow.prototype.flat = function(){
 Arrow.prototype.getDamage = function () {
     return this.power * this.kBasePower;
 };
+
+Arrow.prototype.getEffectDuration = function () {
+    return 0;
+};
