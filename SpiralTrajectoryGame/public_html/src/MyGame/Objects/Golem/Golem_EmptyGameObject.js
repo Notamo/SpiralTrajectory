@@ -2,7 +2,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, EmptyGameObject, SpriteRenderable, vec2, Arrow, Platform, Config */
+/*global gEngine, EmptyGameObject, SpriteRenderable, vec2, Arrow, Platform, Config, IceArrow */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -26,6 +26,9 @@ GolemEmptyGameObject.prototype.userCollisionHandling = function (other) {
     if (other instanceof Arrow) { 
         if (other.getCollided() === false) {
             this.mParent.hit(other.getDamage() * this.mDamageMultiplier);
+            if (other instanceof IceArrow) {
+                this.mParent.stun(other.getEffectDuration());
+            }
         }
     }
     return false;
