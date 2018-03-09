@@ -7,7 +7,7 @@
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
   GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain,
-  ArrowVector, Torch, Config, Golem */
+  ArrowVector, Torch, Config, Golem, Boundary */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -20,6 +20,7 @@ function BossBattle() {
     this.mBoss = null;
     this.mBgL0 = null;
     this.mBgL1 = null;
+    this.boundary = null;
     this.mFg = null;
     this.kBgMusic = null;
     this.mCollisions = [];
@@ -83,6 +84,9 @@ BossBattle.prototype.initialize = function () {
     );
 
     this.mPhysicsGameObjects.addToSet(this.mBoss);
+    
+    this.boundary = new Boundary(149,506,400,4);
+    this.mPhysicsGameObjects.addToSet(this.boundary);
     
     this.kBgMusic = "assets/audio/music/bossbattle.mp3";
     gEngine.AudioClips.playBackgroundAudio(this.kBgMusic);
