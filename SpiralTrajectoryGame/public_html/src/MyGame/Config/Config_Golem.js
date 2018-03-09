@@ -179,7 +179,8 @@ Config.Golem = Object.freeze({
             DefaultSitffness:  0.1,
             DefaultDuration:   2
         },
-        SmashDamage: 200
+        SmashDamage: 200,
+        SmashVelocity: vec2.fromValues(-30, 200)
     },
     Rigidbodies: {
         Head: {

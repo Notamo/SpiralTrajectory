@@ -124,11 +124,19 @@ Golem.prototype.getCurrentState = function () {
 };
 
 // Called when the Golem manages to smash the hero with its fist.
-Golem.prototype.triggerSmashEvent = function () {
+Golem.prototype.triggerSmashEvent = function (bodyPart) {
     if (this.mCurrentSmashAttackHit === true) {
         return;
     }
     this.mCurrentSmashAttackHit = true;
     this.mHero.hit(Config.Golem.Properties.SmashDamage);
+    var velocity = Config.Golem.Properties.SmashVelocity;
+    if (bodyPart.getXform().getYPos() > this.mHero.getXform().getYPos()) {
+        velocity[1] *= -1;
+    }
+    if (bodyPart.getXform().getXPos() < this.mHero.getXform().getXPos()) {
+        velocity[0] *= -1;
+    }
+    this.mHero.getRigidBody().setVelocity(velocity[0], velocity[1]);
     // add shake behavior
 };

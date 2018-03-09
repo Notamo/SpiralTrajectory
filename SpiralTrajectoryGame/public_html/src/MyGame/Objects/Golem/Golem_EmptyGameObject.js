@@ -40,7 +40,7 @@ GolemEmptyGameObject.prototype.userCollisionHandling = function (other) {
         (this.mBodyPart === Config.Golem.Rigidbodies.RightHand.Name || 
         this.mBodyPart === Config.Golem.Rigidbodies.RightWrist.Name) && 
         this.mParent.getCurrentState() === Config.Golem.States.Smashing) {
-        this.mParent.triggerSmashEvent();
+        this.mParent.triggerSmashEvent(this);
     }
     return false;
 };
