@@ -7,102 +7,167 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, ArrowSet, ArrowVector, Platform, Arrow */
+ *       Platform, ArrowSet, ArrowVector, Platform, Arrow, Config */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
 
+/**
+ * Constructor for the Hero object. 
+ * 
+ * @param {String}          spriteTexture       Path to the sprite we'll be using.
+ * @param {GameObjectSet}   physicsReference    Reference to our set of physics game objects,
+ *                                              used primarily so we can add new Arrow variants
+ *                                              to the set upon creation.
+ * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.
+ * @returns {Hero}
+ */
 function Hero(spriteTexture, physicsReference, cameraRef) {
     // Create the sprite
     this.mArcher = new SpriteRenderable(spriteTexture);
-    this.mArcher.setColor([1, 1, 1, 0]);
-    this.mArcher.getXform().setPosition(25, 1);
-    this.mArcher.getXform().setSize(12, 12);
-    this.mArcher.setElementPixelPositions(93, 403, 97, 440);
+    this.mArcher.setColor(Config.Hero.Color);
+    this.mArcher.getXform().setPosition(
+        Config.BossBattle.Hero.SpawnPosition.X,
+        Config.BossBattle.Hero.SpawnPosition.Y
+    );
+    this.mArcher.getXform().setSize(
+        Config.Hero.Size.X,
+        Config.Hero.Size.Y
+    );
+    this.mArcher.setElementPixelPositions(
+        Config.Hero.PixelPositions.Left,
+        Config.Hero.PixelPositions.Right,
+        Config.Hero.PixelPositions.Bottom,
+        Config.Hero.PixelPositions.Top,
+    );
     GameObject.call(this, this.mArcher);
     
     // Physics
     var r = new RigidRectangle(
         this.getXform(),
-        this.getXform().getWidth() / 2,
-        this.getXform().getHeight() / 1.07
+        this.getXform().getWidth() / Config.Hero.Hitbox.WidthDivisor,
+        this.getXform().getHeight() / Config.Hero.Hitbox.HeightDivisor
     );
-    r.setMass(10);
-    r.setRestitution(1);
-    r.setFriction(1);  
+    r.setMass(Config.Hero.Physics.Mass);
+    r.setRestitution(Config.Hero.Physics.Restitution);
+    r.setFriction(Config.Hero.Physics.Friction);  
     this.setRigidBody(r);
     
     this.mPhysicsSetRef = physicsReference;
     
     //Player HP
-    this.mMaxHP = 1000;
+    this.mMaxHP = Config.Hero.StartingHP;
     this.mCurrentHP = this.mMaxHP;
     
     // ArrowVector is our "firing" mechanism, need a single instance.
     this.mArrowVector = new ArrowVector(cameraRef);
     
+    // ArrowSet keeps a reference to each active arrow.
     this.mArrowSet = new ArrowSet();
     
+    // NoClip allows the hero to ignore collisions with platforms.
     this.mNoClip = false;
     this.mUpdatesSinceClip = 0;
+    
+    // Counter for our double jump, though this implementation lets us change
+    // the max number of jumps.
     this.mJumpCount = 0;
-    this.mMaxJumps = 2;
+    this.mMaxJumps = Config.Hero.MaxJumps;
+    
+    // Current arrow we have selected.
     this.mArrowSelection = ArrowSet.eArrowType.eDefaultArrow;
+    
+    // The last platform the Hero landed on. This is not currently used,
+    // but was going to be part of a boss attack. Don't want to delete in case
+    // we get around to making the attack.
     this.mLastPlatform = null;
-    this.mAudioCue = "assets/audio/music/shoot.ogg";
 };
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
+/**
+ * Setter for the Hero's active arrow.
+ * 
+ * @param {ArrowSet.eArrowType} type    The type of arrow.
+ * @returns {null}
+ */
 Hero.prototype.setArrowSelection = function(type) {
     this.mArrowSelection = type;
 };
 
+/**
+ * Returns the current arrow type selected.
+ * 
+ * @returns {ArrowSet.eArrowType}
+ */
 Hero.prototype.getArrowSelection = function() {
     return this.mArrowSelection;
 };
+
+/**
+ * No special behavior here, just calls draw for the arrows & the ArrowVector.
+ * 
+ * @param {Camera} aCamera
+ * @returns {null}
+ */
 Hero.prototype.draw = function(aCamera) {
     GameObject.prototype.draw.call(this, aCamera);
-    //super.draw(aCamera);
     this.mArrowVector.draw(aCamera);
     this.mArrowSet.draw(aCamera);
-
 };
 
+/**
+ * Handles updating all behavior of the hero. Some of the states in this
+ * function still use our old naming convention (ex: eArrowType.eIceArrow).
+ * 
+ * @returns {null}
+ */
 Hero.prototype.update = function () {
+    // Grab the xform to make using it a bit more convenient here.
     var xform = this.getXform();
     
+    // Move left or right, also adjust the orientation based on that
+    // movement.
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        this.getRigidBody().adjustPositionBy([-10,0], .1);
-        this.getXform().setOrientation(-1);
+        this.getRigidBody().adjustPositionBy(
+            Config.Hero.Movement.LeftDisplacementVector,
+            Config.Hero.Movement.LeftDisplacementScale
+        );
+        xform.setOrientation(Config.Hero.Facing.Left);
     }
-    
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        this.getRigidBody().adjustPositionBy([10,0], .1);
-        this.getXform().setOrientation(1);
+        this.getRigidBody().adjustPositionBy(
+            Config.Hero.Movement.RightDisplacementVector,
+            Config.Hero.Movement.RightDisplacementScale
+        );
+        xform.setOrientation(Config.Hero.Facing.Right);
     }
     
+    // Jump.
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         if (this.mJumpCount < this.mMaxJumps) {
-            this.getRigidBody().setVelocity(0,100);
+            this.getRigidBody().setVelocity(
+                Config.Hero.JumpVelocity.X,
+                Config.Hero.JumpVelocity.Y
+            );
             this.mJumpCount++;
         }
     }
     
+    // NoClip/fall through platforms.
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
         this.mNoClip = true;
         this.mUpdatesSinceClip = 0;
     }
+    // Update the time since we initialized NoClip if the user isn't holding S.
     else {
         if (this.mNoClip) {
             this.mUpdatesSinceClip++;
         }
-        if (this.mUpdatesSinceClip > 60) {
+        if (this.mUpdatesSinceClip > Config.Hero.MaxNoClipDuration) {
             this.mNoClip = false;
             this.mUpdatesSinceClip = 0;
         }
     }
-    
-    this.mArrowVector.update();
     
     // Arrow selction
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
@@ -114,22 +179,28 @@ Hero.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {
         this.setArrowSelection(ArrowSet.eArrowType.eIceArrow);
     }
+    
+    // Update our ArrowVector before we use it. 
+    this.mArrowVector.update();
+        
+    // If the user releases their left mouse button, we need to fire an arrow.
     if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
         var arrow = this.generateArrow();
         if (this.mArrowSet.addToSet(arrow)) {
             this.mPhysicsSetRef.addToSet(arrow);
-            gEngine.AudioClips.playACue("assets/audio/sfx/shoot.mp3", .7);
+            gEngine.AudioClips.playACue(Config.Hero.Audio.FiringArrow, Config.Hero.Audio.Volume);
         }
         
+        // Determine the orientation of the arrow.
         if (this.mArrowVector.getDegrees() < 90 && this.mArrowVector.getDegrees() > -90) {
-            this.getXform().setOrientation(1);
+            xform.setOrientation(Config.Hero.Facing.Right);
         } else if (this.mArrowVector.getDegrees() > 90 || this.mArrowVector.getDegrees() < -90) {
-            this.getXform().setOrientation(-1);
+            xform.setOrientation(Config.Hero.Facing.Left);
         }
         
     }
     
-    // Firing modes, should be moved to the Hero class as well.
+    // These hotkeys allow the firing mode for arrows to be changed. 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M)) {
         this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eTailControl);
     }
@@ -142,6 +213,12 @@ Hero.prototype.update = function () {
     this.mRigidBody.update();
 };
 
+/**
+ * Handles the creation of a new arrow. Fairly simple factory-esque
+ * function.
+ * 
+ * @returns {Arrow|FireArrow|IceArrow}
+ */
 Hero.prototype.generateArrow = function() {
     var arrow;
     var type = this.getArrowSelection();
@@ -168,33 +245,62 @@ Hero.prototype.generateArrow = function() {
     }
     return arrow;
 };
-
+ 
+/**
+ * Returns a reference to the last platform the user came into contact with.
+ * This is not guaranteed to be the last platform they stood on, but rather
+ * the last one they collided with.
+ * 
+ * @returns {GameObject}
+ */
 Hero.prototype.getLastPlatform = function () {
     return this.mLastPlatform;
 };
 
 
+/**
+ * Allows for user defined interactions between (this) and the parameter object.
+ * Returning true skips the default Physics engine's handling of the collision.
+ * 
+ * In this case, ignores collision with platform objects when the S key is pressed
+ * or when the hero is jumping from below the platform
+ * 
+ * @param {GameObject} obj
+ * @returns {Boolean}
+ */
+
 // Ignores collision with platform objects when the S key is pressed or
 // when the hero is jumping from below the platform
 Hero.prototype.userCollisionHandling = function (obj) {
+    // The only object we would want to ignore as the hero is a Platform.
     if (obj instanceof Platform) {
+        // Update the reference to the last platform the Hero used.
         this.mLastPlatform = obj;
+        
         // NoClip is our setting for indicating the Hero is in a state which should avoid
         // collisions with platforms. If it's true, return true.
         if (this.mNoClip) {
             return true;
         }    
         
-        // NoClip might be false
+        // NoClip is false, so we want to collide with the platform if the hero
+        // is moving downwards. Also reset the jump count. This enables the "bug"
+        // where we can technically infinitely jump if we touch the bottom or side
+        // of a platform with the hero, but this is a mechanic people enjoyed, so
+        // we'll leave the jump count reset here.
         if (this.getRigidBody().getVelocity()[1] < 0) {
             this.mJumpCount = 0;
             return false;
         }
         
-        // Since we checked for the case where we don't wanat to ignore collision, the fact
+        // Since we checked for the case where we don't want to ignore collision, the fact
         // that we're still here means we DO want to ignore it.
         return true;
     }
+    
+    // This is the second part of the infinite double jump bug. Again, we're
+    // leaving it here because people said they liked it. To fix, we would add
+    // conditions that require obj to not be a wall or boundary.
     if (!(obj instanceof Arrow)) {
         this.mJumpCount = 0;
     }
@@ -202,10 +308,21 @@ Hero.prototype.userCollisionHandling = function (obj) {
     return false;
 };
 
+/**
+ * Checks if the hero is dead.
+ * 
+ * @returns {Boolean}
+ */
 Hero.prototype.getStatus = function () {
     return (this.mCurrentHP > 0);
 };
 
+/**
+ * Deals damage to the hero equal to the value of the parameter.
+ * 
+ * @param {float} damage
+ * @returns {null}
+ */
 Hero.prototype.hit = function (damage) {
     this.mCurrentHP -= damage;
 };

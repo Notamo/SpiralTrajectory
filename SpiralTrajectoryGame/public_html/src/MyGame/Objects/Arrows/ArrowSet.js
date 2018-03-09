@@ -5,7 +5,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, ArrowSet */
+ *       Platform, ArrowSet, Arrow, FireArrow, IceArrow */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 class ArrowSet extends GameObjectSet {

@@ -85,7 +85,7 @@ BossBattle.prototype.initialize = function () {
 
     this.mPhysicsGameObjects.addToSet(this.mBoss);
     
-    this.boundary = new Boundary(149,506,400,4);
+    this.boundary = new Boundary(149,230,400,4);
     this.mPhysicsGameObjects.addToSet(this.boundary);
     
     this.kBgMusic = "assets/audio/music/bossbattle.mp3";

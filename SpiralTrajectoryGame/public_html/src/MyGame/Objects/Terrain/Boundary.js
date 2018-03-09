@@ -6,7 +6,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle */
+/*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle, Terrain */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -25,7 +25,7 @@ function Boundary(x, y, w, h) {
     this.setRigidBody(r);
     
 }
-gEngine.Core.inheritPrototype(Boundary, GameObject);
+gEngine.Core.inheritPrototype(Boundary, Terrain);
 
 Boundary.prototype.update = function () {
 };

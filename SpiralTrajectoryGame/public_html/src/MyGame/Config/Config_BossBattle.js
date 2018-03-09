@@ -61,6 +61,12 @@ Config.BossBattle = Object.freeze({
             Height: 51
         }
     },
+    Hero: {
+        SpawnPosition: {
+            X:  25,
+            Y:  1
+        }
+    },
     Torches: {
         Ground: [
             {
