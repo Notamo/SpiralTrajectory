@@ -118,7 +118,7 @@ Hero.prototype.update = function () {
         var arrow = this.generateArrow();
         if (this.mArrowSet.addToSet(arrow)) {
             this.mPhysicsSetRef.addToSet(arrow);
-            gEngine.AudioClips.playACue("assets/audio/sfx/shoot.mp3");
+            gEngine.AudioClips.playACue("assets/audio/sfx/shoot.mp3", .7);
         }
         
         if (this.mArrowVector.getDegrees() < 90 && this.mArrowVector.getDegrees() > -90) {

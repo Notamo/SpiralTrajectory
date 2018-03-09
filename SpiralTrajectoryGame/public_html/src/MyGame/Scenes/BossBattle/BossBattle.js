@@ -89,7 +89,7 @@ BossBattle.prototype.initialize = function () {
     this.mPhysicsGameObjects.addToSet(this.boundary);
     
     this.kBgMusic = "assets/audio/music/bossbattle.mp3";
-    gEngine.AudioClips.playBackgroundAudio(this.kBgMusic);
+    gEngine.AudioClips.playBackgroundAudio(this.kBgMusic, .05);
     
     this.buildLevel();
     
