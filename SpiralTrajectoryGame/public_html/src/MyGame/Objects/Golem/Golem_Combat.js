@@ -113,13 +113,7 @@ Golem.prototype._servicePatrolling = function () {
     this.mCenterY.setFinalValue(golemXform.getYPos() + this.yOffset);
     
     // Have the boss face the hero
-    if (heroXform.getXPos() < golemXform.getXPos() && 
-        this.mFacing === Config.Golem.States.FacingRight) {
-        this.switchDirection();
-    } else if (heroXform.getXPos() > golemXform.getXPos() &&
-        this.mFacing === Config.Golem.States.FacingLeft) {
-        this.switchDirection();
-    }
+    this.faceHero();
     
     // Projectile firing
     if (this.mCurrentProjectileState === null) {
@@ -141,58 +135,15 @@ Golem.prototype._servicePatrolling = function () {
 
     // Conditions to transition to other states.
     if (this.mCurrentHP <= 0) {
-        this.mCurrentState = Config.Golem.States.Dying;
-        this.mCurrentStateInitialized = false;
-    } else if (Math.abs(heroXform.getXPos() - golemXform.getXPos()) < 20) {
+        this.switchToState(Config.Golem.States.Dying);
+    } else if (Math.abs(heroXform.getXPos() - golemXform.getXPos()) < 40 && Math.abs(heroXform.getYPos() - golemXform.getYPos()) < 30 && Date.now() > this.mStateStartTime + Config.Golem.States.Smashing.Cooldown) {
         this.switchToState(Config.Golem.States.Smashing);
     }
     this.interpolate();
     this.mGolem.updateAnimation();
 };
 
-Golem.prototype._serviceSmashing = function () {
-    if (this.mCurrentStateInitialized === false) {
-        // We want collisions if the boss is smashing
-        if (this.mIgnoreCollision === true) {
-            this.allowCollision();
-            this.mIgnoreCollision = false;
-        }
-        
-        this.setVisibility(true);
-        this._animate(Config.Golem.Animations.Smash, true);
-        this.mCenterX.configInterpolation(
-            Config.Golem.States.Patrolling.Interpolation.Stiffness,
-            Config.Golem.States.Patrolling.Interpolation.Duration
-        );
-        this.mCenterY.configInterpolation(
-            Config.Golem.States.Patrolling.Interpolation.Stiffness,
-            Config.Golem.States.Patrolling.Interpolation.Duration
-        );
-        this.mStateStartTime = Date.now();
-        this.mMiscTracker = Date.now();
-        this.xOffset = Config.Golem.States.Patrolling.Interpolation.XOffset;
-        this.yOffset = Config.Golem.States.Patrolling.Interpolation.YOffset;
-        this.mCurrentStateInitialized = true;
-    }
-    
-    var golemXform = this.mGolem.getXform();
-    var heroXform = this.mHero.getXform();
-    // Have the boss face the hero
-    if (heroXform.getXPos() < golemXform.getXPos() && 
-        this.mFacing === Config.Golem.States.FacingRight) {
-        this.switchDirection();
-    } else if (heroXform.getXPos() > golemXform.getXPos() &&
-        this.mFacing === Config.Golem.States.FacingLeft) {
-        this.switchDirection();
-    }
-    
-    this.interpolate();
-    this.mGolem.updateAnimation();
-};
 
-Golem.prototype._serviceAttackingPlatform = function () {
-    
-};
 
 Golem.prototype._serviceRetreating = function () {
     

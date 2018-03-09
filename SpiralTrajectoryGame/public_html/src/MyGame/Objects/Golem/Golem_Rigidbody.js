@@ -3,7 +3,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteAnimateRenderable, vec2, Arrow, Platform, Config, Golem,
- * RigidSet, GolemEmptyGameObject, RigidRectangle, RigidCircle */
+ * RigidSet, GolemEmptyGameObject, RigidRectangle, RigidCircle, EmptyGameObject */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -61,7 +61,7 @@ Golem.prototype._buildRigidbodies = function() {
         r.setRestitution(Config.Golem.Rigidbodies[rbody].Physics.Restitution);
         r.setFriction(Config.Golem.Rigidbodies[rbody].Physics.Friction);
         temp.setRigidBody(r);
-        temp.toggleDrawRigidShape();
+        //temp.toggleDrawRigidShape();
         this.mPhysicsSetRef.addToSet(temp);
         this.mRigidSet.insert(Config.Golem.Rigidbodies[rbody].Name, temp);
     }
@@ -117,8 +117,10 @@ Golem.prototype.updateRigidbodyAnimations = function () {
     });      
 };
 
-Golem.prototype.resetRigidbodyAnimationOffsets = function () {
-    this.mRigidSet.execFuncForAll(function () {
-        this.setTempOffsets(0, 0);
-    });  
+Golem.prototype.forceRigidbodyOffsetsBackToNormal = function () {
+    if (this.mFacing === Config.Golem.States.FacingLeft) {
+        this.mRigidSet.purgeOffsets(false);
+    } else {
+        this.mRigidSet.purgeOffsets(true);
+    }
 };

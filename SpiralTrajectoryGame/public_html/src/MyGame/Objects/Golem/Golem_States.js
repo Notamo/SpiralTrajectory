@@ -42,6 +42,9 @@ Golem.prototype.updateState = function () {
 };
 
 Golem.prototype.switchToState = function (state) {
+    this.mCurrentRigidbodyAnimationSequenceReference = null;
+    this.forceRigidbodyOffsetsBackToNormal();
+    this.mPreviousState = this.mCurrentState;
     this.mCurrentState = state;
     this.mCurrentStateInitialized = false;
 };

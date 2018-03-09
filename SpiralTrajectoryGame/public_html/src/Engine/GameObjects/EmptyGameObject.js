@@ -20,6 +20,9 @@ function EmptyGameObject(parent, xOffset, yOffset) {
     this.mTempXOffset = 0;
     this.mTempYOffset = 0;
     
+    this.mFinalXOffset = xOffset;
+    this.mFinalYOffset = yOffset;
+    
     this.mRenderable = new Renderable();
     GameObject.call(this, this.mRenderable);
 }
@@ -49,4 +52,15 @@ EmptyGameObject.prototype.update = function () {
 EmptyGameObject.prototype.setTempPositionOffsets = function (x, y) {
     this.mTempXOffset = x;
     this.mTempYOffset = y;
+};
+
+EmptyGameObject.prototype.purgeOffsets = function (flip) {
+    this.mXOffset = this.mFinalXOffset;
+    this.mYOffset = this.mFinalYOffset;
+    this.mTempXOffset = 0;
+    this.mTempYOffset = 0;
+    
+    if (flip === true) {
+        this.mXOffset *= -1;
+    }
 };

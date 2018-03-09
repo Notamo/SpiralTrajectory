@@ -36,7 +36,7 @@ Config.Golem = Object.freeze({
             MinXDistance: 15
         },
         Smashing: {
-            
+            Cooldown: 3000
         },
         AttackingPlatform: {
             
@@ -178,7 +178,8 @@ Config.Golem = Object.freeze({
         Interpolation: {
             DefaultSitffness:  0.1,
             DefaultDuration:   2
-        }
+        },
+        SmashDamage: 200
     },
     Rigidbodies: {
         Head: {

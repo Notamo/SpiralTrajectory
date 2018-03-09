@@ -58,6 +58,7 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectA
     
     // State handling
     this.mCurrentState = Config.Golem.States.WaitingToSpawn;
+    this.mPreviousState = null;
     this.mCurrentStateInitialized = false;
     this.mIgnoreCollision = false;
     this.mCurrentProjectileState = null;
@@ -75,6 +76,7 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectA
     
     // Animation
     this.mCurrentRigidbodyAnimationSequenceReference = null;
+    this.mCurrentSmashAttackHit = false;
 }
 gEngine.Core.inheritPrototype(Golem, GameObject);
 
@@ -119,4 +121,14 @@ Golem.prototype.interpolate = function () {
 
 Golem.prototype.getCurrentState = function () {
     return this.mCurrentState;
+};
+
+// Called when the Golem manages to smash the hero with its fist.
+Golem.prototype.triggerSmashEvent = function () {
+    if (this.mCurrentSmashAttackHit === true) {
+        return;
+    }
+    this.mCurrentSmashAttackHit = true;
+    this.mHero.hit(Config.Golem.Properties.SmashDamage);
+    // add shake behavior
 };

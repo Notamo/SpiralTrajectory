@@ -2,7 +2,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, EmptyGameObject, SpriteRenderable, vec2, Arrow, Platform, Config, IceArrow */
+/*global gEngine, EmptyGameObject, SpriteRenderable, vec2, Arrow, Platform, Config, IceArrow, Hero */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -34,6 +34,13 @@ GolemEmptyGameObject.prototype.userCollisionHandling = function (other) {
                 this.mParent.stun(other.getEffectDuration());
             }
         }
+    }
+    
+    if (other instanceof Hero && 
+        (this.mBodyPart === Config.Golem.Rigidbodies.RightHand.Name || 
+        this.mBodyPart === Config.Golem.Rigidbodies.RightWrist.Name) && 
+        this.mParent.getCurrentState() === Config.Golem.States.Smashing) {
+        this.mParent.triggerSmashEvent();
     }
     return false;
 };
