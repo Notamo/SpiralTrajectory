@@ -1,4 +1,4 @@
-/* File: Config_ArrowVector.js 
+/* File: Config_Arrows.js 
  */
 
 /*jslint node: true, vars: true */
@@ -15,6 +15,6 @@ Config.Arrows = Object.freeze({
     Fire: {
     },
     Ice: {
-        EffectDuration = 120
+        EffectDuration: 120
     }
 });

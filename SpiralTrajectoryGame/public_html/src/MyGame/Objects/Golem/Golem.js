@@ -93,6 +93,7 @@ Golem.prototype.update = function () {
 
 Golem.prototype.hit = function (damage) {    
     this.mCurrentHP -= (damage * this.mTorchBoost);
+    console.log(damage * this.mTorchBoost);
 };
 
 Golem.prototype.addTorchRef = function (torch) {
