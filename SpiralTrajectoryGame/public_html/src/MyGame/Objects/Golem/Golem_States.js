@@ -40,3 +40,8 @@ Golem.prototype.updateState = function () {
             break;
     }
 };
+
+Golem.prototype.switchToState = function (state) {
+    this.mCurrentState = state;
+    this.mCurrentStateInitialized = false;
+};

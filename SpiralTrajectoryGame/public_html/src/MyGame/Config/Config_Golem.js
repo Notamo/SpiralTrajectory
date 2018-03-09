@@ -107,54 +107,64 @@ Config.Golem = Object.freeze({
     },
     Animations: {
         Spawn: {
-            TopLeftX:   470,
-            TopLeftY:   0,
-            Width:      256,
-            Height:     170,
-            Count:      15,
-            Padding:    0,
-            Type:       function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateRight; },
-            Speed:      4
+            Name:               "Spawn",
+            TopLeftX:           470,
+            TopLeftY:           0,
+            Width:              256,
+            Height:             170,
+            Count:              15,
+            Padding:            0,
+            Type:               function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateRight; },
+            Speed:              4,
+            AnimateRigidbodies: false
         },
         Idle: {
-            TopLeftX:   982,
-            TopLeftY:   0,
-            Width:      256,
-            Height:     170,
-            Count:      6,
-            Padding:    0,
-            Type:       function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateSwing; },
-            Speed:      4
+            Name:               "Idle",
+            TopLeftX:           982,
+            TopLeftY:           0,
+            Width:              256,
+            Height:             170,
+            Count:              6,
+            Padding:            0,
+            Type:               function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateSwing; },
+            Speed:              4,
+            AnimateRigidbodies: false
         },
         Patrolling: {
-            TopLeftX:   982,
-            TopLeftY:   0,
-            Width:      256,
-            Height:     170,
-            Count:      6,
-            Padding:    0,
-            Type:       function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateSwing; },
-            Speed:      4
+            Name:               "Patrolling",
+            TopLeftX:           982,
+            TopLeftY:           0,
+            Width:              256,
+            Height:             170,
+            Count:              6,
+            Padding:            0,
+            Type:               function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateSwing; },
+            Speed:              4,
+            AnimateRigidbodies: false
         },
         Smash: {
-            TopLeftX:   726,
-            TopLeftY:   0,
-            Width:      256,
-            Height:     170,
-            Count:      6,
-            Padding:    0,
-            Type:       function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateRight; },
-            Speed:      4
+            Name:               "Smash",
+            TopLeftX:           726,
+            TopLeftY:           0,
+            Width:              256,
+            Height:             170,
+            Count:              6,
+            Padding:            0,
+            Type:               function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateRight; },
+            Speed:              6,
+            AnimateRigidbodies: true
         },
         Death: {
-            TopLeftX:   214,
-            TopLeftY:   0,
-            Width:      256,
-            Height:     170,
-            Count:      7,
-            Padding:    0,
-            Type:       function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateRight; },
-            Speed:      6
+            Name:               "Death",
+            TopLeftX:           214,
+            TopLeftY:           0,
+            Width:              256,
+            Height:             170,
+            Count:              7,
+            Padding:            0,
+            Type:               function(){ return SpriteAnimateRenderable.eAnimationType.eAnimateRight; },
+            Speed:              6,
+            AnimateRigidbodies: false
         }
     },
     Properties: {
@@ -183,6 +193,46 @@ Config.Golem = Object.freeze({
                 Mass:           0,
                 Restitution:    1,
                 Friction:       1
+            },
+            Animations: {
+                Smash: {
+                    0: {
+                        XOffset: 4.2,
+                        YOffset: -1.8,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    1: {
+                        XOffset: 5.1,
+                        YOffset: -2.0,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    2: {
+                        XOffset: 5.65,
+                        YOffset: -2.3,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    3: {
+                        XOffset: 3.8,
+                        YOffset: -1.5,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    4: {
+                        XOffset: 4.2,
+                        YOffset: -1.8,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    5: {
+                        XOffset: 4.4,
+                        YOffset: -1.6,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    }         
+                }
             }
         },
         Body: {
@@ -197,6 +247,46 @@ Config.Golem = Object.freeze({
                 Mass:           0,
                 Restitution:    1,
                 Friction:       1
+            },
+            Animations: {
+                Smash: {
+                    0: {
+                        XOffset: 4.6,
+                        YOffset: -1.8,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    1: {
+                        XOffset: 4.6,
+                        YOffset: -1.8,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    2: {
+                        XOffset: 4.6,
+                        YOffset: -1.8,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    3: {
+                        XOffset: 4.6,
+                        YOffset: -1.8,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    4: {
+                        XOffset: 4.6,
+                        YOffset: -1.8,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    5: {
+                        XOffset: 4.6,
+                        YOffset: -1.8,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    }         
+                }
             }
         },
         Padding: {
@@ -211,6 +301,46 @@ Config.Golem = Object.freeze({
                 Mass:           0,
                 Restitution:    1,
                 Friction:       1
+            },
+            Animations: {
+                Smash: {
+                    0: {
+                        XOffset: 4,
+                        YOffset: -1.6,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    1: {
+                        XOffset: 4,
+                        YOffset: -2.0,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    2: {
+                        XOffset: 4,
+                        YOffset: -2.2,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    3: {
+                        XOffset: 4,
+                        YOffset: -1.4,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    4: {
+                        XOffset: 4,
+                        YOffset: -1.6,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    },
+                    5: {
+                        XOffset: 4,
+                        YOffset: -1.6,
+                        WidthOffset: 0,
+                        HeightOffset: 0
+                    }         
+                }
             }
         },
         RightShoulder: {
@@ -226,6 +356,40 @@ Config.Golem = Object.freeze({
                 Mass:           0,
                 Restitution:    0,
                 Friction:       1
+            },
+            Animations: {
+                Smash: {
+                    0: {
+                        XOffset: 5.1,
+                        YOffset: -2.6,
+                        RadiusOffset: 30
+                    },
+                    1: {
+                        XOffset: 5.5,
+                        YOffset: -1.55,
+                        RadiusOffset: 30
+                    },
+                    2: {
+                        XOffset: 6.0,
+                        YOffset: -1.1,
+                        RadiusOffset: 30
+                    },
+                    3: {
+                        XOffset: 4.5,
+                        YOffset: -2.1,
+                        RadiusOffset: 30
+                    },
+                    4: {
+                        XOffset: 5.0,
+                        YOffset: -2.7,
+                        RadiusOffset: 30
+                    },
+                    5: {
+                        XOffset: 5.3,
+                        YOffset: -2.6,
+                        RadiusOffset: 30
+                    }         
+                }
             }
         },
         LeftShoulder: {
@@ -241,6 +405,40 @@ Config.Golem = Object.freeze({
                 Mass:           0,
                 Restitution:    0,
                 Friction:       1
+            },
+            Animations: {
+                Smash: {
+                    0: {
+                        XOffset: 4.9,
+                        YOffset: -2.25,
+                        RadiusOffset: 0
+                    },
+                    1: {
+                        XOffset: 4.8,
+                        YOffset: -3.2,
+                        RadiusOffset: 0
+                    },
+                    2: {
+                        XOffset: 4.7,
+                        YOffset: -4.0,
+                        RadiusOffset: 0
+                    },
+                    3: {
+                        XOffset: 3.5,
+                        YOffset: -1.35,
+                        RadiusOffset: 0
+                    },
+                    4: {
+                        XOffset: 4.5,
+                        YOffset: -1.4,
+                        RadiusOffset: 0
+                    },
+                    5: {
+                        XOffset: 4.5,
+                        YOffset: -2.1,
+                        RadiusOffset: 0
+                    }         
+                }
             }
         },
         RightHand: {
@@ -256,6 +454,40 @@ Config.Golem = Object.freeze({
                 Mass:           0,
                 Restitution:    0,
                 Friction:       1
+            },
+            Animations: {
+                Smash: {
+                    0: {
+                        XOffset: 5.3,
+                        YOffset: -4.7,
+                        RadiusOffset: 0
+                    },
+                    1: {
+                        XOffset: -1.9,
+                        YOffset: 18.5,
+                        RadiusOffset: 0
+                    },
+                    2: {
+                        XOffset: 0.8,
+                        YOffset: 23.8,
+                        RadiusOffset: 0
+                    },
+                    3: {
+                        XOffset: -6,
+                        YOffset: 0,
+                        RadiusOffset: 0
+                    },
+                    4: {
+                        XOffset: 1.0,
+                        YOffset: -4.5,
+                        RadiusOffset: 0
+                    },
+                    5: {
+                        XOffset: 5.3,
+                        YOffset: -4.7,
+                        RadiusOffset: 0
+                    }         
+                }
             }
         },
         RightWrist: {
@@ -271,6 +503,40 @@ Config.Golem = Object.freeze({
                 Mass:           0,
                 Restitution:    0,
                 Friction:       1
+            },
+            Animations: {
+                Smash: {
+                    0: {
+                        XOffset: 0,
+                        YOffset: 0,
+                        RadiusOffset: 0
+                    },
+                    1: {
+                        XOffset: -6.2,
+                        YOffset: 15.7,
+                        RadiusOffset: 0
+                    },
+                    2: {
+                        XOffset: -5,
+                        YOffset: 21.3,
+                        RadiusOffset: 0
+                    },
+                    3: {
+                        XOffset: -5,
+                        YOffset: 5,
+                        RadiusOffset: 0
+                    },
+                    4: {
+                        XOffset: 1.5,
+                        YOffset: 2,
+                        RadiusOffset: 0
+                    },
+                    5: {
+                        XOffset: 0,
+                        YOffset: 0,
+                        RadiusOffset: 0
+                    }         
+                }
             }
         },
         LeftHand: {
@@ -286,6 +552,40 @@ Config.Golem = Object.freeze({
                 Mass:           0,
                 Restitution:    0,
                 Friction:       1
+            },
+            Animations: {
+                Smash: {
+                    0: {
+                        XOffset: 4.4,
+                        YOffset: -2.3,
+                        RadiusOffset: 0
+                    },
+                    1: {
+                        XOffset: 3.1,
+                        YOffset: -2.8,
+                        RadiusOffset: 0
+                    },
+                    2: {
+                        XOffset: 2.7,
+                        YOffset: -3.0,
+                        RadiusOffset: 0
+                    },
+                    3: {
+                        XOffset: 4.5,
+                        YOffset: -2.0,
+                        RadiusOffset: 0
+                    },
+                    4: {
+                        XOffset: 4.7,
+                        YOffset: -2.2,
+                        RadiusOffset: 0
+                    },
+                    5: {
+                        XOffset: 4.25,
+                        YOffset: -2.3,
+                        RadiusOffset: 0
+                    }         
+                }
             }
         },
         LeftWrist: {
@@ -301,6 +601,40 @@ Config.Golem = Object.freeze({
                 Mass:           0,
                 Restitution:    0,
                 Friction:       1
+            },
+            Animations: {
+                Smash: {
+                    0: {
+                        XOffset: 9,
+                        YOffset: 1.7,
+                        RadiusOffset: 0
+                    },
+                    1: {
+                        XOffset: 7.5,
+                        YOffset: 1.5,
+                        RadiusOffset: 0
+                    },
+                    2: {
+                        XOffset: 7.5,
+                        YOffset: 1.3,
+                        RadiusOffset: 0
+                    },
+                    3: {
+                        XOffset: 9,
+                        YOffset: 2.0,
+                        RadiusOffset: 0
+                    },
+                    4: {
+                        XOffset: 9,
+                        YOffset: 1.7,
+                        RadiusOffset: 0
+                    },
+                    5: {
+                        XOffset: 9,
+                        YOffset: 1.7,
+                        RadiusOffset: 0
+                    }         
+                }
             }
         }
     }

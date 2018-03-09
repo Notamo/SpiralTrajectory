@@ -174,6 +174,11 @@ SpriteAnimateRenderable.prototype.updateAnimation = function () {
 SpriteAnimateRenderable.prototype.resetAnimation = function () { 
     this._initAnimation();
 };
+
+SpriteAnimateRenderable.prototype.getCurrentFrame = function () {
+    return this.mCurrentElm;
+};
+
 //--- end of Public Methods
 //
 //</editor-fold>

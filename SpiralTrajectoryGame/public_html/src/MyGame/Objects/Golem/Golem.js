@@ -72,6 +72,9 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectA
     this.mStunned = false;
     this.mStunTimeRemaining = 0;
     this.mInterrupt = false;
+    
+    // Animation
+    this.mCurrentRigidbodyAnimationSequenceReference = null;
 }
 gEngine.Core.inheritPrototype(Golem, GameObject);
 
@@ -86,6 +89,7 @@ Golem.prototype.update = function () {
         this.calculateTorchBoost();
         this.mRigidBody.update();
         this.mRigidSet.update();
+        this.updateRigidbodyAnimations();
     } else {
         this.updateStun();
     }
@@ -93,7 +97,6 @@ Golem.prototype.update = function () {
 
 Golem.prototype.hit = function (damage) {    
     this.mCurrentHP -= (damage * this.mTorchBoost);
-    console.log(damage * this.mTorchBoost);
 };
 
 Golem.prototype.addTorchRef = function (torch) {

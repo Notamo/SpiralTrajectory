@@ -7,9 +7,13 @@
 
 "use strict";
 
-function GolemEmptyGameObject(parent, xOffset, yOffset, multiplier) {
+function GolemEmptyGameObject(parent, xOffset, yOffset, multiplier, bodyPart) {
     this.mDamageMultiplier = multiplier;
     this.mIgnoreCollision = false;
+    this.mBodyPart = bodyPart;
+    this.mWidthOffset = 0;
+    this.mHeightOffset = 0;
+    this.mRadiusOffset = 0;
     EmptyGameObject.call(this, parent, xOffset, yOffset);
 }
 gEngine.Core.inheritPrototype(GolemEmptyGameObject, EmptyGameObject);
@@ -40,4 +44,8 @@ GolemEmptyGameObject.prototype.ignoreCollision = function () {
 
 GolemEmptyGameObject.prototype.allowCollision = function() {
     this.mIgnoreCollision = false;
+};
+
+GolemEmptyGameObject.prototype.getBodyPart = function () {
+    return this.mBodyPart;
 };

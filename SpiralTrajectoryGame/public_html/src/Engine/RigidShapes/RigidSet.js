@@ -37,9 +37,9 @@ RigidSet.prototype.draw = function (camera) {
     }
 };
 
-RigidSet.prototype.execFuncForAll = function (func) {
+RigidSet.prototype.execFuncForAll = function (func, params) {
     for (var elem in this.mRigidBodySet) {
-        func.call(this.get(elem));
+        func.call(this.get(elem), params);
     }
 };
 

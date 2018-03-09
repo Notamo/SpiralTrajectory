@@ -25,7 +25,8 @@ Golem.prototype._buildRigidbodies = function() {
             this,
             Config.Golem.Rigidbodies[rbody].XOffset,
             Config.Golem.Rigidbodies[rbody].YOffset,
-            Config.Golem.Rigidbodies[rbody].DamageMultiplier
+            Config.Golem.Rigidbodies[rbody].DamageMultiplier,
+            Config.Golem.Rigidbodies[rbody].Name
         );
         temp.getXform().setPosition(
             this.mGolem.getXform().getXPos() + Config.Golem.Rigidbodies[rbody].XOffset,
@@ -36,11 +37,7 @@ Golem.prototype._buildRigidbodies = function() {
             this.mGolem.getXform().getHeight() * Config.Golem.Rigidbodies[rbody].HeightMultiplier
         );
 
-        r = new RigidRectangle(
-            temp.getXform(),
-            temp.getXform().getWidth(),
-            temp.getXform().getHeight()
-        );
+        r = null;
 
         switch (Config.Golem.Rigidbodies[rbody].Type.call()) {
             case Config.Engine.RigidShapeTypes.Rectangle:
@@ -97,4 +94,25 @@ Golem.prototype.switchDirection = function () {
             this.getXform().setOrientation(Config.Golem.States.FacingLeft);
             break;
     }
+};
+
+Golem.prototype.updateRigidbodyAnimations = function () {
+    if (this.mCurrentRigidbodyAnimationSequenceReference === null) {
+        return;
+    }
+    
+    var currentFrame = this.getRenderable().getCurrentFrame();
+    this.mRigidSet.execFuncForAll(function (params) {
+        var ref = Config.Golem.Rigidbodies[this.getBodyPart()].Animations[params.animRef];
+        this.setTempPositionOffsets(ref[params.frame].XOffset, ref[params.frame].YOffset);
+    }, {
+        animRef: this.mCurrentRigidbodyAnimationSequenceReference,
+        frame: currentFrame
+    });      
+};
+
+Golem.prototype.resetRigidbodyAnimationOffsets = function () {
+    this.mRigidSet.execFuncForAll(function () {
+        this.setTempOffsets(0, 0);
+    });  
 };

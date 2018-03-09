@@ -143,13 +143,40 @@ Golem.prototype._servicePatrolling = function () {
     if (this.mCurrentHP <= 0) {
         this.mCurrentState = Config.Golem.States.Dying;
         this.mCurrentStateInitialized = false;
+    } else if (Math.abs(heroXform.getXPos() - golemXform.getXPos()) < 20) {
+        this.switchToState(Config.Golem.States.Smashing);
     }
     this.interpolate();
     this.mGolem.updateAnimation();
 };
 
 Golem.prototype._serviceSmashing = function () {
+    if (this.mCurrentStateInitialized === false) {
+        // We want collisions if the boss is smashing
+        if (this.mIgnoreCollision === true) {
+            this.allowCollision();
+            this.mIgnoreCollision = false;
+        }
+        
+        this.setVisibility(true);
+        this._animate(Config.Golem.Animations.Smash, true);
+        this.mCenterX.configInterpolation(
+            Config.Golem.States.Patrolling.Interpolation.Stiffness,
+            Config.Golem.States.Patrolling.Interpolation.Duration
+        );
+        this.mCenterY.configInterpolation(
+            Config.Golem.States.Patrolling.Interpolation.Stiffness,
+            Config.Golem.States.Patrolling.Interpolation.Duration
+        );
+        this.mStateStartTime = Date.now();
+        this.mMiscTracker = Date.now();
+        this.xOffset = Config.Golem.States.Patrolling.Interpolation.XOffset;
+        this.yOffset = Config.Golem.States.Patrolling.Interpolation.YOffset;
+        this.mCurrentStateInitialized = true;
+    }
     
+    this.interpolate();
+    this.mGolem.updateAnimation();
 };
 
 Golem.prototype._serviceAttackingPlatform = function () {

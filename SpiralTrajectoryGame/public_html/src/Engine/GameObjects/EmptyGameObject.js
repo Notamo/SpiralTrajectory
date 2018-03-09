@@ -17,6 +17,9 @@ function EmptyGameObject(parent, xOffset, yOffset) {
     if (this.mYOffset === null) {
         this.mYOffset = 0;
     }
+    this.mTempXOffset = 0;
+    this.mTempYOffset = 0;
+    
     this.mRenderable = new Renderable();
     GameObject.call(this, this.mRenderable);
 }
@@ -31,14 +34,19 @@ EmptyGameObject.prototype.update = function () {
     if (this.mParent === null) {
         this.setExpired(true);
     }
-    
+
     if (this.mRigidBody !== null) {
         this.mRigidBody.update();
         this.mRigidBody.setAngularVelocity(0);
     }
 
     this.getXform().setPosition(
-        this.mParent.getXform().getXPos() + this.mXOffset,
-        this.mParent.getXform().getYPos() + this.mYOffset
+        this.mParent.getXform().getXPos() + this.mXOffset + this.mTempXOffset,
+        this.mParent.getXform().getYPos() + this.mYOffset + this.mTempYOffset
     );
+};
+
+EmptyGameObject.prototype.setTempPositionOffsets = function (x, y) {
+    this.mTempXOffset = x;
+    this.mTempYOffset = y;
 };

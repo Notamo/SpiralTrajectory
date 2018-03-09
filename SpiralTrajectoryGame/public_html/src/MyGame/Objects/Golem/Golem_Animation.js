@@ -20,6 +20,11 @@ Golem.prototype._animate = function (animation, reset) {
             );
             this.mGolem.setAnimationType(animation.Type.call());
             this.mGolem.setAnimationSpeed(animation.Speed);
+            if (animation.AnimateRigidbodies === true) {
+                this.mCurrentRigidbodyAnimationSequenceReference = animation.Name;
+            } else {
+                this.mCurrentRigidbodyAnimationSequenceReference = null;
+            }
             break;
         }
     }
