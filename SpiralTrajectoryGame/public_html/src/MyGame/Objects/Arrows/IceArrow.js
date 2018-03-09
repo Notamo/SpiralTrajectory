@@ -64,10 +64,16 @@ IceArrow.prototype.draw = function (camera) {
 
 IceArrow.prototype.update = function() {
     Arrow.prototype.update.call(this);
+    var length=this.mArrow.getXform().getPosition();
+    var test=[length[0],length[1]];
+    var curRadx=Math.cos(this.mArrow.getXform().getRotationInRad()+(Math.PI/2));
+    var curRady=Math.sin(this.mArrow.getXform().getRotationInRad()+(Math.PI/2));
+    test[0]=test[0]+((this.mArrow.getXform().getHeight()/2)*curRadx);
+    test[1]=test[1]+((this.mArrow.getXform().getHeight()/2)*curRady);
     if (this.mTimeSinceSpawn%10 == 8 && Math.random() < .8) {
         if ((this.mTimeLimit - this.mTimeSinceSpawn) > this.mParticleLifeLimit) {
             this.mParticles.addEmitterAt(
-                this.getXform().getPosition(),
+                test,
                 1,
                 this.createParticle,
                 this.type
