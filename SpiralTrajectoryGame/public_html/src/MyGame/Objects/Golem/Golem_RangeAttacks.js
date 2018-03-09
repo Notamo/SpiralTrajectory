@@ -76,13 +76,11 @@ Golem.prototype._fireProjectile = function (type) {
         case Config.Golem.Projectiles.Burst:
             break;
         case Config.Golem.Projectiles.Blast:
-            if (this.mHero.getLastPlatform() !== null) {
-                newProjectile = new GolemBlastProjectile(
-                    Config.BossBattle.Textures.BossProjectileSprite,
-                    this.mGolem,
-                    this.mHero
-                );
-            }
+            newProjectile = new GolemBlastProjectile(
+                Config.BossBattle.Textures.BossProjectileSprite,
+                this.mGolem,
+                this.mHero
+            );
             break;
         default:
             console.log('invalid projectile type');
