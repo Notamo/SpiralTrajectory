@@ -46,8 +46,6 @@ function Arrow(position,power,degree) {
     x=Math.cos(x);
     y=Math.sin(y);
     this.getRigidBody().setVelocity(x*this.power* this.kBasePower, y*this.power* this.kBasePower);
-    // Specific collision ignoring.
-    //this.toggleDrawRigidShape();
 }
 gEngine.Core.inheritPrototype(Arrow, GameObject);
 
@@ -119,6 +117,8 @@ Arrow.prototype.userCollisionHandling = function(obj){
         if (obj.mIgnoreCollision === true) {
             return true;
         }
+        
+        this.mTimeLimit = 60;
     }
     
     this.setCollided(true);

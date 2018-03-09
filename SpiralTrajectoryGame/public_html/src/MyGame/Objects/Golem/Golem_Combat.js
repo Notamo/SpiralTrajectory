@@ -175,6 +175,17 @@ Golem.prototype._serviceSmashing = function () {
         this.mCurrentStateInitialized = true;
     }
     
+    var golemXform = this.mGolem.getXform();
+    var heroXform = this.mHero.getXform();
+    // Have the boss face the hero
+    if (heroXform.getXPos() < golemXform.getXPos() && 
+        this.mFacing === Config.Golem.States.FacingRight) {
+        this.switchDirection();
+    } else if (heroXform.getXPos() > golemXform.getXPos() &&
+        this.mFacing === Config.Golem.States.FacingLeft) {
+        this.switchDirection();
+    }
+    
     this.interpolate();
     this.mGolem.updateAnimation();
 };

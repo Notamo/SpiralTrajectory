@@ -61,7 +61,7 @@ Golem.prototype._buildRigidbodies = function() {
         r.setRestitution(Config.Golem.Rigidbodies[rbody].Physics.Restitution);
         r.setFriction(Config.Golem.Rigidbodies[rbody].Physics.Friction);
         temp.setRigidBody(r);
-        //temp.toggleDrawRigidShape();
+        temp.toggleDrawRigidShape();
         this.mPhysicsSetRef.addToSet(temp);
         this.mRigidSet.insert(Config.Golem.Rigidbodies[rbody].Name, temp);
     }
@@ -82,6 +82,7 @@ Golem.prototype.allowCollision = function () {
 Golem.prototype.switchDirection = function () {
     for (var rbody in Config.Golem.Rigidbodies) {
         this.mRigidSet.get(Config.Golem.Rigidbodies[rbody].Name).mXOffset *= -1;
+        this.mRigidSet.get(Config.Golem.Rigidbodies[rbody].Name).mTempXOffset *= -1;
     }
 
     switch (this.mFacing) {
@@ -100,14 +101,19 @@ Golem.prototype.updateRigidbodyAnimations = function () {
     if (this.mCurrentRigidbodyAnimationSequenceReference === null) {
         return;
     }
-    
+       
     var currentFrame = this.getRenderable().getCurrentFrame();
     this.mRigidSet.execFuncForAll(function (params) {
         var ref = Config.Golem.Rigidbodies[this.getBodyPart()].Animations[params.animRef];
-        this.setTempPositionOffsets(ref[params.frame].XOffset, ref[params.frame].YOffset);
+        var xOffset = ref[params.frame].XOffset;
+        if (params.facing === Config.Golem.States.FacingRight) {
+            xOffset *= -1;
+        }
+        this.setTempPositionOffsets(xOffset, ref[params.frame].YOffset);
     }, {
         animRef: this.mCurrentRigidbodyAnimationSequenceReference,
-        frame: currentFrame
+        frame: currentFrame,
+        facing: this.mFacing
     });      
 };
 
