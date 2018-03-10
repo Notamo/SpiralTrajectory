@@ -49,7 +49,7 @@ gEngine.LayerManager = (function () {
      */
     var initialize = function() {
         mAllLayers[gEngine.eLayer.eBackground] = new GameObjectSet();
-        mAllLayers[gEngine.eLayer.eShadowReceiver] = new GameObjectSet();
+        mAllLayers[gEngine.eLayer.eShadowReceiver] = new ShadowReceiverSet();
         mAllLayers[gEngine.eLayer.eActors] = new GameObjectSet();
         mAllLayers[gEngine.eLayer.eFront] = new GameObjectSet();
         mAllLayers[gEngine.eLayer.eHUD] = new GameObjectSet();
