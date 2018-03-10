@@ -143,7 +143,7 @@ Golem.prototype._fireProjectile = function (type) {
         if (newProjectile.getRigidBody() === null) {
             this.mNonPhysicsSetRef.addToSet(newProjectile);
         } else {
-            this.mPhysicsSetRef.addToSet(newProjectile);
+            gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, newProjectile);
         }
         this.mTimeLastProjectileFired = Date.now();
     }

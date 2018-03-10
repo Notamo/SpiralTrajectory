@@ -105,6 +105,9 @@ Arrow.prototype.userCollisionHandling = function(obj){
     if (obj instanceof Arrow){
         return true;
     }
+    if (obj instanceof Boundary){
+        return true;
+    }
     
     if (obj instanceof Hero) {
         if (this.getTimeAlive() < 30 || this.mCollided) {
@@ -140,11 +143,6 @@ Arrow.prototype.userCollisionHandling = function(obj){
             this.getXform().getYPos() - obj.getXform().getYPos()
     );
     return false;
-};
-
-Arrow.prototype.flat = function(){
-    this.mRigidBody.setFriction(1);
-    this.isDead=true;
 };
 
 Arrow.prototype.getDamage = function () {

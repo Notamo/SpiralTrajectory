@@ -22,9 +22,9 @@
  * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.
  * @returns {Hero}
  */
-function Hero(spriteTexture, physicsReference, cameraRef) {
+function Hero(spriteTexture, normalMap, cameraRef) {
     // Create the sprite
-    this.mArcher = new SpriteRenderable(spriteTexture);
+    this.mArcher = new IllumRenderable(spriteTexture, normalMap);
     this.mArcher.setColor(Config.Hero.Color);
     this.mArcher.getXform().setPosition(
         Config.BossBattle.Hero.SpawnPosition.X,
@@ -52,8 +52,6 @@ function Hero(spriteTexture, physicsReference, cameraRef) {
     r.setRestitution(Config.Hero.Physics.Restitution);
     r.setFriction(Config.Hero.Physics.Friction);  
     this.setRigidBody(r);
-    
-    this.mPhysicsSetRef = physicsReference;
     
     //Player HP
     this.mMaxHP = Config.Hero.StartingHP;
@@ -187,7 +185,7 @@ Hero.prototype.update = function () {
     if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
         var arrow = this.generateArrow();
         if (this.mArrowSet.addToSet(arrow)) {
-            this.mPhysicsSetRef.addToSet(arrow);
+            gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, arrow);
             gEngine.AudioClips.playACue(Config.Hero.Audio.FiringArrow, Config.Hero.Audio.Volume);
         }
         

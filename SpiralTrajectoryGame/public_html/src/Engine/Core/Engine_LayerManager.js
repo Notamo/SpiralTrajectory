@@ -49,7 +49,7 @@ gEngine.LayerManager = (function () {
      */
     var initialize = function() {
         mAllLayers[gEngine.eLayer.eBackground] = new GameObjectSet();
-        mAllLayers[gEngine.eLayer.eShadowReceiver] = new GameObjectSet();
+        mAllLayers[gEngine.eLayer.eShadowReceiver] = new ShadowReceiverSet();
         mAllLayers[gEngine.eLayer.eActors] = new GameObjectSet();
         mAllLayers[gEngine.eLayer.eFront] = new GameObjectSet();
         mAllLayers[gEngine.eLayer.eHUD] = new GameObjectSet();
@@ -123,6 +123,10 @@ gEngine.LayerManager = (function () {
         mAllLayers[layerEnum].addToSet(obj);
     };
     
+    var getLayer = function(layerEnum) {
+        return mAllLayers[layerEnum];
+    }
+    
     /**
      * add the shadow caster objects (obj) to the layer manager.
      * @memberOf gEngine.LayerManager
@@ -177,6 +181,7 @@ gEngine.LayerManager = (function () {
       drawLayer: drawLayer,
       updateLayer: updateLayer,
       addToLayer: addToLayer,
+      getLayer: getLayer,
       addAsShadowCaster: addAsShadowCaster,
       removeFromLayer: removeFromLayer,
       moveToLayerFront: moveToLayerFront,

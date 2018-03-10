@@ -12,7 +12,7 @@
 "use strict";
 
 function Platform(spriteTexture, x, y, w, h) {
-    this.platform = new TextureRenderable(spriteTexture);
+    this.platform = new LightRenderable(spriteTexture);
     var xform = this.platform.getXform();
     xform.setSize(w, h);
     xform.setPosition(x, y);

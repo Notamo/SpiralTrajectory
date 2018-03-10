@@ -13,16 +13,20 @@ var Config = Config || {};
 Config.BossBattle = Object.freeze({
     Textures: {
         HeroSprite:             "assets/characters/hero.png",
+        HeroNormal:             "assets/characters/normal/hero.png",
         DefaultArrowSprite:     "assets/projectiles/arrow.png",
         IceArrowSprite:         "assets/projectiles/icearrow.png",
         FireArrowSprite:        "assets/projectiles/firearrow.png",
         BossSprite:             "assets/characters/boss_sprites.png",
+        BossNormal:             "assets/characters/normal/boss_sprites.png",
         BossProjectileSprite:   "assets/projectiles/bossprojectile.png",
         PlatformTexture:        "assets/props/platform.png",
         GroundTexture:          "assets/groundtexture.png",
         WallTexture:            "assets/walltexture.png",
         GroundTorchTexture:     "assets/props/torch1.png",
+        GroundTorchNormal:     "assets/props/normal/torch1.png",
         WallTorchTexture:       "assets/props/torch2.png",
+        WallTorchNormal:       "assets/props/normal/torch2.png",
         TorchParticleTexture:   "assets/particles/particle.png",
         FlameParticleTexture:   "assets/particles/flameparticle.png",
         SnowParticleTexture:    "assets/particles/snowparticle.png",
@@ -78,8 +82,8 @@ Config.BossBattle = Object.freeze({
             {
                 X:      290,
                 Y:      10,
-                Width:  15,
-                Height: 30
+                Width:  20,
+                Height: 20
             }
         ],
         Wall: [

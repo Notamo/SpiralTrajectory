@@ -29,7 +29,7 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectA
     this.mTorches = [];
 
     // Setup the renderable
-    this.mGolem = new SpriteAnimateRenderable(sprite);
+    this.mGolem = new IllumRenderable(Config.BossBattle.Textures.BossSprite, Config.BossBattle.Textures.BossNormal);
     this.mGolem.setColor(Config.Golem.Properties.Color);
     this.mGolem.getXform().setPosition(
         Config.BossBattle.Boss.SpawnPosition.X,

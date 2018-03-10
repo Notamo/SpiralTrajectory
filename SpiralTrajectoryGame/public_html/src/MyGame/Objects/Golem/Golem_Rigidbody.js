@@ -76,9 +76,8 @@ Golem.prototype._buildRigidbodies = function() {
         r.setRestitution(Config.Golem.Rigidbodies[rbody].Physics.Restitution);
         r.setFriction(Config.Golem.Rigidbodies[rbody].Physics.Friction);
         temp.setRigidBody(r);
-        
         // Add the new object to the appropriate sets.
-        this.mPhysicsSetRef.addToSet(temp);
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, temp);
         this.mRigidSet.insert(Config.Golem.Rigidbodies[rbody].Name, temp);
     }
 };
