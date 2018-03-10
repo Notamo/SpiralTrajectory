@@ -43,6 +43,9 @@ https://opengameart.org/content/sj-frame
 ground texture
 https://opengameart.org/content/planetcute-stone-block-tallpng
 
+torch icons
+https://opengameart.org/content/lpc-animated-torch
+
 wall texture
 KIIRA
 https://opengameart.org/content/hand-painted-mountain-texture
