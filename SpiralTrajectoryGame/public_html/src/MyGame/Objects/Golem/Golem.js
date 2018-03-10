@@ -8,6 +8,14 @@
 
 "use strict";
 
+/**
+ * Constructor for the Golem object.
+ * @param {type} sprite
+ * @param {type} heroRef
+ * @param {type} physicsGameObjectArrayRef
+ * @param {type} nonPhysicsGameObjectArrayRef
+ * @returns {Golem}
+ */
 function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectArrayRef) {
     // Save the reference to the game object sets.
     this.mPhysicsSetRef = physicsGameObjectArrayRef;
