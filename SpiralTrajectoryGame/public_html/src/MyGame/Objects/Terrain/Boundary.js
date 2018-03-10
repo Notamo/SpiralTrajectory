@@ -31,5 +31,8 @@ Boundary.prototype.update = function () {
 };
 
 Boundary.prototype.userCollisionHandling = function(obj){
+    if (obj instanceof Arrow){
+        return true;
+    }
     return false;
 };
