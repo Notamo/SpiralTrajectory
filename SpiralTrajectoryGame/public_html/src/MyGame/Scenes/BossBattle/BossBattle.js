@@ -14,9 +14,9 @@
 
 function BossBattle() {
     this.mMainCamera = null;
-    this.mPhysicsGameObjects = null;
     this.mGlobalLightSet = null;
     this.mBgShadow = null;
+    this.mPhysicsGameObjects = null;
     this.mNonPhysicsGameObjects = null;
     this.mHero = null;
     this.mBoss = null;
@@ -59,6 +59,7 @@ BossBattle.prototype.unloadScene = function () {
 };
 
 BossBattle.prototype.initialize = function () {
+    
     this.mMainCamera = new Camera(
         Config.BossBattle.Cameras.MainCameraStartingPosition,
         Config.BossBattle.Cameras.MainCameraWorldWidth,
@@ -74,14 +75,15 @@ BossBattle.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
     gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
 
-    this.mPhysicsGameObjects = new GameObjectSet();
     this.mNonPhysicsGameObjects = new GameObjectSet();
     this.mHero = new Hero(
-        Config.BossBattle.Textures.HeroSprite, 
-        this.mPhysicsGameObjects, 
+        Config.BossBattle.Textures.HeroSprite,
+        Config.BossBattle.Textures.HeroNormal,
         this.mMainCamera
     );
-    this.mPhysicsGameObjects.addToSet(this.mHero);
+    
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,this.mHero);
+    gEngine.LayerManager.addAsShadowCaster(this.mHero);
     
     this.mBoss = new Golem(
         Config.BossBattle.Textures.BossSprite, 
@@ -90,20 +92,31 @@ BossBattle.prototype.initialize = function () {
         this.mNonPhysicsGameObjects
     );
 
-    this.mPhysicsGameObjects.addToSet(this.mBoss);
+     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mBoss);
     
-    this.boundary = new Boundary(149,230,400,4);
-    this.mPhysicsGameObjects.addToSet(this.boundary);
+    this.boundary = new Boundary(149,230,500,4);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.boundary);
     
     this.kBgMusic = "assets/audio/music/bossbattle.mp3";
     gEngine.AudioClips.playBackgroundAudio(this.kBgMusic, .08);
     
     this.buildLevel();
     
+    
     this._initializeLights(); 
     this._initializeBackground()
-    this._setupShadow();
     this._initializeUI();
+    
+    var actors = gEngine.LayerManager.getLayer(gEngine.eLayer.eActors);
+    for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < actors.size(); j++) {
+            if (actors.getObjectAt(j).getRenderable() instanceof LightRenderable){
+                actors.getObjectAt(j).getRenderable().addLight(this.mGlobalLightSet.getLightAt(i));
+            }
+        }
+    }
+    
+    this._setupShadow();
 };
 
 BossBattle.prototype._initializeBackground = function() {
@@ -125,30 +138,22 @@ BossBattle.prototype._initializeBackground = function() {
     midBG.getMaterial().setSpecular([0.2, 0.1, 0.1, 1]);
     midBG.getMaterial().setShininess(50);
     midBG.getXform().setZPos(-1);
-    // Need lights
-    //farBG.addLight();   
-    this.mBgL1 = new ParallaxGameObject(midBG , 1.01, this.mMainCamera);
+  
+    this.mBgL1 = new ParallaxGameObject(midBG , 1, this.mMainCamera);
     this.mBgL1.setCurrentFrontDir([0, -1, 0]);
     this.mBgL1.setIsTiled(false);
     
-   /* var FG = new IllumRenderable(Config.BossBattle.Textures.ForegroundTexture, Config.BossBattle.Textures.ForegroundNormal);
-    FG.setElementPixelPositions(0, 1024, 0, 512);
-    FG.getXform().setSize(354, 178);
-    FG.getXform().setPosition(148, 81);
-    FG.getMaterial().setSpecular([0.2, 0.1, 0.1, 1]);
-    FG.getMaterial().setShininess(50);
-    FG.getXform().setZPos(2);
-    // Need lights
-    //farBG.addLight();   
-    this.mFg = new ParallaxGameObject(FG , 1, this.mMainCamera);
-    this.mFg.setCurrentFrontDir([-1, 0, 0]);
-    this.mFg.setIsTiled(false);
+     for (var i = 0; i < 4; i++) {
+
+        this.mBgL1.getRenderable().addLight(this.mGlobalLightSet.getLightAt(i));
+        
+    }
     
-    */
+
     // add to layer managers ...
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mBgL0);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBgL1);
-  //  gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mFg);
+
 };
 
 BossBattle.prototype.draw = function () {
@@ -157,10 +162,8 @@ BossBattle.prototype.draw = function () {
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eBackground,this.mMainCamera);
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eShadowReceiver,this.mMainCamera);
     this.mNonPhysicsGameObjects.draw(this.mMainCamera);
-    this.mPhysicsGameObjects.draw(this.mMainCamera);
-    
-   // gEngine.LayerManager.drawLayer(gEngine.eLayer.eFront,this.mMainCamera);
-    //gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD,this.mMainCamera);
+    //this.mPhysicsGameObjects.draw(this.mMainCamera);
+        gEngine.LayerManager.drawLayer(gEngine.eLayer.eActors,this.mMainCamera);
     this.mCollisions = [];
     
     gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD, this.mMainCamera);
@@ -174,13 +177,12 @@ BossBattle.prototype.update = function () {
    // }
 
     this.mNonPhysicsGameObjects.update();
-    this.mPhysicsGameObjects.update();
+    gEngine.LayerManager.updateAllLayers();
     gEngine.Physics.processCollision(
-        this.mPhysicsGameObjects, 
+        gEngine.LayerManager.getLayer(gEngine.eLayer.eActors), 
         this.mCollisions
     );
     
-    gEngine.LayerManager.updateAllLayers();
 
     this.updateMainCamera();
     this._updateUI();
