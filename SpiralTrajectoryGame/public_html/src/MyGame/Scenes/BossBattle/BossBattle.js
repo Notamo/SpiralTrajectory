@@ -105,7 +105,7 @@ BossBattle.prototype.initialize = function () {
     this.buildLevel();
     
     
-    this._initializeBackground()
+    this._initializeBackground();
     this._initializeUI();
     
     var actors = gEngine.LayerManager.getLayer(gEngine.eLayer.eActors);
