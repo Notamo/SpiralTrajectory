@@ -63,23 +63,25 @@ FireArrow.prototype.draw = function (camera) {
 
 FireArrow.prototype.update = function() {
     Arrow.prototype.update.call(this);
-    var length=this.mArrow.getXform().getPosition();
-    var test=[length[0],length[1]];
-    var curRadx=Math.cos(this.mArrow.getXform().getRotationInRad()+(Math.PI/2));
-    var curRady=Math.sin(this.mArrow.getXform().getRotationInRad()+(Math.PI/2));
-    test[0]=test[0]+((this.mArrow.getXform().getHeight()/2)*curRadx);
-    test[1]=test[1]+((this.mArrow.getXform().getHeight()/2)*curRady);
-    if (Math.random() < .3) {
-        if (this.mTimeSinceSpawn + this.kParticleLifeLimit < this.mTimeLimit) {
-            this.mParticles.addEmitterAt(
-                test,
-                1,
-                this.createParticle,
-                this.type
-                );  
-        } 
+    
+    if (this.mDrawRenderable === true) {   
+        var length=this.mArrow.getXform().getPosition();
+        var test=[length[0],length[1]];
+        var curRadx=Math.cos(this.mArrow.getXform().getRotationInRad()+(Math.PI/2));
+        var curRady=Math.sin(this.mArrow.getXform().getRotationInRad()+(Math.PI/2));
+        test[0]=test[0]+((this.mArrow.getXform().getHeight()/2)*curRadx);
+        test[1]=test[1]+((this.mArrow.getXform().getHeight()/2)*curRady);
+        if (Math.random() < .3) {
+            if (this.mTimeSinceSpawn + this.kParticleLifeLimit < this.mTimeLimit) {
+                this.mParticles.addEmitterAt(
+                    test,
+                    1,
+                    this.createParticle,
+                    this.type
+                    );  
+            } 
+        }
     }
-
     this.mParticles.update();
 
 };

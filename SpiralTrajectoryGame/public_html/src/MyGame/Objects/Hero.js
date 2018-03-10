@@ -86,7 +86,7 @@ gEngine.Core.inheritPrototype(Hero, GameObject);
  * Setter for the Hero's active arrow.
  * 
  * @param {ArrowSet.eArrowType} type    The type of arrow.
- * @returns {null}
+ * @returns {undefined}
  */
 Hero.prototype.setArrowSelection = function(type) {
     this.mArrowSelection = type;
@@ -105,7 +105,7 @@ Hero.prototype.getArrowSelection = function() {
  * No special behavior here, just calls draw for the arrows & the ArrowVector.
  * 
  * @param {Camera} aCamera
- * @returns {null}
+ * @returns {undefined}
  */
 Hero.prototype.draw = function(aCamera) {
     GameObject.prototype.draw.call(this, aCamera);
@@ -117,7 +117,7 @@ Hero.prototype.draw = function(aCamera) {
  * Handles updating all behavior of the hero. Some of the states in this
  * function still use our old naming convention (ex: eArrowType.eIceArrow).
  * 
- * @returns {null}
+ * @returns {undefined}
  */
 Hero.prototype.update = function () {
     // Grab the xform to make using it a bit more convenient here.
@@ -266,9 +266,6 @@ Hero.prototype.getLastPlatform = function () {
  * @param {GameObject} obj
  * @returns {Boolean}
  */
-
-// Ignores collision with platform objects when the S key is pressed or
-// when the hero is jumping from below the platform
 Hero.prototype.userCollisionHandling = function (obj) {
     // The only object we would want to ignore as the hero is a Platform.
     if (obj instanceof Platform) {
@@ -319,7 +316,7 @@ Hero.prototype.getStatus = function () {
  * Deals damage to the hero equal to the value of the parameter.
  * 
  * @param {float} damage
- * @returns {null}
+ * @returns {undefined}
  */
 Hero.prototype.hit = function (damage) {
     this.mCurrentHP -= damage;

@@ -8,18 +8,54 @@
 
 "use strict";
 
+/**
+ * Constructor for the GolemBlastProjectile. This is essentially just a big
+ * circle that spawns beneath the golem, expands & spins for awhile, and then
+ * is launched at the hero.
+ * 
+ * @param {String} sprite   Path to the projectile sprite.
+ * @param {Golem}  golem    Reference to the Golem object.
+ * @param {Hero}   hero     Reference to the Hero object.
+ * @returns {GolemBlastProjectile}
+ */
 function GolemBlastProjectile(sprite, golem, hero) {
+    // Tracker to see if the projectile has touched the hero yet. It can only
+    // touch a single time. Once this is set to true, the projectile becomes
+    // harmless.
     this.mTouchedHero = false;
+    
+    // Save our references to the Hero and Golem.
     this.mHero = hero;
     this.mGolem = golem;
+    
+    // Track how long the projectile has been active.
     this.mFramesSinceCreated = 0;
+    
+    // Calculate the rate of change for the radius during the windup period.
     this.mRadiusDelta = (Config.Golem.Projectiles.Blast.EndRadius - Config.Golem.Projectiles.Blast.StartRadius) / Config.Golem.Projectiles.Blast.WindupTime;
+   
+    // This tracks how much we rotate the circle on each update. This value is
+    // incremented by itself on each update, thereby mimicing a windup process.
     this.mRotationDelta = 0;
+    
+    // A vector that points from the Golem to the Hero at the time the projectile
+    // is fired. This vector is used as the displacement for the projectile at each
+    // update, and is scaled each time to increase the displacement per update.
     this.mFinalTargetVector = null;
+    
+    // Base power of the projectile firing. Once the direction is determined,
+    // the final target vector is multiplied by this consntant to determine
+    // the initial rate of change.
     this.mBasePower = Config.Golem.Projectiles.Blast.BasePower;
+    
+    // This is the amount the magnitude of the final target vector changes with
+    // each update.
     this.mPowerDelta = Config.Golem.Projectiles.Blast.PowerDelta;
+    
+    // The base damage of the projectile.
     this.mBaseDamage = Config.Golem.Projectiles.Blast.BaseDamage;
     
+    // Create the renderable.
     this.mProjectile = new TextureRenderable(sprite);
     this.mProjectile.setColor(Config.Golem.Projectiles.Blast.Color);
     this.mProjectile.getXform().setPosition(
@@ -32,6 +68,7 @@ function GolemBlastProjectile(sprite, golem, hero) {
     );   
     GolemProjectile.call(this, this.mProjectile);
     
+    // Add a RigidCircle for cheap collision detection.
     var r = new RigidCircle(
         this.getXform(),
         this.getXform().getWidth()
@@ -43,51 +80,90 @@ function GolemBlastProjectile(sprite, golem, hero) {
 }
 gEngine.Core.inheritPrototype(GolemBlastProjectile, GolemProjectile);
 
+/**
+ * Update function for the projectile.
+ * 
+ * @returns {undefined}
+ */
 GolemBlastProjectile.prototype.update = function () {
+    // Grab references to the projectile & golem xforms to clean the code up later.
     var projectileXform = this.mProjectile.getXform();
     var golemXform = this.mGolem.getXform();
     
+    // This is the "Windup" section for the projectile.
     if (this.mFramesSinceCreated < Config.Golem.Projectiles.Blast.WindupTime) {
+        // Keep the position relative to the golem constant.
         projectileXform.setPosition(
             golemXform.getXPos(), 
             golemXform.getYPos() + Config.Golem.Projectiles.Blast.YOffset
         );
 
+        // As long as we still have room to grow, increase the size by the calculated
+        // rate of change.
         if (projectileXform.getWidth() < Config.Golem.Projectiles.Blast.EndRadius) {  
             projectileXform.setSize(
                 projectileXform.getWidth() + this.mRadiusDelta,
                 projectileXform.getWidth() + this.mRadiusDelta
             );
         }
+        
+        // Since we're in the windup phase, we increment the rotation rate of change
+        // at each update.
         this.mRotationDelta += Config.Golem.Projectiles.Blast.RotationDelta;
         
+        // Keep track of how many updates we've done in this phase.
         this.mFramesSinceCreated++;
-    } else if (this.mFinalTargetVector === null) {
+    }
+    // Windup is over now, but we only want to set the final target vector once,
+    // so check if it's null before doing anything with it.
+    else if (this.mFinalTargetVector === null) {
         this.mFinalTargetVector = vec2.fromValues(0, 0);
         vec2.subtract(this.mFinalTargetVector, this.mHero.getXform().getPosition(), projectileXform.getPosition());
         vec2.normalize(this.mFinalTargetVector, this.mFinalTargetVector);
         vec2.multiply(this.mFinalTargetVector, this.mFinalTargetVector, this.mBasePower);
     }
     
+    // We always want to rotate the circle.
     projectileXform.incRotationByDegree(this.mRotationDelta);
+    
+    // If we've gotten to the point where the final target vector is set, scale it
+    // by its rate of change and increment the X/Y positions
     if (this.mFinalTargetVector !== null) {
         vec2.multiply(this.mFinalTargetVector, this.mFinalTargetVector, this.mPowerDelta);
         projectileXform.incXPosBy(this.mFinalTargetVector[0]);
         projectileXform.incYPosBy(this.mFinalTargetVector[1]);
     }
     
-    if (projectileXform.getXPos() < -50 ||
-        projectileXform.getXPos() > 500 || 
-        projectileXform.getYPos() < -50 ||
-        projectileXform.getYPos() > 250) {
+    // This checks if the projectile has left the user's possible field of vision
+    // before setting it to expire.
+    // instead of hard-coded, but whatever.
+    if (projectileXform.getXPos() < Config.Golem.Projectiles.Blast.KillRange.Left ||
+        projectileXform.getXPos() > Config.Golem.Projectiles.Blast.KillRange.Right || 
+        projectileXform.getYPos() < Config.Golem.Projectiles.Blast.KillRange.Bottom ||
+        projectileXform.getYPos() > Config.Golem.Projectiles.Blast.KillRange.Top) {
         this.setExpired(true);
     }
 };
 
+/**
+ * Allows for user defined interactions between (this) and the parameter object.
+ * Returning true skips the default Physics engine's handling of the collision.
+ * 
+ * We have special interaction with the hero, but beyond that we want this to
+ * skip any normal collision handling behavior.
+ * 
+ * @param {GameObject} obj
+ * @returns {Boolean}
+ */
 GolemBlastProjectile.prototype.userCollisionHandling = function (obj) {
+    // Special interactions with the hero.
     if (obj instanceof Hero && this.mTouchedHero === false) {
+        // Set mTouchedHero to true so we'll only ever hit the hero once with each
+        // projectile. Also trigger the hit event for the hero.
         this.mTouchedHero = true;
         this.mHero.hit(this.mBaseDamage);
     }
+    
+    // Always skip the collision handling of the Physics engine.
     return true;
 };

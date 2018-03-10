@@ -7,7 +7,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, Hero, Torch, GolemEmptyGameObject */
+ *       Platform, Hero, Torch, GolemEmptyGameObject, IceArrow, GolemProjectile, Config */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -30,6 +30,7 @@ function Arrow(position,power,degree) {
     this.mCollided = false;
     this.mCollidedObj = null;
     this.mCollidedOffset = null;
+    this.mReducedTimeLimit = this.mTimeLimit;
     
     // Physics
     var r = new RigidRectangle(
@@ -54,6 +55,10 @@ Arrow.prototype.getTimeAlive = function () {
 };
 
 Arrow.prototype.update = function () {
+    if (this.mTimeSinceSpawn >= this.mReducedTimeLimit && this.mDrawRenderable === true) {
+        this.toggleDrawRenderable();
+    }
+    
     this.mTimeSinceSpawn++;
     var xform = this.mArrow.getXform();
     var vel = this.getRigidBody().getVelocity();
@@ -116,12 +121,19 @@ Arrow.prototype.userCollisionHandling = function(obj){
         return true;
     }
     
+    if (obj instanceof GolemProjectile) {
+        return true;
+    }
+    
     if (obj instanceof GolemEmptyGameObject) {
         if (obj.mIgnoreCollision === true) {
             return true;
         }
         
-        this.mTimeLimit = 60;
+        this.mReducedTimeLimit = 60;
+        if (this instanceof IceArrow) {
+            this.mReducedTimeLimit = Config.Arrows.Ice.EffectDuration  + 60;
+        }
     }
     
     this.setCollided(true);
