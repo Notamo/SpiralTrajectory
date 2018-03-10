@@ -15,6 +15,8 @@
 function BossBattle() {
     this.mMainCamera = null;
     this.mPhysicsGameObjects = null;
+    this.mGlobalLightSet = null;
+    this.mBgShadow = null;
     this.mNonPhysicsGameObjects = null;
     this.mHero = null;
     this.mBoss = null;
@@ -25,6 +27,8 @@ function BossBattle() {
     this.kBgMusic = null;
     this.mCollisions = [];
     this.mVictory = false;
+    this.mLgtIndex = 0;
+    this.mLgtRotateTheta = 0;
 }
 gEngine.Core.inheritPrototype(BossBattle, Scene);
 
@@ -41,6 +45,7 @@ BossBattle.prototype.loadScene = function () {
 };
 
 BossBattle.prototype.unloadScene = function () {
+    gEngine.LayerManager.cleanUp();
     this._unloadUI();
     for (var texture in Config.BossBattle.Textures) {
         gEngine.Textures.unloadTexture(Config.BossBattle.Textures[texture]);
@@ -64,6 +69,8 @@ BossBattle.prototype.initialize = function () {
         Config.BossBattle.Cameras.MainCameraInterpStiffness,
         Config.BossBattle.Cameras.MainCameraInterpDuration
     );
+    
+    
     gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
     gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
 
@@ -89,25 +96,24 @@ BossBattle.prototype.initialize = function () {
     this.mPhysicsGameObjects.addToSet(this.boundary);
     
     this.kBgMusic = "assets/audio/music/bossbattle.mp3";
-    gEngine.AudioClips.playBackgroundAudio(this.kBgMusic, .05);
+    gEngine.AudioClips.playBackgroundAudio(this.kBgMusic, .08);
     
     this.buildLevel();
     
-    this._initializeBackground();
-
+    this._initializeLights(); 
+    this._initializeBackground()
+    this._setupShadow();
     this._initializeUI();
 };
 
 BossBattle.prototype._initializeBackground = function() {
-    var farBG = new IllumRenderable(Config.BossBattle.Textures.FarBackgroundTexture, Config.BossBattle.Textures.FarBackgroundNormal);
+    var farBG = new LightRenderable(Config.BossBattle.Textures.FarBackgroundTexture);
     farBG.setElementPixelPositions(0, 1024, 0, 512);
     farBG.getXform().setSize(400, 200);
     farBG.getXform().setPosition(0, 0);
-    farBG.getMaterial().setSpecular([0.2, 0.1, 0.1, 1]);
-    farBG.getMaterial().setShininess(50);
     farBG.getXform().setZPos(-10);
     // Need a light
-    //farBG.addLight();   // only the directional light
+    farBG.addLight(this.mGlobalLightSet.getLightAt(0));   // only the directional light
     this.mBgL0 = new ParallaxGameObject(farBG, 5, this.mMainCamera);
     this.mBgL0.setCurrentFrontDir([-1, 0, 0]);
     this.mBgL0.setSpeed(.01);
