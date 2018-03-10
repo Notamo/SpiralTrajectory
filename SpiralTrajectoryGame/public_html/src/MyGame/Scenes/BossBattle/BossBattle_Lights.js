@@ -35,7 +35,7 @@ BossBattle.prototype._initializeLights = function () {
             [0.3, 0.325, 0.3, 1],     // color
             500, 500,               // near anf far distances: essentially switch this off
             0.1, 0.2,               // inner and outer cones
-            1.2,                      // intensity
+            1.2,                    // intensity
             1.0                     // drop off
             );
     this.mGlobalLightSet.addToSet(l);
@@ -44,11 +44,12 @@ BossBattle.prototype._initializeLights = function () {
             [10, 25, 10],         // position
             [1, 0, -1],          // Direction 
             [0.6, 1.0, 0.0, 1],  // some color
-            8, 20,               // near and far distances
+            2, 30,               // near and far distances
             0.1, 0.2,            // inner and outer cones
             5,                   // intensity
-            1.0                  // drop off
+            10                  // drop off
             );
+    l.setLightCastShadowTo(true);
     this.mGlobalLightSet.addToSet(l);
 
     l = this._createALight(Light.eLightType.eSpotLight,
@@ -60,6 +61,7 @@ BossBattle.prototype._initializeLights = function () {
              5,                     // intensity
             1.2                     // drop off
             );
+    l.setLightCastShadowTo(true);
     this.mGlobalLightSet.addToSet(l);
 
     l = this._createALight(Light.eLightType.eSpotLight,
@@ -70,6 +72,18 @@ BossBattle.prototype._initializeLights = function () {
             1.2, 1.3,                // inner and outer cones
             2,                       // intensity
             1.5                      // drop off
+            );
+    l.setLightCastShadowTo(true);
+    this.mGlobalLightSet.addToSet(l);
+    
+        l = this._createALight(Light.eLightType.eDirectionalLight,
+            [15, 50, 10],           // position (not used by directional)
+            [-5, -5, -.5],         // Pointing direction 
+            [1, 1, 1, 1],     // color
+            500, 500,               // near anf far distances: essentially switch this off
+            0.1, 0.2,               // inner and outer cones
+            2,                    // intensity
+            1.0                     // drop off
             );
     this.mGlobalLightSet.addToSet(l);
 };

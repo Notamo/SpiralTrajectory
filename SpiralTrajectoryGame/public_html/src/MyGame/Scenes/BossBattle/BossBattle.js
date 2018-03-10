@@ -133,11 +133,12 @@ BossBattle.prototype._initializeBackground = function() {
     
     var midBG = new IllumRenderable(Config.BossBattle.Textures.MidBackgroundTexture, Config.BossBattle.Textures.MidBackgroundNormal);
     midBG.setElementPixelPositions(0, 1024, 0, 512);
-    midBG.getXform().setSize(348, 174);
+    midBG.getXform().setSize(352, 176);
     midBG.getXform().setPosition(148, 81);
-    midBG.getMaterial().setSpecular([0.2, 0.1, 0.1, 1]);
-    midBG.getMaterial().setShininess(50);
-    midBG.getXform().setZPos(-1);
+    midBG.getXform().setZPos(0); 
+    midBG.getMaterial().setSpecular([.2, .2, .2, .2]);
+    midBG.getMaterial().setShininess(100);
+    midBG.getXform().setZPos(-2);
   
     this.mBgL1 = new ParallaxGameObject(midBG , 1, this.mMainCamera);
     this.mBgL1.setCurrentFrontDir([0, -1, 0]);
