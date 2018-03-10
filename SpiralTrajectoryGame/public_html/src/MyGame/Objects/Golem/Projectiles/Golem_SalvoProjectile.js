@@ -8,6 +8,15 @@
 
 "use strict";
 
+/**
+ * This file is currently fucked and doesn't work.
+ * 
+ * @param {type} sprite
+ * @param {type} golemLoc
+ * @param {type} golemOrientation
+ * @param {type} targetPos
+ * @returns {GolemSalvoProjectile}
+ */
 function GolemSalvoProjectile(sprite, golemLoc, golemOrientation, targetPos) {  
     // Create the renderable
     this.mProjectile = new TextureRenderable(sprite);

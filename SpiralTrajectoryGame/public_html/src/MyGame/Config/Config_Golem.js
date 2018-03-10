@@ -38,12 +38,6 @@ Config.Golem = Object.freeze({
         Smashing: {
             Cooldown: 3000
         },
-        AttackingPlatform: {
-            
-        },
-        Retreating: {
-            
-        },
         Dying: {
             Interpolation: {
                 Stiffness: 1,
@@ -102,7 +96,13 @@ Config.Golem = Object.freeze({
             YOffset: 8,
             BasePower: vec2.fromValues(1.5, 1.5),
             PowerDelta: vec2.fromValues(1.025, 1.025),
-            BaseDamage: 100
+            BaseDamage: 100,
+            KillRange: {
+                Left:   -50,
+                Right:  500,
+                Bottom: -50,
+                Top:    400
+            }
         }
     },
     Animations: {

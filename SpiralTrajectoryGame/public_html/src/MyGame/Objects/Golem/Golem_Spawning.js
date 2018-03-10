@@ -7,6 +7,11 @@
 
 "use strict";
 
+/**
+ * Update function for the "waiting to spawn" state.
+ * 
+ * @returns {undefined}
+ */
 Golem.prototype._serviceWaitingToSpawn = function () {
     // Initialize state.
     if (this.mCurrentStateInitialized === false) {
@@ -34,6 +39,11 @@ Golem.prototype._serviceWaitingToSpawn = function () {
     }
 };
 
+/**
+ * Update function for the Spawning state.
+ * 
+ * @returns {undefined}
+ */
 Golem.prototype._serviceSpawning = function () {
     // Initialize state.
     if (this.mCurrentStateInitialized === false) {
@@ -43,6 +53,9 @@ Golem.prototype._serviceSpawning = function () {
             this.mIgnoreCollision = true;
         }
         
+        // Technically unnecessary for our game. However, there is no guarantee
+        // in practice that Golem couldn't spawn multiple times, so resetting
+        // the base properties when this state is initialized is not a bad idea.
         this.mGolem.setColor(Config.Golem.Properties.Color);
         this.mGolem.getXform().setPosition(
             Config.BossBattle.Boss.SpawnPosition.X,

@@ -7,63 +7,59 @@
 
 "use strict";
 
+/**
+ * Update function for the dying state. This is the state where the boss
+ * has been defeated and we're waiting for the death animation to complete
+ * before we move to the "dead" state.
+ * 
+ * @returns {undefined}
+ */
 Golem.prototype._serviceDying = function () {
     // Initialize state.
     if (this.mCurrentStateInitialized === false) {
-        // We want collisions if the boss is idle
+        // We want to ignore collisions because we're dead.
         if (this.mIgnoreCollision === false) {
             this.ignoreCollision();
             this.mIgnoreCollision = true;
         }
         
+        // Still want to be visible for the animation.
         this.setVisibility(true);
         this._animate(Config.Golem.Animations.Death, true);
-        this.mCenterX.configInterpolation(
-            Config.Golem.States.Patrolling.Interpolation.Stiffness,
-            Config.Golem.States.Patrolling.Interpolation.Duration
-        );
-        this.mCenterY.configInterpolation(
-            Config.Golem.States.Patrolling.Interpolation.Stiffness,
-            Config.Golem.States.Patrolling.Interpolation.Duration
-        );
         this.mStateStartTime = Date.now();
         this.mMiscTracker = Date.now();
-        this.xOffset = Config.Golem.States.Patrolling.Interpolation.XOffset;
-        this.yOffset = Config.Golem.States.Patrolling.Interpolation.YOffset;
         this.mCurrentStateInitialized = true;
     }
     
     // When death anim is complete we transition to the dead state.
     if (this._animationComplete()) {
-        this.mCurrentState = Config.Golem.States.Dead;
-        this.mCurrentStateInitialized = false;
+        this.switchToState(Config.Golem.States.Dead);
     }
     
+    // All we have to do is update the animation.
     this.mGolem.updateAnimation();
 };
 
+/**
+ * Update function for the "dead" state of the Golem. Nothing happens.
+ * 
+ * @returns {undefined}
+ */
 Golem.prototype._serviceDead = function () {
     // Initialize state.
     if (this.mCurrentStateInitialized === false) {
-        // We want collisions if the boss is idle
+        // We want to ignore collisions because we're dead.
         if (this.mIgnoreCollision === false) {
             this.ignoreCollision();
             this.mIgnoreCollision = true;
         }
         
         this.setVisibility(false);
-        this.mCenterX.configInterpolation(
-            Config.Golem.States.Patrolling.Interpolation.Stiffness,
-            Config.Golem.States.Patrolling.Interpolation.Duration
-        );
-        this.mCenterY.configInterpolation(
-            Config.Golem.States.Patrolling.Interpolation.Stiffness,
-            Config.Golem.States.Patrolling.Interpolation.Duration
-        );
         this.mStateStartTime = Date.now();
         this.mMiscTracker = Date.now();
-        this.xOffset = Config.Golem.States.Patrolling.Interpolation.XOffset;
-        this.yOffset = Config.Golem.States.Patrolling.Interpolation.YOffset;
         this.mCurrentStateInitialized = true;
     }
+    
+    // No functionality here. The boss is just dead. Could
+    // set expired to true, but honestly doesn't matter currently.
 };

@@ -118,12 +118,13 @@ GameObject.prototype.draw = function (aCamera) {
     }
 };
 
-// This function is called after a collision occurs, but before the collision is
-// handled by the Physics engine. Return true if you want the engine to NOT do
-// positional correction and normal interaction behavior between the two
-// objects. Return false if you want to do something and then have the engine
-// behave normally. See Engine_Physics.processCollision to see how this function
-// is called.
+/**
+ * Allows for user defined interactions between (this) and the parameter object.
+ * Returning true skips the default Physics engine's handling of the collision.
+ * 
+ * @param {GameObject} obj  The object (this) collides with.
+ * @returns {Boolean}
+ */
 GameObject.prototype.userCollisionHandling = function (obj) {
     return false;
 };

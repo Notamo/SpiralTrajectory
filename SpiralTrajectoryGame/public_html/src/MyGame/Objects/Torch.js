@@ -71,7 +71,7 @@ gEngine.Core.inheritPrototype(Torch, GameObject);
 
 /**
  * 
- * @returns {null}
+ * @returns {undefined}
  */
 Torch.prototype.update = function () {
     // Handle all the dependencies requiring the torch to be lit.
@@ -223,7 +223,7 @@ Torch.prototype.createParticle = function (x, y) {
  * the GameObject draw function.
  * 
  * @param {Camera} camera
- * @returns {null}
+ * @returns {undefined}
  */
 Torch.prototype.draw = function (camera) {
     if (this.mParticles !== null) {
