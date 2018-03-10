@@ -40,7 +40,6 @@ function GolemBlastProjectile(sprite, golem, hero) {
     r.setRestitution(Config.Golem.Projectiles.Blast.Physics.Restitution);
     r.setFriction(Config.Golem.Projectiles.Blast.Physics.Friction);
     this.setRigidBody(r);
-    this.toggleDrawRigidShape();
 }
 gEngine.Core.inheritPrototype(GolemBlastProjectile, GolemProjectile);
 

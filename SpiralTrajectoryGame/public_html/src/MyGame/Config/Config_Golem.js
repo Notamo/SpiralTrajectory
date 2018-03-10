@@ -90,7 +90,7 @@ Config.Golem = Object.freeze({
             Chance: 1.0,
             Physics: {
                 Gravity: false,
-                Mass: 0.1,
+                Mass: 0,
                 Friction: 1,
                 Restitution: 1 
             },
