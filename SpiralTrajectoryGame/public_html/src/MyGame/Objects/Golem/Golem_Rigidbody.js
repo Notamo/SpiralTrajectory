@@ -62,7 +62,7 @@ Golem.prototype._buildRigidbodies = function() {
         r.setFriction(Config.Golem.Rigidbodies[rbody].Physics.Friction);
         temp.setRigidBody(r);
         //temp.toggleDrawRigidShape();
-        this.mPhysicsSetRef.addToSet(temp);
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, temp);
         this.mRigidSet.insert(Config.Golem.Rigidbodies[rbody].Name, temp);
     }
 };

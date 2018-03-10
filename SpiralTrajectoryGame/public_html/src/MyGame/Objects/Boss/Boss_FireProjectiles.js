@@ -164,6 +164,6 @@ Boss.prototype._fireProjectile = function() {
                                     this.kFireSpeed);
     
     this.mBossProjSet.addToSet(newProjectile);
-    this.mPhysicsSetRef.addToSet(newProjectile);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, newProjectile);
 };
 

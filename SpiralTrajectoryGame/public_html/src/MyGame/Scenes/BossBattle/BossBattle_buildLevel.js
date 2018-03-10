@@ -22,7 +22,7 @@ BossBattle.prototype.buildLevel = function () {
 
 BossBattle.prototype.createGround = function () {
     for (var ground in Config.BossBattle.Ground) {
-        this.mPhysicsGameObjects.addToSet(new Terrain(
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, new Terrain(
             Config.BossBattle.Textures.GroundTexture,
             Config.BossBattle.Ground[ground].X,
             Config.BossBattle.Ground[ground].Y,
@@ -34,7 +34,7 @@ BossBattle.prototype.createGround = function () {
 
 BossBattle.prototype.createWalls = function () {
     for (var wall in Config.BossBattle.Walls) {
-        this.mPhysicsGameObjects.addToSet(new Terrain(
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,new Terrain(
             Config.BossBattle.Textures.WallTexture,
             Config.BossBattle.Walls[wall].X,
             Config.BossBattle.Walls[wall].Y,
@@ -46,7 +46,7 @@ BossBattle.prototype.createWalls = function () {
 
 BossBattle.prototype.createPlatforms = function () {
     for (var platform in Config.BossBattle.Platforms) {
-        this.mPhysicsGameObjects.addToSet(new Platform(
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,new Platform(
             Config.BossBattle.Textures.PlatformTexture,
             Config.BossBattle.Platforms[platform].X,
             Config.BossBattle.Platforms[platform].Y,
@@ -58,7 +58,7 @@ BossBattle.prototype.createPlatforms = function () {
 
 BossBattle.prototype.createTorches = function () {
     for (var torch in Config.BossBattle.Torches.Ground) {
-        this.mPhysicsGameObjects.addToSet(new Torch (
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,new Torch (
             Config.BossBattle.Textures.GroundTorchTexture,
             Config.BossBattle.Torches.Ground[torch].X,
             Config.BossBattle.Torches.Ground[torch].Y,
@@ -81,6 +81,6 @@ BossBattle.prototype.createTorches = function () {
             this.mBoss
         );
         temp.getXform().setOrientation(Config.BossBattle.Torches.Wall[torch].Orientation);
-        this.mPhysicsGameObjects.addToSet(temp);
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,temp);
     }
 };
