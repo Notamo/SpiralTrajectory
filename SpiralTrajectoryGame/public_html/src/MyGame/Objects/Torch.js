@@ -17,6 +17,7 @@
  * Constructor for the Torch object. Initializes a spriteTexture
  * 
  * @param {String}  texture     The name of the texture for the torch
+ * @param {String}  normalMap   The name of the normal map for the torch
  * @param {Number}  xPos       
  * @param {Number}  yPos        
  * @param {Number}  width       
@@ -26,14 +27,14 @@
  *                              added to the Golem's reference set.
  * @returns {Torch}
  */
-function Torch(texture, xPos, yPos, width, height, torchType, golem) {
+function Torch(texture, normalMap, xPos, yPos, width, height, torchType, golem) {
     // Save the type of torch, as this will be needed to pick the correct
     // values for the particle system later on. This can also be used, if
     // needed, to determine what the damage bonus of the torch should be.
     this.type = torchType;
     
     // Create and initialize the renderable with the parameterized values. 
-    this.mTorch = new SpriteRenderable(texture);
+    this.mTorch = new IllumRenderable(texture, normalMap);
     this.mTorch.setColor(Config.Torch[this.type].Color);
     this.mTorch.getXform().setPosition(xPos, yPos);
     this.mTorch.getXform().setSize(width, height);

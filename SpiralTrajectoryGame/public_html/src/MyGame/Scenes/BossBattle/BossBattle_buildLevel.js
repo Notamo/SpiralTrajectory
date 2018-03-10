@@ -60,6 +60,7 @@ BossBattle.prototype.createTorches = function () {
     for (var torch in Config.BossBattle.Torches.Ground) {
         gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,new Torch (
             Config.BossBattle.Textures.GroundTorchTexture,
+            Config.BossBattle.Textures.GroundTorchNormal,
             Config.BossBattle.Torches.Ground[torch].X,
             Config.BossBattle.Torches.Ground[torch].Y,
             Config.BossBattle.Torches.Ground[torch].Width,
@@ -73,6 +74,7 @@ BossBattle.prototype.createTorches = function () {
     for (var torch in Config.BossBattle.Torches.Wall) {
         temp = new Torch (
             Config.BossBattle.Textures.WallTorchTexture,
+            Config.BossBattle.Textures.WallTorchNormal,
             Config.BossBattle.Torches.Wall[torch].X,
             Config.BossBattle.Torches.Wall[torch].Y,
             Config.BossBattle.Torches.Wall[torch].Width,
