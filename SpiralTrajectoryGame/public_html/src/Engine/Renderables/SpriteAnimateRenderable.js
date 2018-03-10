@@ -179,6 +179,10 @@ SpriteAnimateRenderable.prototype.getCurrentFrame = function () {
     return this.mCurrentElm;
 };
 
+SpriteAnimateRenderable.getNumElement = function () {
+    return this.mNumElems;
+};
+
 //--- end of Public Methods
 //
 //</editor-fold>

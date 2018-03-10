@@ -120,6 +120,7 @@ Hero.prototype.draw = function(aCamera) {
  * @returns {undefined}
  */
 Hero.prototype.update = function () {
+    if(this.mCurrentHP>0){
     // Grab the xform to make using it a bit more convenient here.
     var xform = this.getXform();
     
@@ -209,6 +210,20 @@ Hero.prototype.update = function () {
     this.mArrowSet.update();
     this.mRigidBody.setAngularVelocity(0);
     this.mRigidBody.update();
+    }
+    else{
+        if(this.mArcher.getNumElement()===1){
+            this.mArcher.setSpriteSequence(
+                    2048*.0547,
+                    2048*.333,
+                    2048*.109,
+                    2048*.113,
+                    9,
+                    0);
+                    
+        }
+        this.mArcher.updateAnimation();
+    }
 };
 
 /**
@@ -309,7 +324,7 @@ Hero.prototype.userCollisionHandling = function (obj) {
  * @returns {Boolean}
  */
 Hero.prototype.getStatus = function () {
-    return (this.mCurrentHP > 0);
+    return (this.mCurrentHP > 0 || this.mArcher.getCurrentFrame!==9);
 };
 
 /**
@@ -320,4 +335,14 @@ Hero.prototype.getStatus = function () {
  */
 Hero.prototype.hit = function (damage) {
     this.mCurrentHP -= damage;
+};
+
+Hero.prototype.setSprite = function (top,left,width,height,frame) {
+    this.mArcher.setSpriteSequence(
+                    2048*(top-(width/2)),
+                    2048*(left-(height/2)),
+                    2048*width,
+                    2048*height,
+                    frame,
+                    0);
 };
