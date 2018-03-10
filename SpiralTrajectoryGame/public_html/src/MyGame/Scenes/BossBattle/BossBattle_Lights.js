@@ -75,17 +75,6 @@ BossBattle.prototype._initializeLights = function () {
             );
     l.setLightCastShadowTo(true);
     this.mGlobalLightSet.addToSet(l);
-    
-        l = this._createALight(Light.eLightType.eDirectionalLight,
-            [15, 50, 10],           // position (not used by directional)
-            [-5, -5, -.5],         // Pointing direction 
-            [1, 1, 1, 1],     // color
-            500, 500,               // near anf far distances: essentially switch this off
-            0.1, 0.2,               // inner and outer cones
-            2,                    // intensity
-            1.0                     // drop off
-            );
-    this.mGlobalLightSet.addToSet(l);
 };
 
 BossBattle.prototype._setupShadow = function () {

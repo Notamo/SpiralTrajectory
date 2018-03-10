@@ -71,9 +71,11 @@ BossBattle.prototype.initialize = function () {
         Config.BossBattle.Cameras.MainCameraInterpDuration
     );
     
+    this._initializeLights(); 
     
-    gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
-    gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
+    
+//    gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
+//    gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
 
     this.mNonPhysicsGameObjects = new GameObjectSet();
     this.mHero = new Hero(
@@ -103,7 +105,6 @@ BossBattle.prototype.initialize = function () {
     this.buildLevel();
     
     
-    this._initializeLights(); 
     this._initializeBackground()
     this._initializeUI();
     
@@ -117,6 +118,10 @@ BossBattle.prototype.initialize = function () {
     }
     
     this._setupShadow();
+    
+    // add to layer managers ...
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mBgL0);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBgL1);
 };
 
 BossBattle.prototype._initializeBackground = function() {
@@ -135,10 +140,9 @@ BossBattle.prototype._initializeBackground = function() {
     midBG.setElementPixelPositions(0, 1024, 0, 512);
     midBG.getXform().setSize(352, 176);
     midBG.getXform().setPosition(148, 81);
-    midBG.getXform().setZPos(0); 
+    midBG.getXform().setZPos(-10); 
     midBG.getMaterial().setSpecular([.2, .2, .2, .2]);
     midBG.getMaterial().setShininess(100);
-    midBG.getXform().setZPos(-2);
   
     this.mBgL1 = new ParallaxGameObject(midBG , 1, this.mMainCamera);
     this.mBgL1.setCurrentFrontDir([0, -1, 0]);
@@ -149,25 +153,14 @@ BossBattle.prototype._initializeBackground = function() {
         this.mBgL1.getRenderable().addLight(this.mGlobalLightSet.getLightAt(i));
         
     }
-    
-
-    // add to layer managers ...
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mBgL0);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBgL1);
 
 };
 
 BossBattle.prototype.draw = function () {
     gEngine.Core.clearCanvas(Config.Engine.Misc.CanvasClearColor);
     this.mMainCamera.setupViewProjection();
-    gEngine.LayerManager.drawLayer(gEngine.eLayer.eBackground,this.mMainCamera);
-    gEngine.LayerManager.drawLayer(gEngine.eLayer.eShadowReceiver,this.mMainCamera);
-    this.mNonPhysicsGameObjects.draw(this.mMainCamera);
-    //this.mPhysicsGameObjects.draw(this.mMainCamera);
-        gEngine.LayerManager.drawLayer(gEngine.eLayer.eActors,this.mMainCamera);
+    gEngine.LayerManager.drawAllLayers(this.mMainCamera);
     this.mCollisions = [];
-    
-    gEngine.LayerManager.drawLayer(gEngine.eLayer.eHUD, this.mMainCamera);
 };
 
 BossBattle.prototype.update = function () {
