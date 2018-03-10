@@ -49,7 +49,6 @@ BossBattle.prototype._initializeLights = function () {
             5,                   // intensity
             10                  // drop off
             );
-    l.setLightCastShadowTo(true);
     this.mGlobalLightSet.addToSet(l);
 
     l = this._createALight(Light.eLightType.eSpotLight,
@@ -61,7 +60,6 @@ BossBattle.prototype._initializeLights = function () {
              5,                     // intensity
             1.2                     // drop off
             );
-    l.setLightCastShadowTo(true);
     this.mGlobalLightSet.addToSet(l);
 
     l = this._createALight(Light.eLightType.eSpotLight,
@@ -73,18 +71,18 @@ BossBattle.prototype._initializeLights = function () {
             2,                       // intensity
             1.5                      // drop off
             );
-    l.setLightCastShadowTo(true);
     this.mGlobalLightSet.addToSet(l);
 };
 
 BossBattle.prototype._setupShadow = function () {
     this.mBgShadow = new ShadowReceiver(this.mBgL1);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBgShadow);
     var actors = gEngine.LayerManager.getLayer(gEngine.eLayer.eActors);
     for (var i = 0; i < actors.size(); i++) {
-        if (actors.getObjectAt(i).getRenderable() instanceof LightRenderable){
-            this.mBgShadow.addShadowCaster(actors.getObjectAt(i));
+        if (actors.getObjectAt(i) instanceof GameObject){
+            if (actors.getObjectAt(i).getRenderable() instanceof IllumRenderable){
+                gEngine.LayerManager.addAsShadowCaster(actors.getObjectAt(i));
+            }
         }
-
     }
-
 };

@@ -113,6 +113,9 @@ BossBattle.prototype.initialize = function () {
         for (var j = 0; j < actors.size(); j++) {
             if (actors.getObjectAt(j).getRenderable() instanceof LightRenderable){
                 actors.getObjectAt(j).getRenderable().addLight(this.mGlobalLightSet.getLightAt(i));
+                if(actors.getObjectAt(j) instanceof Terrain) {
+                    console.log("added lights to terrain");
+                }
             }
         }
     }
@@ -121,7 +124,6 @@ BossBattle.prototype.initialize = function () {
     
     // add to layer managers ...
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mBgL0);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eShadowReceiver, this.mBgL1);
 };
 
 BossBattle.prototype._initializeBackground = function() {
@@ -170,15 +172,16 @@ BossBattle.prototype.update = function () {
     //    gEngine.GameLoop.stop();
    // }
 
-    this.mNonPhysicsGameObjects.update();
+    this.updateMainCamera();
     gEngine.LayerManager.updateAllLayers();
+
+    this.mNonPhysicsGameObjects.update();
     gEngine.Physics.processCollision(
         gEngine.LayerManager.getLayer(gEngine.eLayer.eActors), 
         this.mCollisions
     );
     
 
-    this.updateMainCamera();
     this._updateUI();
     if (this.mHero.getStatus() === false) {
         this.mVictory = false;
