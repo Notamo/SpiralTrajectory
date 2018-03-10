@@ -3,7 +3,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteAnimateRenderable, vec2, Arrow, Platform, Config, Golem,
- *  , GolemProjectile*/
+ *  , GolemProjectile, Hero*/
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -31,6 +31,15 @@ function GolemBlastProjectile(sprite, golem, hero) {
         Config.Golem.Projectiles.Blast.StartRadius
     );   
     GolemProjectile.call(this, this.mProjectile);
+    
+    var r = new RigidCircle(
+        this.getXform(),
+        this.getXform().getWidth()
+    );
+    r.setMass(Config.Golem.Projectiles.Blast.Physics.Mass);
+    r.setRestitution(Config.Golem.Projectiles.Blast.Physics.Restitution);
+    r.setFriction(Config.Golem.Projectiles.Blast.Physics.Friction);
+    this.setRigidBody(r);
 }
 gEngine.Core.inheritPrototype(GolemBlastProjectile, GolemProjectile);
 
@@ -67,16 +76,18 @@ GolemBlastProjectile.prototype.update = function () {
         projectileXform.incYPosBy(this.mFinalTargetVector[1]);
     }
     
-    var temp = [];
-    if (this.mTouchedHero === false && this.mProjectile.pixelTouches(this.mHero.getRenderable(), temp)) {
-        this.mTouchedHero = true;
-        this.mHero.hit(this.mBaseDamage);
-    }
-    
     if (projectileXform.getXPos() < -50 ||
         projectileXform.getXPos() > 500 || 
         projectileXform.getYPos() < -50 ||
         projectileXform.getYPos() > 250) {
         this.setExpired(true);
     }
+};
+
+GolemBlastProjectile.prototype.userCollisionHandling = function (obj) {
+    if (obj instanceof Hero && this.mTouchedHero === false) {
+        this.mTouchedHero = true;
+        this.mHero.hit(this.mBaseDamage);
+    }
+    return true;
 };
