@@ -31,13 +31,14 @@ BossBattle.prototype._initializeLights = function () {
     
     l = this._createALight(Light.eLightType.eDirectionalLight,
             [15, 50, 10],           // position (not used by directional)
-            [-5, -5, -.5],         // Pointing direction 
+            [-.1, -.1, -1],         // Pointing direction 
             [0.3, 0.325, 0.3, 1],     // color
             500, 500,               // near anf far distances: essentially switch this off
             0.1, 0.2,               // inner and outer cones
-            1.2,                    // intensity
+            0.8,                    // intensity
             1.0                     // drop off
             );
+    //l.setLightCastShadowTo(false);
     this.mGlobalLightSet.addToSet(l);
 
     var l = this._createALight(Light.eLightType.ePointLight,
@@ -80,7 +81,8 @@ BossBattle.prototype._setupShadow = function () {
     var actors = gEngine.LayerManager.getLayer(gEngine.eLayer.eActors);
     for (var i = 0; i < actors.size(); i++) {
         if (actors.getObjectAt(i) instanceof GameObject){
-            if (actors.getObjectAt(i).getRenderable() instanceof IllumRenderable){
+            if (actors.getObjectAt(i).getRenderable() instanceof LightRenderable){
+                
                 gEngine.LayerManager.addAsShadowCaster(actors.getObjectAt(i));
             }
         }
