@@ -59,21 +59,25 @@ ShadowReceiver.prototype.draw = function (aCamera) {
     var c;
     
     // draw receiver as a regular renderable
-    this.mReceiver.draw(aCamera);
-    
-    this._shadowRecieverStencilOn();
-    var s = this.mReceiver.getRenderable().swapShader(this.mReceiverShader);
-    this.mReceiver.draw(aCamera);
-    this.mReceiver.getRenderable().swapShader(s);
-    this._shadowRecieverStencilOff();
-    
-    // now draw shadow color to the pixels in the stencil that are switched on
-    for (c = 0; c < this.mShadowCaster.length; c++) {
-        this.mShadowCaster[c].draw(aCamera);
+    if (this.mReceiver.isVisible()) {
+        this.mReceiver.draw(aCamera);
+
+        this._shadowRecieverStencilOn();
+        var s = this.mReceiver.getRenderable().swapShader(this.mReceiverShader);
+        this.mReceiver.draw(aCamera);
+        this.mReceiver.getRenderable().swapShader(s);
+        this._shadowRecieverStencilOff();
+
+        // now draw shadow color to the pixels in the stencil that are switched on
+        for (c = 0; c < this.mShadowCaster.length; c++) {
+            if (this.mShadowCaster[c].mShadowCaster.isVisible()) {
+                this.mShadowCaster[c].draw(aCamera);
+            }
+        }
+
+        // switch off stencil checking
+        this._shadowRecieverStencilDisable();
     }
-    
-    // switch off stencil checking
-    this._shadowRecieverStencilDisable();
 };
 
 /**
