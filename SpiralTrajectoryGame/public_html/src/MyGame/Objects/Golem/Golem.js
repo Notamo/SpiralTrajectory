@@ -15,9 +15,10 @@
  * @param {Hero}            heroRef                         Reference to the hero the boss interacts with.
  * @param {GameObjectSet}   physicsGameObjectArrayRef       Reference to the set of physics GameObjects.
  * @param {GameObjectSet}   nonPhysicsGameObjectArrayRef    Reference to the set of non-physics GameObjects.
+ * @param {Light}           blastProjectileLight            Light for the blast projectile.
  * @returns {Golem}
  */
-function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectArrayRef) {
+function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectArrayRef, blastProjectileLight) {
     // Save the reference to the game object sets.
     this.mPhysicsSetRef     = physicsGameObjectArrayRef;
     this.mNonPhysicsSetRef  = nonPhysicsGameObjectArrayRef;
@@ -27,7 +28,11 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectA
     
     // References to torches.
     this.mTorches = [];
-
+    
+    // Reference to the light used by BlastProjectiles.
+    this.mBlastProjectileLight = blastProjectileLight;
+    this.mBlastProjectileLight.setLightTo(false);
+    
     // Setup the renderable
     this.mGolem = new IllumRenderable(Config.BossBattle.Textures.BossSprite, Config.BossBattle.Textures.BossNormal);
     this.mGolem.setColor(Config.Golem.Properties.Color);

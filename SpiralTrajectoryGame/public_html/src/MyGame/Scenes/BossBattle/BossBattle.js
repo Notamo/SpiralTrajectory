@@ -87,12 +87,15 @@ BossBattle.prototype.initialize = function () {
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,this.mHero);
     gEngine.LayerManager.addAsShadowCaster(this.mHero);
     
+    var golemBlastProjectileLight = new Light();
     this.mBoss = new Golem(
         Config.BossBattle.Textures.BossSprite, 
         this.mHero, 
         this.mPhysicsGameObjects,
-        this.mNonPhysicsGameObjects
+        this.mNonPhysicsGameObjects,
+        golemBlastProjectileLight
     );
+    this.mGlobalLightSet.addToSet(golemBlastProjectileLight);
 
      gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mBoss);
     
