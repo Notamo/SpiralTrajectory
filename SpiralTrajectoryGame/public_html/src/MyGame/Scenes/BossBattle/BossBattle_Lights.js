@@ -28,18 +28,20 @@ BossBattle.prototype._createALight = function (type, pos, dir, color, n, f, inne
 
 BossBattle.prototype._initializeLights = function () {
     this.mGlobalLightSet = new LightSet();
-    
+    var l;
     l = this._createALight(Light.eLightType.eDirectionalLight,
             [15, 50, 10],           // position (not used by directional)
             [-5, -5, -.5],         // Pointing direction 
-            [0.3, 0.325, 0.3, 1],     // color
+            [0.3, 0.325, 0.3, 1],   // color
             500, 500,               // near anf far distances: essentially switch this off
             0.1, 0.2,               // inner and outer cones
             1.2,                    // intensity
             1.0                     // drop off
             );
     this.mGlobalLightSet.addToSet(l);
-
+    
+    
+    // This one is at the torch
     var l = this._createALight(Light.eLightType.ePointLight,
             [10, 25, 10],         // position
             [1, 0, -1],          // Direction 
@@ -50,7 +52,9 @@ BossBattle.prototype._initializeLights = function () {
             10                  // drop off
             );
     this.mGlobalLightSet.addToSet(l);
+    l.setLightTo(false);
 
+    // This is the little circle near  the bottom left platform
     l = this._createALight(Light.eLightType.eSpotLight,
             [65, 25, 12],            // Right minion position
             [-0.02,  0.02, -1],     // direction
@@ -61,7 +65,9 @@ BossBattle.prototype._initializeLights = function () {
             1.2                     // drop off
             );
     this.mGlobalLightSet.addToSet(l);
+    l.setLightTo(false);
 
+    // Red circle
     l = this._createALight(Light.eLightType.eSpotLight,
             [60, 50, 12],            // Center of camera 
             [0.02, -0.02, -1],
@@ -72,6 +78,7 @@ BossBattle.prototype._initializeLights = function () {
             1.5                      // drop off
             );
     this.mGlobalLightSet.addToSet(l);
+    l.setLightTo(false);
 };
 
 BossBattle.prototype._setupShadow = function () {

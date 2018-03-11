@@ -133,8 +133,8 @@ GolemBlastProjectile.prototype.update = function () {
     // by its rate of change and increment the X/Y positions
     if (this.mFinalTargetVector !== null) {
         vec2.multiply(this.mFinalTargetVector, this.mFinalTargetVector, this.mPowerDelta);
-        projectileXform.incXPosBy(this.mFinalTargetVector[0] * 0.01);
-        projectileXform.incYPosBy(this.mFinalTargetVector[1] * 0.01);
+        projectileXform.incXPosBy(this.mFinalTargetVector[0]);
+        projectileXform.incYPosBy(this.mFinalTargetVector[1]);
     }
     
     // This checks if the projectile has left the user's possible field of vision
