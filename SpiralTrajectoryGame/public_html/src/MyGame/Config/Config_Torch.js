@@ -45,7 +45,7 @@ Config.Torch = Object.freeze({
             YAccelerationMultiplier:    5
         },
         Light: {
-            Color: [1.0, 0.1, 0.0, 1],
+            Color: [0.4, 0.1, 0.0, 1],
             XOffset: 0,
             YOffset: 15,
             ZPosition: 1,
@@ -87,7 +87,7 @@ Config.Torch = Object.freeze({
             YAccelerationMultiplier:    20
         },
         Light: {
-            Color: [1.0, 0.1, 0.0, 1],
+            Color: [0.4, 0.1, 0.0, 1],
             XOffset: 0,
             YOffset: 15,
             ZPosition: 1,
@@ -129,7 +129,7 @@ Config.Torch = Object.freeze({
             YAccelerationMultiplier:    20
         },
         Light: {
-            Color: [1.0, 0.1, 0.0, 1],
+            Color: [0.4, 0.1, 0.0, 1],
             XOffset: 0,
             YOffset: 15,
             ZPosition: 1,
@@ -171,7 +171,7 @@ Config.Torch = Object.freeze({
             YAccelerationMultiplier:    5
         },
         Light: {
-            Color: [1.0, 0.1, 0.0, 1],
+            Color: [0.4, 0.1, 0.0, 1],
             XOffset: 0,
             YOffset: 15,
             ZPosition: 1,
