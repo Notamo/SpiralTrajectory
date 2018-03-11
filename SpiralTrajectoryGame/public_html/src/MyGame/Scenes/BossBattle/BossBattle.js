@@ -175,7 +175,7 @@ BossBattle.prototype.update = function () {
     //if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
     //    gEngine.GameLoop.stop();
    // }
-
+   
     this.updateMainCamera();
     gEngine.LayerManager.updateAllLayers();
 
