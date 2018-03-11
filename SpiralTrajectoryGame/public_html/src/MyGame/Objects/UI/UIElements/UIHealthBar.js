@@ -37,9 +37,13 @@ UIHealthBar.prototype.update = function() {
 };
 
 UIHealthBar.prototype.setMaxHP = function(hp) {
-  this.mMaxHP = hp;  
+    if(hp > 0)
+        this.mMaxHP = hp;  
 };
 
 UIHealthBar.prototype.setCurrentHP = function(hp) {
-    this.mCurHP = hp;
-}
+    if(hp < 0)
+        this.mCurHP = 0;
+    else
+        this.mCurHP = hp;
+};

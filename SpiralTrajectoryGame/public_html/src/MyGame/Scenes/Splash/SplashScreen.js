@@ -13,12 +13,18 @@
 
 function SplashScreen() {
     this.arrow = "assets/projectiles/arrow.png";
-    this.title = null;
-    this.msg = null;
+
     this.mArrow = null;
 
+    //background
     this.mFarBG = null;
     this.mMidBG = null;
+    
+    //UI stuff
+    this.title = null;
+    this.msg = null;
+    this.mPlayButton = null;
+    this.mCreditsButton = null;
     
     // The camera to view the scene
     this.mMainCamera = null;
@@ -76,6 +82,31 @@ SplashScreen.prototype._initializeUI = function() {
     
     this.msg = new UIText("Press B to Play", vec2.fromValues(450, 100), 5);
     this.msg.setColor([1, 1, 1, 1]);
+    
+    this.mPlayButton = new UIButton(Config.UI.Textures.UIButton, 
+                                    this.mMainCamera,
+                                    this._testButtonCallback,
+                                    vec2.fromValues(600, 600),
+                                    vec2.fromValues(200, 100),
+                                    "Play!",
+                                    5);
+    
+    this.mCreditsButton = new UIButton(Config.UI.Textures.UIButton, 
+                                this.mMainCamera,
+                                this._testButtonCallback,
+                                vec2.fromValues(600, 400),
+                                vec2.fromValues(200, 100),
+                                "Play!",
+                                5);
+    
+};
+
+SplashScreen.prototype._testButtonCallback = function() {
+    gEngine.GameLoop.stop();
+};
+
+SplashScreen.prototype._creditsButtonCallback = function() {
+    console.log ("CREDITS");
 };
 
 SplashScreen.prototype._initializeBackground = function() {
@@ -110,6 +141,7 @@ SplashScreen.prototype.draw = function () {
     //UI
     this.title.draw(this.mMainCamera);
     this.msg.draw(this.mMainCamera);
+    this.mPlayButton.draw(this.mMainCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -132,6 +164,8 @@ SplashScreen.prototype.update = function () {
     {
         this.msg.setColor(mColor);
     }*/
+    
+    this.mPlayButton.update();
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
         gEngine.GameLoop.stop();
