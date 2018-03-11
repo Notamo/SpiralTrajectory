@@ -11,8 +11,8 @@
 
 "use strict";
 
-function Platform(spriteTexture, x, y, w, h) {
-    this.platform = new LightRenderable(spriteTexture);
+function Platform(spriteTexture, normalMap, x, y, w, h) {
+    this.platform = new IllumRenderable(spriteTexture, normalMap);
     var xform = this.platform.getXform();
     xform.setSize(w, h);
     xform.setPosition(x, y);

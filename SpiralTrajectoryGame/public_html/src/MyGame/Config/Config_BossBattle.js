@@ -21,6 +21,7 @@ Config.BossBattle = Object.freeze({
         BossNormal:             "assets/characters/normal/boss_sprites.png",
         BossProjectileSprite:   "assets/projectiles/bossprojectile.png",
         PlatformTexture:        "assets/props/platform.png",
+        PlatformNormal:         "assets/props/normal/platform.png",
         GroundTexture:          "assets/groundtexture.png",
         WallTexture:            "assets/walltexture.png",
         GroundTorchTexture:     "assets/props/torch1.png",
