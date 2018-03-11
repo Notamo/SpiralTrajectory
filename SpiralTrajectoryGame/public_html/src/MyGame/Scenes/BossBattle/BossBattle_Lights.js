@@ -31,11 +31,11 @@ BossBattle.prototype._initializeLights = function () {
     var l;
     l = this._createALight(Light.eLightType.eDirectionalLight,
             [15, 50, 10],           // position (not used by directional)
-            [-.2, -.2, -1],         // Pointing direction 
-            [0.3, 0.325, 0.3, 1],   // color
+            [-.1, -.1, -1],         // Pointing direction 
+            [0.3, 0.375, 0.3, 1],   // color
             500, 500,               // near anf far distances: essentially switch this off
             0.1, 0.2,               // inner and outer cones
-            0.8,                    // intensity
+            1,                    // intensity
             1.0                     // drop off
             );
     this.mGlobalLightSet.addToSet(l);

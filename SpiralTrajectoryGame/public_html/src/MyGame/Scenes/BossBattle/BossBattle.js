@@ -74,8 +74,8 @@ BossBattle.prototype.initialize = function () {
     this._initializeLights(); 
     
     
-//    gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
-//    gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
+    gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
 
     this.mNonPhysicsGameObjects = new GameObjectSet();
     this.mHero = new Hero(

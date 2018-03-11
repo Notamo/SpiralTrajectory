@@ -48,6 +48,7 @@ BossBattle.prototype.createPlatforms = function () {
     for (var platform in Config.BossBattle.Platforms) {
         gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,new Platform(
             Config.BossBattle.Textures.PlatformTexture,
+            Config.BossBattle.Textures.PlatformNormal,
             Config.BossBattle.Platforms[platform].X,
             Config.BossBattle.Platforms[platform].Y,
             Config.BossBattle.Platforms[platform].Width,
