@@ -9,8 +9,8 @@
 "use strict";
 
 BossBattle.prototype._initializeUI = function() {    
-    this.mTestText = new UIText("Player Health:", vec2.fromValues(25, 780), null);
-    this.mTestText.setTextHeight(4);
+    this.mHeroHPText = new UIText("Player Health:", vec2.fromValues(25, 780), 4);
+    this.mHeroHPText.setColor([1, 0, 0, 1]);
     var arrowSelectSprites = [Config.UI.Textures.UIArrowIcon,
                               Config.UI.Textures.UIFireArrowIcon,
                               Config.UI.Textures.UIIceArrowIcon];
@@ -34,7 +34,7 @@ BossBattle.prototype._initializeUI = function() {
                                Config.UI.HeroHealthBar.Buffer);
     this.mHeroHP.setMaxHP(this.mHero.mMaxHP);
     this.mHeroHP.setCurrentHP(this.mHero.mCurrentHP);
-    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTestText);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mHeroHPText);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mArrowSelector);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mBossName);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mBossHP);
@@ -56,7 +56,7 @@ BossBattle.prototype._updateUI = function() {
 };
 
 BossBattle.prototype._unloadUI = function () {
-    gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mTestText);
+    gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mHeroHPText);
     gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mArrowSelector);
     gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mBossName);
     gEngine.LayerManager.removeFromLayer(gEngine.eLayer.eHUD, this.mBossHP);

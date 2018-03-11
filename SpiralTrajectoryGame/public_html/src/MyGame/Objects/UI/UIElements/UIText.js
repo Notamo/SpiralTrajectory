@@ -6,15 +6,19 @@
 
 function UIText(text, position, size) {
     this.mFontRenderable = new FontRenderable(text);
-    this.mFontRenderable.setColor([1, 0, 0, 1]);
-    this.mFontRenderable.setTextHeight(10);
-    UIElement.call(this, this.mFontRenderable, position, size);
+    this.mFontRenderable.setColor([0, 0, 0, 1]);
+    this.mFontRenderable.setTextHeight(size);
+    UIElement.call(this, this.mFontRenderable, position, null);
 };
 gEngine.Core.inheritPrototype(UIText, UIElement);
 
 UIText.prototype.setColor = function (c) {
     this.mFontRenderable.setColor(c);
-}
+};
+
+UIText.prototype.getColor = function() {
+    return this.mFontRenderable.getColor();
+};
 
 UIText.prototype.setText = function (t) {
     this.mFontRenderable.setText(t);
