@@ -115,8 +115,6 @@ BossBattle.prototype.initialize = function () {
         }
         for (var j = 0; j < actors.size(); j++) {
             if (actors.getObjectAt(j).getRenderable() instanceof LightRenderable){
-                console.log(j);
-                console.log(actors.getObjectAt(j));
                 actors.getObjectAt(j).getRenderable().addLight(this.mGlobalLightSet.getLightAt(i));
             }
         }
