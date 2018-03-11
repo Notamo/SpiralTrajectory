@@ -79,8 +79,8 @@ BossBattle.prototype.initialize = function () {
 
     this.mNonPhysicsGameObjects = new GameObjectSet();
     this.mHero = new Hero(
-        Config.BossBattle.Textures.HeroSprite,
-        Config.BossBattle.Textures.HeroNormal,
+        Config.BossBattle.Textures.HeroSheet,
+        Config.BossBattle.Textures.HeroSheetNormal,
         this.mMainCamera
     );
     

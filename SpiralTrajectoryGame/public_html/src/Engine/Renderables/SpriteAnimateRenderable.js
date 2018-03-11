@@ -183,6 +183,10 @@ SpriteAnimateRenderable.getNumElement = function () {
     return this.mNumElems;
 };
 
+SpriteAnimateRenderable.prototype.getTopUV = function () {
+    return this.mElmTop;
+};
+
 //--- end of Public Methods
 //
 //</editor-fold>

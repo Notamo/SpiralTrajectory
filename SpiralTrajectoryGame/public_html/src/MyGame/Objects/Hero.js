@@ -40,6 +40,11 @@ function Hero(spriteTexture, normalMap, cameraRef) {
         Config.Hero.PixelPositions.Bottom,
         Config.Hero.PixelPositions.Top,
     );
+    this.setSprite(.938,
+                    .0468,
+                    .0936,
+                    .125,
+                    10);
     GameObject.call(this, this.mArcher);
     
     // Physics
@@ -127,18 +132,42 @@ Hero.prototype.update = function () {
     // Move left or right, also adjust the orientation based on that
     // movement.
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+        if(this.mArcher.getTopUV()!==.693+(.118/2)){
+            this.setSprite(
+                    .693,
+                    .0472,
+                    .0944,
+                    .118,
+                    10);
+        }
         this.getRigidBody().adjustPositionBy(
             Config.Hero.Movement.LeftDisplacementVector,
             Config.Hero.Movement.LeftDisplacementScale
         );
         xform.setOrientation(Config.Hero.Facing.Left);
     }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+    else if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        if(this.mArcher.getTopUV()!==.693+(.118/2)){
+            this.setSprite(
+                    .693,
+                    .0472,
+                    .0944,
+                    .118,
+                    10);
+        }
         this.getRigidBody().adjustPositionBy(
             Config.Hero.Movement.RightDisplacementVector,
             Config.Hero.Movement.RightDisplacementScale
         );
         xform.setOrientation(Config.Hero.Facing.Right);
+    }
+    
+    else{
+        this.setSprite(.938,
+                    .0468,
+                    .0936,
+                    .125,
+                    10);
     }
     
     // Jump.
@@ -149,6 +178,11 @@ Hero.prototype.update = function () {
                 Config.Hero.JumpVelocity.Y
             );
             this.mJumpCount++;
+            this.setSprite(.564,
+                    .0498,
+                    .0996,
+                    .131,
+                    10);
         }
     }
     
@@ -210,18 +244,10 @@ Hero.prototype.update = function () {
     this.mArrowSet.update();
     this.mRigidBody.setAngularVelocity(0);
     this.mRigidBody.update();
+    this.mArcher.updateAnimation();
     }
+    
     else{
-        if(this.mArcher.getNumElement()===1){
-            this.mArcher.setSpriteSequence(
-                    2048*.0547,
-                    2048*.333,
-                    2048*.109,
-                    2048*.113,
-                    9,
-                    0);
-                    
-        }
         this.mArcher.updateAnimation();
     }
 };
@@ -324,7 +350,7 @@ Hero.prototype.userCollisionHandling = function (obj) {
  * @returns {Boolean}
  */
 Hero.prototype.getStatus = function () {
-    return (this.mCurrentHP > 0 || this.mArcher.getCurrentFrame!==9);
+    return (this.mCurrentHP > 0 || this.mArcher.getCurrentFrame()!==8);
 };
 
 /**
@@ -335,12 +361,21 @@ Hero.prototype.getStatus = function () {
  */
 Hero.prototype.hit = function (damage) {
     this.mCurrentHP -= damage;
+    if(this.mCurrentHP<=0){
+        this.setSprite(
+                    .333,
+                    .0547,
+                    .109,
+                    .113,
+                    9);
+        this.mArcher.setAnimationSpeed(4);
+    }
 };
 
 Hero.prototype.setSprite = function (top,left,width,height,frame) {
     this.mArcher.setSpriteSequence(
-                    2048*(top-(width/2)),
-                    2048*(left-(height/2)),
+                    2048*(top+(height/2)),
+                    2048*(left-(width/2)),
                     2048*width,
                     2048*height,
                     frame,
