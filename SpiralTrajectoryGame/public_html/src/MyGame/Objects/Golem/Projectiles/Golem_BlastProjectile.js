@@ -127,7 +127,7 @@ GolemBlastProjectile.prototype.update = function () {
     }
     
     // We always want to rotate the circle.
-    //projectileXform.incRotationByDegree(this.mRotationDelta);
+    projectileXform.incRotationByDegree(this.mRotationDelta);
     
     // If we've gotten to the point where the final target vector is set, scale it
     // by its rate of change and increment the X/Y positions
@@ -163,7 +163,6 @@ GolemBlastProjectile.prototype.userCollisionHandling = function (obj) {
     if (obj instanceof Hero && this.mTouchedHero === false) {
         // Set mTouchedHero to true so we'll only ever hit the hero once with each
         // projectile. Also trigger the hit event for the hero.
-        console.log('touched');
         this.mTouchedHero = true;
         this.mHero.hit(this.mBaseDamage);
     }
