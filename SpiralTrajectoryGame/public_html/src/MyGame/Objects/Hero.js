@@ -25,6 +25,8 @@
 function Hero(spriteTexture, normalMap, cameraRef) {
     // Create the sprite
     this.mArcher = new IllumRenderable(spriteTexture, normalMap);
+    this.mArcher.getMaterial().setSpecular([0, 0, 0, 0]);
+    this.mArcher.getMaterial().setShininess(10);
     this.mArcher.setColor(Config.Hero.Color);
     this.mArcher.getXform().setPosition(
         Config.BossBattle.Hero.SpawnPosition.X,
