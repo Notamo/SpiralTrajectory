@@ -129,7 +129,8 @@ Golem.prototype._fireProjectile = function (type) {
             newProjectile = new GolemBlastProjectile(
                 Config.BossBattle.Textures.BossProjectileSprite,
                 this.mGolem,
-                this.mHero
+                this.mHero,
+                this.mBlastProjectileLight
             );
             break;
         default:

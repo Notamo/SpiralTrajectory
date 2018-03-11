@@ -98,10 +98,21 @@ Config.Golem = Object.freeze({
             PowerDelta: vec2.fromValues(1.025, 1.025),
             BaseDamage: 100,
             KillRange: {
-                Left:   -50,
+                Left:   -100,
                 Right:  500,
-                Bottom: -50,
+                Bottom: -100,
                 Top:    400
+            },
+            Light: {
+                Color: [0.1, 1.0, 0.0, 1],
+                ZPosition: 1,
+                Direction: [0, 0, 1],
+                Near: 0,
+                StartFar: 10,
+                Inner: 0.01,
+                Outer: 1,
+                Intensity: 2,
+                DropOff: 100
             }
         }
     },

@@ -3,7 +3,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteAnimateRenderable, vec2, Arrow, Platform, Config, Golem,
- *  , GolemProjectile, Hero*/
+ *  , GolemProjectile, Hero, Light*/
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -16,9 +16,10 @@
  * @param {String} sprite   Path to the projectile sprite.
  * @param {Golem}  golem    Reference to the Golem object.
  * @param {Hero}   hero     Reference to the Hero object.
+ * @param {Light}  light    Light to make the circle glow.
  * @returns {GolemBlastProjectile}
  */
-function GolemBlastProjectile(sprite, golem, hero) {
+function GolemBlastProjectile(sprite, golem, hero, light) {
     // Tracker to see if the projectile has touched the hero yet. It can only
     // touch a single time. Once this is set to true, the projectile becomes
     // harmless.
@@ -77,6 +78,10 @@ function GolemBlastProjectile(sprite, golem, hero) {
     r.setRestitution(Config.Golem.Projectiles.Blast.Physics.Restitution);
     r.setFriction(Config.Golem.Projectiles.Blast.Physics.Friction);
     this.setRigidBody(r);
+    
+    // Our light to make the circle glow.
+    this.mLight = light;
+    this._setupLight();
 }
 gEngine.Core.inheritPrototype(GolemBlastProjectile, GolemProjectile);
 
@@ -114,6 +119,9 @@ GolemBlastProjectile.prototype.update = function () {
         // at each update.
         this.mRotationDelta += Config.Golem.Projectiles.Blast.RotationDelta;
         
+        // Update the range of the light.
+        this.mLight.setFar(projectileXform.getWidth());
+        
         // Keep track of how many updates we've done in this phase.
         this.mFramesSinceCreated++;
     }
@@ -137,6 +145,10 @@ GolemBlastProjectile.prototype.update = function () {
         projectileXform.incYPosBy(this.mFinalTargetVector[1]);
     }
     
+    // Keep the light centered on the projectile.
+    this.mLight.setXPos(projectileXform.getXPos());
+    this.mLight.setYPos(projectileXform.getYPos());
+ 
     // This checks if the projectile has left the user's possible field of vision
     // before setting it to expire.
     // instead of hard-coded, but whatever.
@@ -169,4 +181,26 @@ GolemBlastProjectile.prototype.userCollisionHandling = function (obj) {
     
     // Always skip the collision handling of the Physics engine.
     return true;
+};
+
+/**
+ * Sets up the light for this projectile.
+ *
+ * @returns {undefined}
+ */
+GolemBlastProjectile.prototype._setupLight = function () {
+    this.mLight.setLightType(Light.eLightType.ePointLight);
+    this.mLight.setColor(Config.Golem.Projectiles.Blast.Light.Color);
+    this.mLight.setXPos(this.mProjectile.getXform().getXPos());
+    this.mLight.setYPos(this.mProjectile.getXform().getYPos());
+    this.mLight.setZPos(Config.Golem.Projectiles.Blast.Light.ZPosition);
+    this.mLight.setDirection(Config.Golem.Projectiles.Blast.Light.Direction);
+    this.mLight.setNear(Config.Golem.Projectiles.Blast.Light.Near);
+    this.mLight.setFar(Config.Golem.Projectiles.Blast.Light.StartFar);
+    this.mLight.setInner(Config.Golem.Projectiles.Blast.Light.Inner);
+    this.mLight.setOuter(Config.Golem.Projectiles.Blast.Light.Outer);
+    this.mLight.setIntensity(Config.Golem.Projectiles.Blast.Light.Intensity);
+    this.mLight.setDropOff(Config.Golem.Projectiles.Blast.Light.DropOff);
+    this.mLight.setLightCastShadowTo(true);
+    this.mLight.setLightTo(true);
 };
