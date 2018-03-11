@@ -77,10 +77,10 @@ SplashScreen.prototype.initialize = function () {
 
 SplashScreen.prototype._initializeUI = function() {
     
-    this.title = new UIText("Golem Smash", vec2.fromValues(450, 800), 10);
+    this.title = new UIText("Golem Smash", vec2.fromValues(600, 800), 10, UIText.eHAlignment.eCenter, UIText.eVAlignment.eBottom);
     this.title.setColor([1, .84, 0, 1]);
     
-    this.msg = new UIText("Press B to Play", vec2.fromValues(450, 100), 5);
+    this.msg = new UIText("Press B to Play", vec2.fromValues(600, 100), 5, UIText.eHAlignment.eCenter, null);
     this.msg.setColor([1, 1, 1, 1]);
     
     this.mPlayButton = new UIButton(Config.UI.Textures.UIButton, 

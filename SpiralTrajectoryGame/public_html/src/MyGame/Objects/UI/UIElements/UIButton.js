@@ -11,10 +11,11 @@ function UIButton(buttonSprite, camera, callback, position, size, text, textSize
     this.mBack.setElementUVCoordinate(0.0, 1.0, 0.5, 1.0);
     UIElement.call(this, this.mBack, position, size);
     
-    
-    var textPos = vec2.fromValues(position[0] - size[0] / 2, 
-                                  position[1]);
-    this.mText = new UIText(text, textPos, textSize);
+    this.mText = new UIText(text, 
+                            position, 
+                            textSize, 
+                            UIText.eHAlignment.eCenter, 
+                            UIText.eVAlignment.eCenter);
     
     this.mCallBack = callback;
     this.mCamera = camera;
@@ -35,16 +36,15 @@ UIButton.prototype.draw = function (aCamera) {
 
 UIButton.prototype.update = function () {
     UIElement.prototype.update.call(this);
-
-    var xform = this.getXform();
-
-    //this.mText.getUIXform().setPosition(xform.getXPos() - xform.getWidth() / 2, 
-      //                            xform.getYPos());
+    var uiXform = this.getUIXform();
+   
+    //make sure the button text stays on the button
+    this.mText.getUIXform().setPosition(uiXform.getXPos(), uiXform.getYPos());
     
+    //get the mouse position, and if its over the button
     var mousePos = vec2.fromValues(gEngine.Input.getMousePosX(),
                                 gEngine.Input.getMousePosY());
     var mouseOver = this.getUIBBox().containsPoint(mousePos[0], mousePos[1]);
-    //hover
     
 
     //start simple, just do callback when clicked
@@ -56,10 +56,14 @@ UIButton.prototype.update = function () {
     }
     
     if(gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)){
-        this.mClick = false;
-        this.mBack.setElementUVCoordinate(0.0, 1.0, 0.5, 1.0);
-        if(mouseOver){
-            this.mCallBack.call(this);
+        if(this.mClick) {
+            this.mBack.setElementUVCoordinate(0.0, 1.0, 0.5, 1.0);
+            this.mClick = false;
+            
+            if(mouseOver){
+                this.mCallBack.call(this);
+            }
         }
+
     }
 };

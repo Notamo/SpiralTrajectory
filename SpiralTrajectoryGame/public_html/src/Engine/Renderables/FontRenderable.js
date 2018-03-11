@@ -107,6 +107,17 @@ FontRenderable.prototype.setTextHeight = function (h) {
 };
 
 /**
+ * Get the size of a symbol in the FontRenderable
+ * @memberof FontRenderable
+ * @returns {vec2} The size of one symbol
+ */
+FontRenderable.prototype.getSymbolSize = function() {
+  var size = this.getXform().getSize();
+  return vec2.fromValues(size[0] / this.mText.length, size[1]);
+};
+
+
+/**
  * Returns the FontRenderable's Font
  * @memberOf FontRenderable
  * @returns {String} the Font of the FontRenderable.
