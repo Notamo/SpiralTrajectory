@@ -2,7 +2,7 @@
  * File: BossBattle_Lights: support the creation of light for BossBattle
  */
 /*jslint node: true, vars: true */
-/*global gEngine, BossBattle, Light, LightSet, IllumRenderable, GameObject */
+/*global gEngine, BossBattle, Light, LightSet, IllumRenderable, GameObject, LightRenderable */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
@@ -31,7 +31,7 @@ BossBattle.prototype._initializeLights = function () {
     var l;
     l = this._createALight(Light.eLightType.eDirectionalLight,
             [15, 50, 10],           // position (not used by directional)
-            [-.1, -.1, -1],         // Pointing direction 
+            [-.2, -.2, -1],         // Pointing direction 
             [0.3, 0.325, 0.3, 1],   // color
             500, 500,               // near anf far distances: essentially switch this off
             0.1, 0.2,               // inner and outer cones
@@ -39,46 +39,6 @@ BossBattle.prototype._initializeLights = function () {
             1.0                     // drop off
             );
     this.mGlobalLightSet.addToSet(l);
-    
-    
-    // This one is at the torch
-    var l = this._createALight(Light.eLightType.ePointLight,
-            [10, 25, 10],         // position
-            [1, 0, -1],          // Direction 
-            [0.6, 1.0, 0.0, 1],  // some color
-            2, 30,               // near and far distances
-            0.1, 0.2,            // inner and outer cones
-            5,                   // intensity
-            10                  // drop off
-            );
-    this.mGlobalLightSet.addToSet(l);
-    l.setLightTo(false);
-
-    // This is the little circle near  the bottom left platform
-    l = this._createALight(Light.eLightType.eSpotLight,
-            [65, 25, 12],            // Right minion position
-            [-0.02,  0.02, -1],     // direction
-            [0.5, 0.5, 0.5, 1],     // color
-            20, 40,                  // near and far distances
-            1.9, 2.0,               // inner outter angles (in radius)
-             5,                     // intensity
-            1.2                     // drop off
-            );
-    this.mGlobalLightSet.addToSet(l);
-    l.setLightTo(false);
-
-    // Red circle
-    l = this._createALight(Light.eLightType.eSpotLight,
-            [60, 50, 12],            // Center of camera 
-            [0.02, -0.02, -1],
-            [0.8, 0.2, 0.2, 1],      //  color
-            20, 40,                   // near and far distances
-            1.2, 1.3,                // inner and outer cones
-            2,                       // intensity
-            1.5                      // drop off
-            );
-    this.mGlobalLightSet.addToSet(l);
-    l.setLightTo(false);
 };
 
 BossBattle.prototype._setupShadow = function () {

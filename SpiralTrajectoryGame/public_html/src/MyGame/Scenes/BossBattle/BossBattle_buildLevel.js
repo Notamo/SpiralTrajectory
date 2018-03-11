@@ -57,7 +57,10 @@ BossBattle.prototype.createPlatforms = function () {
 };
 
 BossBattle.prototype.createTorches = function () {
+    var light = null;
     for (var torch in Config.BossBattle.Torches.Ground) {
+        light = new Light();
+        this.mGlobalLightSet.addToSet(light);
         gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,new Torch (
             Config.BossBattle.Textures.GroundTorchTexture,
             Config.BossBattle.Textures.GroundTorchNormal,
@@ -66,12 +69,15 @@ BossBattle.prototype.createTorches = function () {
             Config.BossBattle.Torches.Ground[torch].Width,
             Config.BossBattle.Torches.Ground[torch].Height,
             Config.Torch.Types.Ground,
-            this.mBoss
+            this.mBoss,
+            light
         ));
     }
     
     var temp;
     for (var torch in Config.BossBattle.Torches.Wall) {
+        light = new Light();
+        this.mGlobalLightSet.addToSet(light);
         temp = new Torch (
             Config.BossBattle.Textures.WallTorchTexture,
             Config.BossBattle.Textures.WallTorchNormal,
@@ -80,7 +86,8 @@ BossBattle.prototype.createTorches = function () {
             Config.BossBattle.Torches.Wall[torch].Width,
             Config.BossBattle.Torches.Wall[torch].Height,
             (Config.BossBattle.Torches.Wall[torch].Orientation > 0 ? Config.Torch.Types.WallLeft : Config.Torch.Types.WallRight),
-            this.mBoss
+            this.mBoss,
+            light
         );
         temp.getXform().setOrientation(Config.BossBattle.Torches.Wall[torch].Orientation);
         gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,temp);

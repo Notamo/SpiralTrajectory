@@ -125,7 +125,7 @@ gEngine.LayerManager = (function () {
     
     var getLayer = function(layerEnum) {
         return mAllLayers[layerEnum];
-    }
+    };
     
     /**
      * add the shadow caster objects (obj) to the layer manager.

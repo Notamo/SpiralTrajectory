@@ -7,7 +7,7 @@
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
   GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain,
-  ArrowVector, Torch, Config, Golem, Boundary */
+  ArrowVector, Torch, Config, Golem, Boundary, LightRenderable */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -109,13 +109,15 @@ BossBattle.prototype.initialize = function () {
     this._initializeUI();
     
     var actors = gEngine.LayerManager.getLayer(gEngine.eLayer.eActors);
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 25; i++) {
+        if (!this.mGlobalLightSet.lightExists(i)) {
+            continue;
+        }
         for (var j = 0; j < actors.size(); j++) {
             if (actors.getObjectAt(j).getRenderable() instanceof LightRenderable){
+                console.log(j);
+                console.log(actors.getObjectAt(j));
                 actors.getObjectAt(j).getRenderable().addLight(this.mGlobalLightSet.getLightAt(i));
-                if(actors.getObjectAt(j) instanceof Terrain) {
-                    console.log("added lights to terrain");
-                }
             }
         }
     }
@@ -150,8 +152,10 @@ BossBattle.prototype._initializeBackground = function() {
     this.mBgL1.setCurrentFrontDir([0, -1, 0]);
     this.mBgL1.setIsTiled(false);
     
-     for (var i = 0; i < 4; i++) {
-
+     for (var i = 0; i < 25; i++) {
+         if (!this.mGlobalLightSet.lightExists(i)) {
+            continue;
+        }
         this.mBgL1.getRenderable().addLight(this.mGlobalLightSet.getLightAt(i));
         
     }

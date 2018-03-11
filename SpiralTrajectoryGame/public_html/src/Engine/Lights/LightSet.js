@@ -4,8 +4,9 @@
  */
 
 /*jslint node: true, vars: true */
-/*global  */
 /* find out more about jslint: http://www.jslint.com/help.html */
+
+/* global Light */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
@@ -33,6 +34,18 @@ LightSet.prototype.numLights = function () { return this.mSet.length; };
  */
 LightSet.prototype.getLightAt = function (index) {
     return this.mSet[index];
+};
+
+/**
+ * Checks if a light exists.
+ * 
+ * @param {Number} index of light to check for.
+ * @returns {Boolean}
+ */
+LightSet.prototype.lightExists = function (index) {
+    if (this.mSet[index] instanceof Light) {
+        return true;
+    }
 };
 
 /**

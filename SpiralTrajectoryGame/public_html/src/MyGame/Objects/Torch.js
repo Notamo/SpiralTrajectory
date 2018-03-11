@@ -8,7 +8,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, Arrow, ParticleGameObjectSet, Config, Golem, FireArrow, Hero */
+ *       Platform, Arrow, ParticleGameObjectSet, Config, Golem, FireArrow, Hero, Light */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -25,9 +25,10 @@
  * @param {String}  torchType   Type of the torch, according to Config.Torch
  * @param {Golem}   golem       Reference to the Golem object so the torch can be
  *                              added to the Golem's reference set.
+ * @param {Light}   light       An empty light object to be used by this torch.
  * @returns {Torch}
  */
-function Torch(texture, normalMap, xPos, yPos, width, height, torchType, golem) {
+function Torch(texture, normalMap, xPos, yPos, width, height, torchType, golem, light) {
     // Save the type of torch, as this will be needed to pick the correct
     // values for the particle system later on. This can also be used, if
     // needed, to determine what the damage bonus of the torch should be.
@@ -67,8 +68,29 @@ function Torch(texture, normalMap, xPos, yPos, width, height, torchType, golem) 
     if (golem instanceof Golem) {
         golem.addTorchRef(this);
     }
+    
+    // Create our light for this torch, but disable it for now.
+    this.mLight = light;
+    this._setLightProperties();
+    this.mLight.setLightTo(false);
 }
 gEngine.Core.inheritPrototype(Torch, GameObject);
+
+Torch.prototype._setLightProperties = function () {
+    this.mLight.setLightType(Light.eLightType.ePointLight);
+    this.mLight.setColor(Config.Torch[this.type].Light.Color);
+    this.mLight.setXPos(this.mTorch.getXform().getXPos() + Config.Torch[this.type].Light.XOffset);
+    this.mLight.setYPos(this.mTorch.getXform().getYPos() + Config.Torch[this.type].Light.YOffset);
+    this.mLight.setZPos(Config.Torch[this.type].Light.ZPosition);
+    this.mLight.setDirection(Config.Torch[this.type].Light.Direction);
+    this.mLight.setNear(Config.Torch[this.type].Light.Near);
+    this.mLight.setFar(Config.Torch[this.type].Light.Far);
+    this.mLight.setInner(Config.Torch[this.type].Light.Inner);
+    this.mLight.setOuter(Config.Torch[this.type].Light.Outer);
+    this.mLight.setIntensity(Config.Torch[this.type].Light.Intensity);
+    this.mLight.setDropOff(Config.Torch[this.type].Light.DropOff);
+    this.mLight.setLightCastShadowTo(true);
+};
 
 /**
  * 
@@ -101,6 +123,7 @@ Torch.prototype.update = function () {
     // Firing an extra FireArrow at it will have no effect until this segment
     // of code executes.
     if (this.litTimer >= this.kTorchLife){
+        this.mLight.setLightTo(false);
         this.litTimer = 0;
         this.lit = false;
     }
@@ -118,8 +141,9 @@ Torch.prototype.update = function () {
  */
 Torch.prototype.userCollisionHandling = function (obj) {
     // Light the torch.
-    if (obj instanceof FireArrow) {
+    if (obj instanceof FireArrow && this.lit === false) {
         this.lit = true;
+        this.mLight.setLightTo(true);
     }
     
     // Because we set our mass to 0 we can simply return true here, as the
