@@ -201,6 +201,6 @@ GolemBlastProjectile.prototype._setupLight = function () {
     this.mLight.setOuter(Config.Golem.Projectiles.Blast.Light.Outer);
     this.mLight.setIntensity(Config.Golem.Projectiles.Blast.Light.Intensity);
     this.mLight.setDropOff(Config.Golem.Projectiles.Blast.Light.DropOff);
-    this.mLight.setLightCastShadowTo(true);
+    this.mLight.setLightCastShadowTo(false);
     this.mLight.setLightTo(true);
 };

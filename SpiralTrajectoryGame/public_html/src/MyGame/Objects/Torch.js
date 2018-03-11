@@ -89,7 +89,7 @@ Torch.prototype._setLightProperties = function () {
     this.mLight.setOuter(Config.Torch[this.type].Light.Outer);
     this.mLight.setIntensity(Config.Torch[this.type].Light.Intensity);
     this.mLight.setDropOff(Config.Torch[this.type].Light.DropOff);
-    this.mLight.setLightCastShadowTo(true);
+    this.mLight.setLightCastShadowTo(false);
 };
 
 /**
