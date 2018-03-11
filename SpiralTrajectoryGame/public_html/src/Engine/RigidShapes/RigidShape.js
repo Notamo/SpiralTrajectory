@@ -185,6 +185,7 @@ RigidShape.prototype.draw = function(aCamera) {
 
 RigidShape.kNumCircleSides = 16;
 RigidShape.prototype.drawCircle = function(aCamera, r) {
+    this.mBoundRadius = r;
     var pos = this.mXform.getPosition();    
     var prevPoint = vec2.clone(pos);
     var deltaTheta = (Math.PI * 2.0) / RigidShape.kNumCircleSides;
