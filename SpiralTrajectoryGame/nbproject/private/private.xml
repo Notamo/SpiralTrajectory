@@ -28,8 +28,9 @@
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
         <group>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_Torch.js</file>
-            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Projectiles/Golem_BlastProjectile.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/RigidShapes/RigidSet.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem_Rigidbody.js</file>
+            <file>file:/C:/Users/Joey/Documents/School/CSS452/SpiralTrajectory/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Golem/Golem.js</file>
         </group>
     </open-files>
 </project-private>

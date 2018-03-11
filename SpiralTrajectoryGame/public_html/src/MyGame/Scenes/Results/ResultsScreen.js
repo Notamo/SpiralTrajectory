@@ -71,7 +71,7 @@ ResultsScreen.prototype.initialize = function () {
     else {
         this.kMusicCue = "assets/audio/music/gameover.mp3";
     }
-    gEngine.AudioClips.playACue(this.kMusicCue);
+    gEngine.AudioClips.playACue(this.kMusicCue, 0.1);
     var tempMsg = this.mResult === true ? "You won!" : "You lost...";
     this.title=new FontRenderable(tempMsg);
     this.title.setColor([.5, .5, .5, 1]);
