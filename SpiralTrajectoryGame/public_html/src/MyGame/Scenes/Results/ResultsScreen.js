@@ -152,7 +152,6 @@ ResultsScreen.prototype._initializeUI = function() {
     this.mTitle.setColor(configUI.Title.Color);
     
     this.mReplayButton = new UIButton(Config.UI.Textures.UIButton, 
-                                this.mMainCamera,
                                 this._replayCallback,
                                 this,
                                 configUI.ReplayButton.Position,
@@ -161,7 +160,6 @@ ResultsScreen.prototype._initializeUI = function() {
                                 configUI.ReplayButton.TextHeight);
                                 
     this.mMenuButton = new UIButton(Config.UI.Textures.UIButton, 
-                                this.mMainCamera,
                                 this._menuCallback,
                                 this,
                                 configUI.MenuButton.Position,

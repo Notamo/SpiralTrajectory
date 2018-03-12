@@ -59,7 +59,6 @@ CreditsScreen.prototype._initializeUI = function() {
     this.mTitle.setColor(configUI.Title.Color);
 
     this.mReturnButton = new UIButton(Config.UI.Textures.UIButton, 
-                                this.mMainCamera,
                                 this._returnCallback,
                                 this,
                                 configUI.ReturnButton.Position,

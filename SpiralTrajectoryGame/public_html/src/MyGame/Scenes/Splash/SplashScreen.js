@@ -86,7 +86,6 @@ SplashScreen.prototype._initializeUI = function() {
     this.mTitle.setColor(configUI.Title.Color);
     
     this.mPlayButton = new UIButton(Config.UI.Textures.UIButton, 
-                                    this.mMainCamera,
                                     this._playButtonCallback,
                                     this,
                                     configUI.PlayButton.Position,
@@ -95,7 +94,6 @@ SplashScreen.prototype._initializeUI = function() {
                                     configUI.PlayButton.TextHeight);
     
     this.mCreditsButton = new UIButton(Config.UI.Textures.UIButton, 
-                                this.mMainCamera,
                                 this._creditsButtonCallback,
                                 this,
                                 configUI.CreditsButton.Position,
@@ -104,7 +102,6 @@ SplashScreen.prototype._initializeUI = function() {
                                 configUI.CreditsButton.TextHeight);
     
     this.mControlsButton = new UIButton(Config.UI.Textures.UIButton, 
-                            this.mMainCamera,
                             this._controlsButtonCallback,
                             this,
                             configUI.ControlsButton.Position,
