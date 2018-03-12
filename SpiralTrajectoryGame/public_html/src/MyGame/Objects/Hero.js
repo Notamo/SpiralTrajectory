@@ -16,13 +16,12 @@
  * Constructor for the Hero object. 
  * 
  * @param {String}          spriteTexture       Path to the sprite we'll be using.
- * @param {GameObjectSet}   physicsReference    Reference to our set of physics game objects,
- *                                              used primarily so we can add new Arrow variants
- *                                              to the set upon creation.
+ * @param {??}              normalMap           Justin pls fix this comment.
  * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.}
+ * @param {Array}           lightSet            Set of lights to be passed to the ArrowSet.
  * * @returns {Hero}
  */
-function Hero(spriteTexture, normalMap, cameraRef) {
+function Hero(spriteTexture, normalMap, cameraRef, lightSet) {
     // Create the sprite
     this.mArcher = new IllumRenderable(spriteTexture, normalMap);
     this.mArcher.getMaterial().setSpecular([0, 0, 0, 0]);
@@ -72,7 +71,7 @@ function Hero(spriteTexture, normalMap, cameraRef) {
     this.mCamera = cameraRef;
     
     // ArrowSet keeps a reference to each active arrow.
-    this.mArrowSet = new ArrowSet();
+    this.mArrowSet = new ArrowSet(lightSet);
     
     // NoClip allows the hero to ignore collisions with platforms.
     this.mNoClip = false;

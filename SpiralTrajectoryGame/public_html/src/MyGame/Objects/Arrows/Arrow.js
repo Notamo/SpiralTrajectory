@@ -7,7 +7,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, Hero, Torch, GolemEmptyGameObject, IceArrow, GolemProjectile, Config */
+ *       Platform, Hero, Torch, GolemEmptyGameObject, IceArrow, GolemProjectile, Config, Light, Boundary */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -47,6 +47,9 @@ function Arrow(position,power,degree) {
     x=Math.cos(x);
     y=Math.sin(y);
     this.getRigidBody().setVelocity(x*this.power* this.kBasePower, y*this.power* this.kBasePower);
+    
+    // Light.
+    this.mLight = null;
 }
 gEngine.Core.inheritPrototype(Arrow, GameObject);
 
@@ -82,6 +85,11 @@ Arrow.prototype.update = function () {
         this.mRigidBody.update();
     }
     this.setCurrentFrontDir(vel);
+    
+    if (this.mLight instanceof Light) {
+        this.mLight.setXPos(xform.getXPos());
+        this.mLight.setYPos(xform.getYPos());
+    }
 };
 
 Arrow.prototype.getPosition = function(){
@@ -151,4 +159,15 @@ Arrow.prototype.getDamage = function () {
 
 Arrow.prototype.getEffectDuration = function () {
     return 0;
+};
+
+Arrow.prototype.setLight = function(light) {
+    this.mLight = light;
+    this.mLight.setLightTo(true);
+};
+
+Arrow.prototype.turnLightOff = function() {
+    if (this.mLight instanceof Light) {
+        this.mLight.setLightTo(false);
+    }
 };
