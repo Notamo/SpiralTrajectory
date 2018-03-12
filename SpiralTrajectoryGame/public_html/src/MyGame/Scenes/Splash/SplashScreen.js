@@ -26,8 +26,7 @@ function SplashScreen() {
     
     // The camera to view the scene
     this.mMainCamera = null;
-    //if we're exiting to credits or the fight
-    this.mToCredits = false;
+    this.kNextSceneName = "BossBattle";
 }
 gEngine.Core.inheritPrototype(SplashScreen, Scene);
 
@@ -43,14 +42,22 @@ SplashScreen.prototype.loadScene = function () {
 
 SplashScreen.prototype.unloadScene = function () {
     gEngine.LayerManager.cleanUp();
- /*   for(var texture in Config.UI.Textures) {
+    /*   for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
     }
     for (var texture in Config.SplashScreen.Textures) {
         gEngine.Textures.unloadTexture(Config.SplashScreen.Textures[texture]);
     }
-   */ 
-    gEngine.Core.startScene(new BossBattle());
+   */
+    if(this.kNextSceneName === "CreditsScreen") {
+      gEngine.Core.startScene(new CreditsScreen());
+    }
+    else if(this.kNextSceneName === "ControlsScreen") {
+        gEngine.Core.startScene(new ControlsScreen());
+    }
+    else{
+        gEngine.Core.startScene(new BossBattle());
+    }
 };
 
 SplashScreen.prototype.initialize = function () {
@@ -79,7 +86,7 @@ SplashScreen.prototype._initializeUI = function() {
     
     this.mPlayButton = new UIButton(Config.UI.Textures.UIButton, 
                                     this.mMainCamera,
-                                    this._testButtonCallback,
+                                    this._playButtonCallback,
                                     this,
                                     configUI.PlayButton.Position,
                                     configUI.PlayButton.Size,
@@ -88,7 +95,7 @@ SplashScreen.prototype._initializeUI = function() {
     
     this.mCreditsButton = new UIButton(Config.UI.Textures.UIButton, 
                                 this.mMainCamera,
-                                this._creditsButtonCallback(),
+                                this._creditsButtonCallback,
                                 this,
                                 configUI.CreditsButton.Position,
                                 configUI.CreditsButton.Size,
@@ -100,12 +107,13 @@ SplashScreen.prototype._initializeUI = function() {
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mCreditsButton);
 };
 
-SplashScreen.prototype._testButtonCallback = function() {
+SplashScreen.prototype._playButtonCallback = function() {
+    this.kNextSceneName = "BossBattle";
     gEngine.GameLoop.stop();
 };
 
 SplashScreen.prototype._creditsButtonCallback = function() {
-    this.mToCredits = true;
+    this.kNextSceneName = "CreditsScreen";
     gEngine.GameLoop.stop();
 };
 
