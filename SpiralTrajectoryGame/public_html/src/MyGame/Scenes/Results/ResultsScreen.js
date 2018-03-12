@@ -23,6 +23,7 @@ function ResultsScreen(result) {
     this.mGolem = null;
     //Hero Death
     this.mHero = null;
+    this.mPlatform = null;
     
     //Arrow
     this.mArrow = null;
@@ -91,7 +92,13 @@ ResultsScreen.prototype.initialize = function () {
     this.spawnArrow();
 
         
-
+    this.mPlatform = new Platform(Config.ResultsScreen.Textures.PlatformTexture,
+                                  Config.ResultsScreen.Textures.PlatformNormal,
+                                  Config.ResultsScreen.Platform.x,
+                                  Config.ResultsScreen.Platform.y,
+                                  Config.ResultsScreen.Platform.w,
+                                  Config.ResultsScreen.Platform.h);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mPlatform);
     //play the corresponding audio cue
     if (this.mResult) {
         this.kMusicCue = Config.ResultsScreen.Audio.VictoryClip;
@@ -105,6 +112,13 @@ ResultsScreen.prototype.initialize = function () {
     } 
     else {
         this.kMusicCue = Config.ResultsScreen.Audio.GameOverClip;
+        
+        this.mHero = new ResultsScreenHero();        
+        this.mHero.getXform().setPosition(Config.ResultsScreen.Hero.Position[0],
+                                           Config.ResultsScreen.Hero.Position[1]);
+        this.mHero.getXform().setSize(Config.ResultsScreen.Hero.Size[0],
+                                       Config.ResultsScreen.Hero.Size[1]);
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mHero);
     }
     gEngine.AudioClips.playACue(this.kMusicCue, 0.1);
 };
