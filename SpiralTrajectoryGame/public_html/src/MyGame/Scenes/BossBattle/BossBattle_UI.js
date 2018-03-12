@@ -21,7 +21,8 @@ BossBattle.prototype._initializeUI = function() {
                                 configUI.ArrowSelection.Position, 
                                 configUI.ArrowSelection.IconSize,
                                 configUI.ArrowSelection.ActiveTint,
-                                configUI.ArrowSelection.InactiveTint);
+                                configUI.ArrowSelection.InactiveTint,
+                                this.mUILight);
                                 
     this.mHeroHPText = new UIText(configUI.HeroHPText.Text,
                                   configUI.HeroHPText.Position,
@@ -37,14 +38,16 @@ BossBattle.prototype._initializeUI = function() {
     this.mBossHP = new UIHealthBar(Config.UI.Textures.UIHealthBar,
                                configUI.BossHealthBar.Position,
                                configUI.BossHealthBar.Size,
-                               configUI.BossHealthBar.Buffer);
+                               configUI.BossHealthBar.Buffer,
+                               this.mUILight);
     this.mBossHP.setMaxHP(this.mBoss.mMaxHP);
     this.mBossHP.setCurrentHP(this.mBoss.mCurrentHP);
 
     this.mHeroHP = new UIHealthBar(Config.UI.Textures.UIHealthBar,
                                configUI.HeroHealthBar.Position,
                                configUI.HeroHealthBar.Size,
-                               configUI.HeroHealthBar.Buffer);
+                               configUI.HeroHealthBar.Buffer,
+                               this.mUILight);
     this.mHeroHP.setMaxHP(this.mHero.mMaxHP);
     this.mHeroHP.setCurrentHP(this.mHero.mCurrentHP);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mHeroHPText);

@@ -15,6 +15,7 @@
 function BossBattle() {
     this.mMainCamera = null;
     this.mGlobalLightSet = null;
+    this.mUILight = null;
     this.mBgShadow = null;
     this.mPhysicsGameObjects = null;
     this.mNonPhysicsGameObjects = null;
@@ -71,12 +72,14 @@ BossBattle.prototype.initialize = function () {
         Config.BossBattle.Cameras.MainCameraInterpDuration
     );
     
-    this._initializeLights(); 
-    
-    
+  
     gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
     gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
-
+    
+    this._initializeLights();
+    
+    console.log(this.mGlobalLightSet.numLights());
+    
     var light = null;
     var lightSet = [];
     for (var i = 0; i < 16; i++) {
@@ -84,6 +87,9 @@ BossBattle.prototype.initialize = function () {
         lightSet.push(light);
         this.mGlobalLightSet.addToSet(light);
     }
+    console.log(this.mGlobalLightSet.numLights());
+    console.log(this.mUILight);
+    
     
     this.mNonPhysicsGameObjects = new GameObjectSet();
     this.mHero = new Hero(
@@ -131,6 +137,7 @@ BossBattle.prototype.initialize = function () {
             }
         }
     }
+    
     
     this._setupShadow();
     

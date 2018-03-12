@@ -4,8 +4,9 @@
 
 "use strict";
 
-function UIHealthBar(sprite, position, size, buffer) {
+function UIHealthBar(sprite, position, size, buffer, light) {
     this.mBack = new LightRenderable(sprite);
+    this.mBack.addLight(light);
     this.mBack.setElementUVCoordinate(0.0, 1.0, 0.5, 1.0);
     UIElement.call(this, this.mBack, position, size);
     
@@ -16,6 +17,7 @@ function UIHealthBar(sprite, position, size, buffer) {
     
     
     this.mHPElem = new UISprite(sprite, position, size, [0.0, 1.0, 0.0, 0.5]);
+    this.mHPElem.getRenderable().addLight(light);
 };
 gEngine.Core.inheritPrototype(UIHealthBar, UIElement);
 
