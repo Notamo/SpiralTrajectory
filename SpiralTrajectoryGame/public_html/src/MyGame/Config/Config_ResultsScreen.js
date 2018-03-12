@@ -1,17 +1,15 @@
 /* 
- * File: Config_SplashScreen.js
+ * Config_ResultsScreen.js
  * 
- * Config Settings for the Splash Screen
+ * Config settings for the results screen
  */
-
 
 "use strict";
 
 var Config = Config || {};
 
-Config.SplashScreen = Object.freeze({
+Config.ResultsScreen = Object.freeze({
     Textures: {
-        DefaultArrowSprite:     "assets/projectiles/arrow.png",
         FarBackgroundTexture:   "assets/background/backgroundfar.png",
         MidBackgroundTexture:   "assets/background/backgroundmid.png"
     },
@@ -31,16 +29,16 @@ Config.SplashScreen = Object.freeze({
             TextHeight: 10,
             Color: [1, .84, 0, 1]
         },
-        PlayButton: {
+        ReplayButton: {
             Position: vec2.fromValues(600, 600),
             Size: vec2.fromValues(200, 100),
-            Text: "Play!",
+            Text: "Replay!",
             TextHeight: 5
         },
-        CreditsButton: {
+        MenuButton: {
             Position: vec2.fromValues(600, 300),
             Size: vec2.fromValues(200, 100),
-            Text: "Credits",
+            Text: "Menu",
             TextHeight: 5
         }
     }
