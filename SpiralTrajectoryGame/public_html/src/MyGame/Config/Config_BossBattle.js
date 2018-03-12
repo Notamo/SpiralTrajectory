@@ -22,6 +22,7 @@ Config.BossBattle = Object.freeze({
         BossSprite:             "assets/characters/boss_sprites.png",
         BossNormal:             "assets/characters/normal/boss_sprites.png",
         BossProjectileSprite:   "assets/projectiles/bossprojectile.png",
+        BossHomingProjectileSprite: "assets/projectiles/bossprojectile2.png",
         PlatformTexture:        "assets/props/platform.png",
         PlatformNormal:         "assets/props/normal/platform.png",
         GroundTexture:          "assets/groundtexture.png",
@@ -50,7 +51,7 @@ Config.BossBattle = Object.freeze({
     Cameras: {
         MainCameraStartingPosition:     vec2.fromValues(25, 1),
         MainCameraWorldWidth:           200,
-        MainCameraViewport:             [0, 0, 1200, 900],
+        MainCameraViewport:             [0, 0, 960, 720],
         MainCameraBackgroundColor:      [0.8, 0.8, 0.8, 1],
         MainCameraInterpStiffness:      0.2,
         MainCameraInterpDuration:       30
@@ -304,5 +305,35 @@ Config.BossBattle = Object.freeze({
             Width:  20,
             Height: 5
         }
-    ]
+    ],
+    UI: {
+        ArrowSelection: {
+            Position: vec2.fromValues(120, 680),
+            IconSize: 80,
+            ActiveTint: [1, 1, 1, 0],
+            InactiveTint: [.1, .1, .1, .5]
+        },
+        HeroHealthBar: {
+            Position: vec2.fromValues(120, 600),
+            Size: vec2.fromValues(240, 20),
+            Buffer: 4
+        },
+        HeroHPText: {
+            Text: "Player Health:",
+            Position: vec2.fromValues(5, 615),
+            TextHeight: 4,
+            Color: [1, 0, 0, 1]
+        },
+        BossName: {
+            Text: "Mysterious Golem",
+            Position: vec2.fromValues(165, 105),
+            Color: [1, 1, 1, 1],
+            TextHeight: 4
+        },
+        BossHealthBar: {
+            Position: vec2.fromValues(480, 80),
+            Size: vec2.fromValues(640, 20),
+            Buffer: 4
+        }
+    }
 });

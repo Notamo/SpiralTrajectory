@@ -108,6 +108,8 @@
         <script type="text/javascript" src="src/MyGame/Config/Config_Hero.js"></script>
         <script type="text/javascript" src="src/MyGame/Config/Config_SplashScreen.js"></script>
         <script type="text/javascript" src="src/MyGame/Config/Config_ResultsScreen.js"></script>
+        <script type="text/javascript" src="src/MyGame/Config/Config_CreditsScreen.js"></script>
+        <script type="text/javascript" src="src/MyGame/Config/Config_ControlsScreen.js"></script>
 
         <!-- UI -->
         <script type="text/javascript" src="src/MyGame/Objects/UI/UIElements/UIElement.js"></script>
@@ -125,6 +127,8 @@
         <script type="text/javascript" src="src/MyGame/Scenes/BossBattle/BossBattle_UI.js"></script>
         <script type="text/javascript" src="src/MyGame/Scenes/BossBattle/BossBattle_Lights.js"></script>
         <script type="text/javascript" src="src/MyGame/Scenes/Results/ResultsScreen.js"></script>
+        <script type="text/javascript" src="src/MyGame/Scenes/Credits/CreditsScreen.js"></script>
+        <script type="text/javascript" src="src/MyGame/Scenes/Controls/ControlsScreen.js"></script>
         
         <!-- Objects -->
         <script type="text/javascript" src="src/MyGame/Objects/Hero.js"></script>
@@ -145,15 +149,18 @@
         <script type="text/javascript" src="src/MyGame/Objects/Golem/Golem_Dying.js"></script>
         <script type="text/javascript" src="src/MyGame/Objects/Golem/Golem_Stun.js"></script>
         <script type="text/javascript" src="src/MyGame/Objects/Golem/Projectiles/Golem_Projectile.js"></script>
-        <script type="text/javascript" src="src/MyGame/Objects/Golem/Projectiles/Golem_SalvoProjectile.js"></script>
+        <script type="text/javascript" src="src/MyGame/Objects/Golem/Projectiles/Golem_HomingProjectile.js"></script>
         <script type="text/javascript" src="src/MyGame/Objects/Golem/Projectiles/Golem_BlastProjectile.js"></script>
-        <script type="text/javascript" src="src/MyGame/Objects/Golem/Projectiles/Golem_BurstProjectile.js"></script>
         
         <!-- Arrow -->
         <script type="text/javascript" src="src/MyGame/Objects/Arrows/Arrow.js"></script>
         <script type="text/javascript" src="src/MyGame/Objects/Arrows/ArrowSet.js"></script>
         <script type="text/javascript" src="src/MyGame/Objects/Arrows/IceArrow.js"></script>
         <script type="text/javascript" src="src/MyGame/Objects/Arrows/FireArrow.js"></script>
+        
+        <!-- Misc Objects -->
+        <script type="text/javascript" src="src/MyGame/Objects/ResultsScreen/ResultsScreenGolem.js"></script>
+        <script type="text/javascript" src="src/MyGame/Objects/ResultsScreen/ResultsScreenHero.js"></script>
         
         <!-- UI -->
         <script type="text/javascript" src="src/MyGame/Objects/UI/ArrowVector.js"></script>
@@ -165,7 +172,7 @@
         var splashScreen = new SplashScreen();
         gEngine.Core.initializeEngineCore('GLCanvas', splashScreen);
      ">
-        <canvas id="GLCanvas" width="1200" height="900">
+        <canvas id="GLCanvas" width="960" height="720">
             <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
             Your browser does not support the HTML5 canvas.
             <!-- this message will show only if WebGL clearing failed -->

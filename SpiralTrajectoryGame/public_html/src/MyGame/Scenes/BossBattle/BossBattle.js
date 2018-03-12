@@ -12,9 +12,10 @@
 
 "use strict";
 
-function BossBattle() {
+function BossBattle(hardMode) {
     this.mMainCamera = null;
     this.mGlobalLightSet = null;
+    this.mUILight = null;
     this.mBgShadow = null;
     this.mPhysicsGameObjects = null;
     this.mNonPhysicsGameObjects = null;
@@ -29,6 +30,7 @@ function BossBattle() {
     this.mVictory = false;
     this.mLgtIndex = 0;
     this.mLgtRotateTheta = 0;
+    this.mHardMode = hardMode;
 }
 gEngine.Core.inheritPrototype(BossBattle, Scene);
 
@@ -47,12 +49,12 @@ BossBattle.prototype.loadScene = function () {
 BossBattle.prototype.unloadScene = function () {
     gEngine.LayerManager.cleanUp();
     this._unloadUI();
-    for (var texture in Config.BossBattle.Textures) {
+   /* for (var texture in Config.BossBattle.Textures) {
         gEngine.Textures.unloadTexture(Config.BossBattle.Textures[texture]);
     }
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
-    }
+    }*/
     gEngine.AudioClips.stopBackgroundAudio();
     gEngine.AudioClips.unloadAudio("assets/audio/sfx/shoot.mp3");
     gEngine.Core.startScene(new ResultsScreen(this.mVictory));
@@ -71,36 +73,48 @@ BossBattle.prototype.initialize = function () {
         Config.BossBattle.Cameras.MainCameraInterpDuration
     );
     
-    this._initializeLights(); 
-    
-    
+  
     gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
     gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
-
+    
+    this._initializeLights();
+    
+    var light = null;
+    var lightSet = [];
+    for (var i = 0; i < 16; i++) {
+        light = new Light();
+        lightSet.push(light);
+        this.mGlobalLightSet.addToSet(light);
+    }
+    
+    
     this.mNonPhysicsGameObjects = new GameObjectSet();
-    var light = new Light();
-    this.mGlobalLightSet.addToSet(light);
     this.mHero = new Hero(
         Config.BossBattle.Textures.HeroSheet,
         Config.BossBattle.Textures.HeroSheetNormal,
         this.mMainCamera,
-        light
+        lightSet,
+        this.mHardMode
     );
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,this.mHero);
     gEngine.LayerManager.addAsShadowCaster(this.mHero);
     
     var golemBlastProjectileLight = new Light();
+    var golemHomingProjectileLight = new Light();
     this.mBoss = new Golem(
         Config.BossBattle.Textures.BossSprite, 
         this.mHero, 
         this.mPhysicsGameObjects,
         this.mNonPhysicsGameObjects,
-        golemBlastProjectileLight
+        golemBlastProjectileLight,
+        golemHomingProjectileLight,
+        this.mHardMode
     );
     this.mGlobalLightSet.addToSet(golemBlastProjectileLight);
-
-     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mBoss);
+    this.mGlobalLightSet.addToSet(golemHomingProjectileLight);
+    
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mBoss);
     
     this.boundary = new Boundary(149,230,500,4);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.boundary);
@@ -125,6 +139,7 @@ BossBattle.prototype.initialize = function () {
             }
         }
     }
+    
     
     this._setupShadow();
     

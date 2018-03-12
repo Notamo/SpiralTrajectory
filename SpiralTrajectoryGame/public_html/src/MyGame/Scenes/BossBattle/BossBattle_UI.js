@@ -8,30 +8,46 @@
 
 "use strict";
 
-BossBattle.prototype._initializeUI = function() {    
-    this.mHeroHPText = new UIText("Player Health:", vec2.fromValues(25, 780), 4);
-    this.mHeroHPText.setColor([1, 0, 0, 1]);
+BossBattle.prototype._initializeUI = function() { 
+    var configUI = Config.BossBattle.UI;
+    
+    //The arrow selector in the top right corner
     var arrowSelectSprites = [Config.UI.Textures.UIArrowIcon,
                               Config.UI.Textures.UIFireArrowIcon,
                               Config.UI.Textures.UIIceArrowIcon];
                          
-    this.mArrowSelector = new UIArrowSelection(arrowSelectSprites, Config.UI.Textures.UIArrowBorders, vec2.fromValues(150, 850), 100);
+    this.mArrowSelector = new UIArrowSelection(arrowSelectSprites, 
+                                Config.UI.Textures.UIArrowBorders, 
+                                configUI.ArrowSelection.Position, 
+                                configUI.ArrowSelection.IconSize,
+                                configUI.ArrowSelection.ActiveTint,
+                                configUI.ArrowSelection.InactiveTint,
+                                this.mUILight);
+                                
+    this.mHeroHPText = new UIText(configUI.HeroHPText.Text,
+                                  configUI.HeroHPText.Position,
+                                  configUI.HeroHPText.TextHeight, null, null);
+    this.mHeroHPText.setColor(configUI.HeroHPText.Color);
     
-    this.mBossName = new UIText(Config.UI.BossName.Text, 
-                                Config.UI.BossName.Position, null);
-    this.mBossName.setColor(Config.UI.BossName.Color);
-    this.mBossName.setTextHeight(Config.UI.BossName.TextHeight);
+    
+    
+    this.mBossName = new UIText(configUI.BossName.Text, 
+                                configUI.BossName.Position, null, null);
+    this.mBossName.setColor(configUI.BossName.Color);
+    this.mBossName.setTextHeight(configUI.BossName.TextHeight);
     this.mBossHP = new UIHealthBar(Config.UI.Textures.UIHealthBar,
-                               Config.UI.BossHealthBar.Position,
-                               Config.UI.BossHealthBar.Size,
-                               Config.UI.BossHealthBar.Buffer);
+                               configUI.BossHealthBar.Position,
+                               configUI.BossHealthBar.Size,
+                               configUI.BossHealthBar.Buffer,
+                               this.mUILight);
     this.mBossHP.setMaxHP(this.mBoss.mMaxHP);
     this.mBossHP.setCurrentHP(this.mBoss.mCurrentHP);
 
     this.mHeroHP = new UIHealthBar(Config.UI.Textures.UIHealthBar,
-                               Config.UI.HeroHealthBar.Position,
-                               Config.UI.HeroHealthBar.Size,
-                               Config.UI.HeroHealthBar.Buffer);
+                               configUI.HeroHealthBar.Position,
+                               configUI.HeroHealthBar.Size,
+                               configUI.HeroHealthBar.Buffer,
+                               this.mUILight);
     this.mHeroHP.setMaxHP(this.mHero.mMaxHP);
     this.mHeroHP.setCurrentHP(this.mHero.mCurrentHP);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mHeroHPText);

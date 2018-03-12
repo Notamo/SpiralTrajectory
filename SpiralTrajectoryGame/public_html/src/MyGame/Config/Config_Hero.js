@@ -50,6 +50,11 @@ Config.Hero = Object.freeze({
         LeftDisplacementScale: 0.1,
         RightDisplacementVector: vec2.fromValues(10, 0),
         RightDisplacementScale: 0.1
+    },
+    CameraShake: {
+        X:  -10,
+        Y:  -10,
+        Frequency: 20,
+        Duration: 10
     }
-    
 });

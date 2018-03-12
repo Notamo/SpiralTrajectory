@@ -3,7 +3,7 @@
  */
 
 function UITexture(myTexture, position, size) {
-    this.mTex = new TextureRenderable(myTexture);
+    this.mTex = new LightRenderable(myTexture);
     UIElement.call(this, this.mTex, position, size);
 }
 gEngine.Core.inheritPrototype(UITexture, UIElement);

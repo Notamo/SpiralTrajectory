@@ -22,12 +22,15 @@ function SplashScreen() {
     //UI stuff
     this.mTitle = null;
     this.mPlayButton = null;
+    this.mHardModeButon = null;
     this.mCreditsButton = null;
+    this.mControlsButton = null;
     
     // The camera to view the scene
     this.mMainCamera = null;
-    //if we're exiting to credits or the fight
-    this.mToCredits = false;
+    this.kNextSceneName = "BossBattle";
+    
+    this.mHardMode = false;
 }
 gEngine.Core.inheritPrototype(SplashScreen, Scene);
 
@@ -43,14 +46,22 @@ SplashScreen.prototype.loadScene = function () {
 
 SplashScreen.prototype.unloadScene = function () {
     gEngine.LayerManager.cleanUp();
-    for(var texture in Config.UI.Textures) {
+    /*   for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
     }
     for (var texture in Config.SplashScreen.Textures) {
         gEngine.Textures.unloadTexture(Config.SplashScreen.Textures[texture]);
     }
-    
-    gEngine.Core.startScene(new BossBattle());
+   */
+    if(this.kNextSceneName === "CreditsScreen") {
+      gEngine.Core.startScene(new CreditsScreen());
+    }
+    else if(this.kNextSceneName === "ControlsScreen") {
+        gEngine.Core.startScene(new ControlsScreen());
+    }
+    else{
+        gEngine.Core.startScene(new BossBattle(this.mHardMode));
+    }
 };
 
 SplashScreen.prototype.initialize = function () {
@@ -78,37 +89,67 @@ SplashScreen.prototype._initializeUI = function() {
     this.mTitle.setColor(configUI.Title.Color);
     
     this.mPlayButton = new UIButton(Config.UI.Textures.UIButton, 
-                                    this.mMainCamera,
-                                    this._testButtonCallback,
+                                    this._playButtonCallback,
+                                    this,
                                     configUI.PlayButton.Position,
                                     configUI.PlayButton.Size,
                                     configUI.PlayButton.Text,
                                     configUI.PlayButton.TextHeight);
     
+    this.mHardModeButton = new UIButton(Config.UI.Textures.UIButton, 
+                                    this._hardModeButtonCallback,
+                                    this,
+                                    configUI.HardModeButton.Position,
+                                    configUI.HardModeButton.Size,
+                                    configUI.HardModeButton.Text,
+                                    configUI.HardModeButton.TextHeight);
+    
     this.mCreditsButton = new UIButton(Config.UI.Textures.UIButton, 
-                                this.mMainCamera,
-                                this._creditsButtonCallback(),
+                                this._creditsButtonCallback,
+                                this,
                                 configUI.CreditsButton.Position,
                                 configUI.CreditsButton.Size,
                                 configUI.CreditsButton.Text,
                                 configUI.CreditsButton.TextHeight);
     
+    this.mControlsButton = new UIButton(Config.UI.Textures.UIButton, 
+                            this._controlsButtonCallback,
+                            this,
+                            configUI.ControlsButton.Position,
+                            configUI.ControlsButton.Size,
+                            configUI.ControlsButton.Text,
+                            configUI.ControlsButton.TextHeight);
+    
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mPlayButton);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mHardModeButton);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mCreditsButton);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mControlsButton);
 };
 
-SplashScreen.prototype._testButtonCallback = function() {
+SplashScreen.prototype._playButtonCallback = function() {
+    this.kNextSceneName = "BossBattle";
+    gEngine.GameLoop.stop();
+};
+
+SplashScreen.prototype._hardModeButtonCallback = function () {
+    this.kNextSceneName = "BossBattle";
+    this.mHardMode = true;
     gEngine.GameLoop.stop();
 };
 
 SplashScreen.prototype._creditsButtonCallback = function() {
-    this.mToCredits = true;
+    this.kNextSceneName = "CreditsScreen";
+    gEngine.GameLoop.stop();
+};
+
+SplashScreen.prototype._controlsButtonCallback = function() {
+    this.kNextSceneName = "ControlsScreen";
     gEngine.GameLoop.stop();
 };
 
 SplashScreen.prototype._initializeBackground = function() {
-        var farBG = new LightRenderable(Config.SplashScreen.Textures.FarBackgroundTexture);
+    var farBG = new LightRenderable(Config.SplashScreen.Textures.FarBackgroundTexture);
     farBG.setElementPixelPositions(0, 1024, 0, 512);
     farBG.getXform().setSize(400, 200);
     farBG.getXform().setPosition(0, 0);
@@ -162,6 +203,10 @@ SplashScreen.prototype.spawnArrow = function() {
     var pos = [0,0];
     pos[0] = pos[0] - 80;
     pos[1] = pos[1] - 10;
-    var newArrow = new Arrow(pos,1.1,50);
+    var raffle = Math.random()*3;
+    var newArrow=null;
+    if(raffle<1){newArrow = new Arrow(pos,1.1,50);}
+    else if(raffle<2){newArrow = new FireArrow(pos,1.1,50);}
+    else{newArrow = new IceArrow(pos,1.1,50);}
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, newArrow);
 };

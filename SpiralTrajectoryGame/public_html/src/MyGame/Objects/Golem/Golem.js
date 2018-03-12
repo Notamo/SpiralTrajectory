@@ -16,9 +16,11 @@
  * @param {GameObjectSet}   physicsGameObjectArrayRef       Reference to the set of physics GameObjects.
  * @param {GameObjectSet}   nonPhysicsGameObjectArrayRef    Reference to the set of non-physics GameObjects.
  * @param {Light}           blastProjectileLight            Light for the blast projectile.
+ * @param {Light}           homingProjectileLight           Light for the homing projectile.
+ * @param {Boolean}         hardMode                        Whether or not hard mdoe is enabled.
  * @returns {Golem}
  */
-function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectArrayRef, blastProjectileLight) {
+function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectArrayRef, blastProjectileLight, homingProjectileLight, hardMode) {
     // Save the reference to the game object sets.
     this.mPhysicsSetRef     = physicsGameObjectArrayRef;
     this.mNonPhysicsSetRef  = nonPhysicsGameObjectArrayRef;
@@ -32,6 +34,10 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectA
     // Reference to the light used by BlastProjectiles.
     this.mBlastProjectileLight = blastProjectileLight;
     this.mBlastProjectileLight.setLightTo(false);
+    
+    // Reference to the light used by the HomingProjectiles.
+    this.mHomingProjectileLight = homingProjectileLight;
+    this.mHomingProjectileLight.setLightTo(false);
     
     // Setup the renderable
     this.mGolem = new IllumRenderable(Config.BossBattle.Textures.BossSprite, Config.BossBattle.Textures.BossNormal);
@@ -92,6 +98,9 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectA
     // Animation
     this.mCurrentRigidbodyAnimationSequenceReference = null;
     this.mCurrentSmashAttackHit                      = false;
+    
+    // Track if hardmode is switched on.
+    this.mHardMode = hardMode;
 }
 gEngine.Core.inheritPrototype(Golem, GameObject);
 
@@ -214,4 +223,5 @@ Golem.prototype.triggerSmashEvent = function (bodyPart) {
     this.mHero.getRigidBody().setVelocity(velocity[0], velocity[1]);
     
     // Shake the camera.
+    
 };

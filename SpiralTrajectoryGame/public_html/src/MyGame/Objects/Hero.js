@@ -1,8 +1,4 @@
-/* File: Hero.js 
- *
- * Creates and initializes the Hero (Dye)
- * overrides the update function of GameObject to define
- * simple Dye behavior
+/* File: Hero.js
  */
 
 /*jslint node: true, vars: true */
@@ -16,13 +12,13 @@
  * Constructor for the Hero object. 
  * 
  * @param {String}          spriteTexture       Path to the sprite we'll be using.
- * @param {GameObjectSet}   physicsReference    Reference to our set of physics game objects,
- *                                              used primarily so we can add new Arrow variants
- *                                              to the set upon creation.
- * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.
- * @returns {Hero}
+ * @param {??}              normalMap           Justin pls fix this comment.
+ * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.}
+ * @param {Array}           lightSet            Set of lights to be passed to the ArrowSet.
+ * @param {Boolean}         hardmode            Whether or not hardmode is on.
+ * * @returns {Hero}
  */
-function Hero(spriteTexture, normalMap, cameraRef, light) {
+function Hero(spriteTexture, normalMap, cameraRef, lightSet, hardmode) {
     // Create the sprite
     this.mArcher = new IllumRenderable(spriteTexture, normalMap);
     this.mArcher.getMaterial().setSpecular([0, 0, 0, 0]);
@@ -42,11 +38,13 @@ function Hero(spriteTexture, normalMap, cameraRef, light) {
         Config.Hero.PixelPositions.Bottom,
         Config.Hero.PixelPositions.Top,
     );
-    this.setSprite(.936,
-                    .0468,
-                    .0936,
-                    .125,
-                    10);
+    this.setSprite(
+        0.936,
+        0.0468,
+        0.0936,
+        0.125,
+        10
+    );
     this.mArcher.setAnimationSpeed(2);
     GameObject.call(this, this.mArcher);
     
@@ -68,14 +66,18 @@ function Hero(spriteTexture, normalMap, cameraRef, light) {
     // ArrowVector is our "firing" mechanism, need a single instance.
     this.mArrowVector = new ArrowVector(cameraRef);
     
+    // Also keep a reference to the camera for shaking it.
+    this.mCamera = cameraRef;
+    
     // ArrowSet keeps a reference to each active arrow.
-    this.mArrowSet = new ArrowSet();
+    this.mArrowSet = new ArrowSet(lightSet);
     
     // NoClip allows the hero to ignore collisions with platforms.
     this.mNoClip = false;
     this.mUpdatesSinceClip = 0;
     
-    this.onGround=true;
+    // Boolean to indicate whether the Hero is standing on the ground or not.
+    this.onGround = true;
     
     // Counter for our double jump, though this implementation lets us change
     // the max number of jumps.
@@ -90,29 +92,10 @@ function Hero(spriteTexture, normalMap, cameraRef, light) {
     // we get around to making the attack.
     this.mLastPlatform = null;
     
-    // Create our light for this hero, but disable it for now.
-    this.mLight = light;
-    this._setLightProperties();
-    this.mLight.setLightTo(true);
+    // Tracks if hard mode is on.
+    this.mHardMode = hardmode;
 };
 gEngine.Core.inheritPrototype(Hero, GameObject);
-
-
-Hero.prototype._setLightProperties = function () {
-    this.mLight.setLightType(Light.eLightType.eSpotLight);
-    this.mLight.setColor([.5,.5,.7,1]);
-    this.mLight.setXPos(this.mArcher.getXform().getXPos());
-    this.mLight.setYPos(this.mArcher.getXform().getXPos());
-    this.mLight.setZPos(15);
-    this.mLight.setDirection([0,  0, -1]);
-    this.mLight.setNear(10);
-    this.mLight.setFar(20);
-    this.mLight.setInner(1.8);
-    this.mLight.setOuter(2);
-    this.mLight.setIntensity(1.5);
-    this.mLight.setDropOff(.8);
-    this.mLight.setLightCastShadowTo(true);
-};
 
 /**
  * Setter for the Hero's active arrow.
@@ -152,149 +135,177 @@ Hero.prototype.draw = function(aCamera) {
  * @returns {undefined}
  */
 Hero.prototype.update = function () {
-    if(this.mCurrentHP>0){
-    // Grab the xform to make using it a bit more convenient here.
-    var xform = this.getXform();
-    this.mLight.setXPos(xform.getXPos());
-    this.mLight.setYPos(xform.getYPos());
-    
-    // Move left or right, also adjust the orientation based on that
-    // movement.
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        if(this.mArcher.getTopUV()!==.693+(.118/2)&&this.onGround===true&&this.mJumpCount===0){
-            this.setSprite(
-                    .693,
-                    .0472,
-                    .0944,
-                    .118,
-                    10);
-        }
-        this.getRigidBody().adjustPositionBy(
-            Config.Hero.Movement.LeftDisplacementVector,
-            Config.Hero.Movement.LeftDisplacementScale
-        );
-        xform.setOrientation(Config.Hero.Facing.Left);
-    }
-    else if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        if(this.mArcher.getTopUV()!==.693+(.118/2)&&this.onGround===true&&this.mJumpCount===0){
-            this.setSprite(
-                    .693,
-                    .0472,
-                    .0944,
-                    .118,
-                    10);
-        }
-        this.getRigidBody().adjustPositionBy(
-            Config.Hero.Movement.RightDisplacementVector,
-            Config.Hero.Movement.RightDisplacementScale
-        );
-        xform.setOrientation(Config.Hero.Facing.Right);
-    }
-    
-    else{
-        if(this.mArcher.getTopUV()!==.938+(.125/2)&&this.onGround===true){
-        this.setSprite(.938,
-                    .0468,
-                    .0936,
-                    .125,
-                    10);
-        }
-        else if(this.mArcher.getTopUV()===.817+(.125/2)&&this.mArcher.getCurrentFrame()===9&&this.onGround===true){
-        this.setSprite(.938,
-                    .0468,
-                    .0936,
-                    .125,
-                    10);
-        }
-    }
-    
-    // Jump.
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        if (this.mJumpCount < this.mMaxJumps) {
-            this.getRigidBody().setVelocity(
-                Config.Hero.JumpVelocity.X,
-                Config.Hero.JumpVelocity.Y
+    if (this.mCurrentHP > 0) {
+        // Grab the xform to make using it a bit more convenient here.
+        var xform = this.getXform();
+
+        // Move left or right, also adjust the orientation based on that
+        // movement.
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+            if (this.mArcher.getTopUV() !== 0.693 + (0.118 / 2) && 
+                this.onGround === true && 
+                this.mJumpCount === 0) {
+                this.setSprite(
+                    0.693,
+                    0.0472,
+                    0.0944,
+                    0.118,
+                    10
+                );
+                this.mArcher.setAnimationSpeed(2);
+            }
+            this.getRigidBody().adjustPositionBy(
+                Config.Hero.Movement.LeftDisplacementVector,
+                Config.Hero.Movement.LeftDisplacementScale
             );
-            this.mJumpCount++;
-            this.setSprite(.564,
-                    .0498,
-                    .0996,
-                    .131,
-                    10);
-            this.mArcher.setAnimationSpeed(2);
-        }
-    }
-    
-    // NoClip/fall through platforms.
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        this.mNoClip = true;
-        this.mUpdatesSinceClip = 0;
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.E)){
-        this.hit(this.mMaxHP);
-    }
-    // Update the time since we initialized NoClip if the user isn't holding S.
-    else {
-        if (this.mNoClip) {
-            this.mUpdatesSinceClip++;
-        }
-        if (this.mUpdatesSinceClip > Config.Hero.MaxNoClipDuration) {
-            this.mNoClip = false;
-            this.mUpdatesSinceClip = 0;
-        }
-    }
-    
-    // Arrow selction
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
-        this.setArrowSelection(ArrowSet.eArrowType.eDefaultArrow);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {
-        this.setArrowSelection(ArrowSet.eArrowType.eFireArrow);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {
-        this.setArrowSelection(ArrowSet.eArrowType.eIceArrow);
-    }
-    
-    // Update our ArrowVector before we use it. 
-    this.mArrowVector.update();
-        
-    // If the user releases their left mouse button, we need to fire an arrow.
-    if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
-        var arrow = this.generateArrow();
-        if (this.mArrowSet.addToSet(arrow)) {
-            gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, arrow);
-            gEngine.AudioClips.playACue(Config.Hero.Audio.FiringArrow, Config.Hero.Audio.Volume);
-        }
-        
-        // Determine the orientation of the arrow.
-        if (this.mArrowVector.getDegrees() < 90 && this.mArrowVector.getDegrees() > -90) {
-            xform.setOrientation(Config.Hero.Facing.Right);
-        } else if (this.mArrowVector.getDegrees() > 90 || this.mArrowVector.getDegrees() < -90) {
             xform.setOrientation(Config.Hero.Facing.Left);
         }
-        this.setSprite(.817,
-                    .0490,
-                    .0980,
-                    .125,
-                    10);
+        else if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+            if (this.mArcher.getTopUV() !== 0.693 + (0.118 / 2) && 
+                this.onGround === true && 
+                this.mJumpCount === 0) {
+                this.setSprite(
+                    0.693,
+                    0.0472,
+                    0.0944,
+                    0.118,
+                    10
+                );
+                this.mArcher.setAnimationSpeed(2);
+            }
+            this.getRigidBody().adjustPositionBy(
+                Config.Hero.Movement.RightDisplacementVector,
+                Config.Hero.Movement.RightDisplacementScale
+            );
+            xform.setOrientation(Config.Hero.Facing.Right);
+        }
+
+        else{
+            if (this.mArcher.getTopUV() !== 0.938 + (0.125 / 2) && 
+                this.onGround === true && 
+                this.mArcher.getTopUV() !== 0.817 + (.125 / 2)) {
+                this.setSprite(
+                    0.938,
+                    0.0468,
+                    0.0936,
+                    0.125,
+                    10
+                );
+                this.mArcher.setAnimationSpeed(6);
+            }
+            else if (this.mArcher.getTopUV() === 0.817 + (0.125 / 2) &&                   
+                     this.mArcher.getCurrentFrame() >= 9 && 
+                     this.onGround === true) {
+                this.setSprite(
+                    0.938,
+                    0.0468,
+                    0.0936,
+                    0.125,
+                    10
+                );
+                this.mArcher.setAnimationSpeed(6);
+            }
+        }
+
+        // Jump.
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+            if (this.mJumpCount < this.mMaxJumps) {
+                this.getRigidBody().setVelocity(
+                    Config.Hero.JumpVelocity.X,
+                    Config.Hero.JumpVelocity.Y
+                );
+                this.mJumpCount++;
+                this.setSprite(
+                    0.564,
+                    0.0498,
+                    0.0996,
+                    0.131,
+                    10
+                );
+                this.mArcher.setAnimationSpeed(2);
+            }
+        }
+
+        // NoClip/fall through platforms.
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+            this.mNoClip = true;
+            this.mUpdatesSinceClip = 0;
+        }
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.E)){
+            this.hit(this.mMaxHP);
+        }
+        // Update the time since we initialized NoClip if the user isn't holding S.
+        else {
+            if (this.mNoClip) {
+                this.mUpdatesSinceClip++;
+            }
+            if (this.mUpdatesSinceClip > Config.Hero.MaxNoClipDuration) {
+                this.mNoClip = false;
+                this.mUpdatesSinceClip = 0;
+            }
+        }
+
+        // Arrow selction
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One)) {
+            this.setArrowSelection(ArrowSet.eArrowType.eDefaultArrow);
+        }
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {
+            this.setArrowSelection(ArrowSet.eArrowType.eFireArrow);
+        }
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {
+            this.setArrowSelection(ArrowSet.eArrowType.eIceArrow);
+        }
+
+        // Update our ArrowVector before we use it. 
+        this.mArrowVector.update();
+
+        // If the user releases their left mouse button, we need to fire an arrow.
+        if (gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)) {
+            var arrow = this.generateArrow();
+            if (this.mArrowSet.addToSet(arrow)) {
+                gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, arrow);
+                gEngine.AudioClips.playACue(Config.Hero.Audio.FiringArrow, Config.Hero.Audio.Volume);
+            }
+
+            // Determine the orientation of the arrow.
+            if (this.mArrowVector.getDegrees() < 90 && this.mArrowVector.getDegrees() > -90) {
+                xform.setOrientation(Config.Hero.Facing.Right);
+            } else if (this.mArrowVector.getDegrees() > 90 || this.mArrowVector.getDegrees() < -90) {
+                xform.setOrientation(Config.Hero.Facing.Left);
+            }
+            this.setSprite(
+                0.817,
+                0.0490,
+                0.0980,
+                0.125,
+                10
+            );
+            this.mArcher.setAnimationSpeed(1);
+        }
+
+        // These hotkeys allow the firing mode for arrows to be changed. 
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M)) {
+            this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eTailControl);
+        }
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.N)) {
+            this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eHeadControl);
+        }
+
+        this.mArrowSet.update();
+        this.mRigidBody.setAngularVelocity(0);
+        this.mRigidBody.update();
+        
+        // Only update animation if ????? dunno
+        if ((this.mArcher.getTopUV() === 0.564 + (0.131 / 2) && this.mArcher.getCurrentFrame() === 9) ||
+            (this.mArcher.getTopUV() === 0.817 + (0.125 / 2) && this.mArcher.getCurrentFrame() === 9)) {
+                // Do nothing.
+            }
+        else {
+            this.mArcher.updateAnimation();
+        }
+    } else {
+        this.mArcher.updateAnimation();
     }
-    
-    // These hotkeys allow the firing mode for arrows to be changed. 
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M)) {
-        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eTailControl);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.N)) {
-        this.mArrowVector.setFireMode(ArrowVector.eFiringModes.eHeadControl);
-    }
-    
-    this.mArrowSet.update();
-    this.mRigidBody.setAngularVelocity(0);
-    this.mRigidBody.update();
-    if((this.mArcher.getTopUV()===.564+(.131/2)&&this.mArcher.getCurrentFrame()===9)||(this.mArcher.getTopUV()===.817+(.125/2)&&this.mArcher.getCurrentFrame()===9)){}
-    else{this.mArcher.updateAnimation();}
-    
-    }
-    else{this.mArcher.updateAnimation();}
 };
 
 /**
@@ -379,10 +390,11 @@ Hero.prototype.userCollisionHandling = function (obj) {
         return true;
     }
     
-    if(obj instanceof Platform || obj instanceof Terrain){
-        this.onGround=true;
+    if (obj instanceof Platform || obj instanceof Terrain) {
+        this.onGround = true;
+    } else {
+        this.onGround = false;
     }
-    else{this.onGround=false;}
     
     // This is the second part of the infinite double jump bug. Again, we're
     // leaving it here because people said they liked it. To fix, we would add
@@ -411,23 +423,44 @@ Hero.prototype.getStatus = function () {
  */
 Hero.prototype.hit = function (damage) {
     this.mCurrentHP -= damage;
-    if(this.mCurrentHP<=0){
+    if (this.mHardMode === true) {
+        this.mCurrentHP -= damage;
+    }
+    if (this.mCurrentHP <= 0){
         this.setSprite(
-                    .333,
-                    .0547,
-                    .109,
-                    .113,
-                    9);
+            0.333,
+            0.0547,
+            0.109,
+            0.113,
+            9
+        );
         this.mArcher.setAnimationSpeed(3);
     }
+    this.mCamera.shake(
+        Config.Hero.CameraShake.X,
+        Config.Hero.CameraShake.Y,
+        Config.Hero.CameraShake.Frequency,
+        Config.Hero.CameraShake.Duration
+    );
 };
 
-Hero.prototype.setSprite = function (top,left,width,height,frame) {
+/**
+ * Sets the sprite sequence based on parametrized offesets.
+ * 
+ * @param {float} top
+ * @param {float} left
+ * @param {float} width
+ * @param {float} height
+ * @param {Number} frame
+ * @returns {undefined}
+ */
+Hero.prototype.setSprite = function (top, left, width, height, frame) {
     this.mArcher.setSpriteSequence(
-                    2048*(top+(height/2)),
-                    2048*(left-(width/2)),
-                    2048*width,
-                    2048*height,
-                    frame,
-                    0);
+        2048 * (top + (height / 2)),
+        2048 * (left - (width / 2)),
+        2048 * width,
+        2048 * height,
+        frame,
+        0
+    );
 };
