@@ -102,6 +102,13 @@ Torch.prototype.update = function () {
         // Increment our lifespan.
         this.litTimer++;
         
+        if (this.litTimer%6 === 0) {
+            var redVal = .7 - 0.3*Math.random();
+
+            this.mLight.setFar(50 + 10*Math.random());
+            this.mLight.setColor([redVal, .1, 0, 1]);
+        }
+        
         // Randomly add particles througout the torches' lifespan.
         if (Math.random() > ((this.litTimer % 100) / 100)) {
             this.mParticles.addEmitterAt(
