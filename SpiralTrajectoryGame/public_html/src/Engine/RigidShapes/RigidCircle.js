@@ -32,6 +32,10 @@ RigidCircle.prototype.incShapeSizeBy= function (dt) {
     this.mRadius += dt;
 };
 
+RigidCircle.prototype.setRadius = function(radius) {
+    this.mRadius = radius;
+};
+
 RigidCircle.prototype.draw = function (aCamera) {
     RigidShape.prototype.draw.call(this, aCamera);
     

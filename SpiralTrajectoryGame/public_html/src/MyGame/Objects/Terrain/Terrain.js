@@ -12,7 +12,7 @@
 "use strict";
 
 function Terrain(spriteTexture, x, y, w, h) {
-    this.terrain = new LightRenderable(spriteTexture);
+    this.terrain = new SpriteRenderable(spriteTexture);
     var xform = this.terrain.getXform();
     xform.setSize(w, h);
     xform.setPosition(x, y);

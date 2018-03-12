@@ -23,6 +23,7 @@ Config.BossBattle = Object.freeze({
         BossNormal:             "assets/characters/normal/boss_sprites.png",
         BossProjectileSprite:   "assets/projectiles/bossprojectile.png",
         PlatformTexture:        "assets/props/platform.png",
+        PlatformNormal:         "assets/props/normal/platform.png",
         GroundTexture:          "assets/groundtexture.png",
         WallTexture:            "assets/walltexture.png",
         GroundTorchTexture:     "assets/props/torch1.png",
@@ -91,14 +92,14 @@ Config.BossBattle = Object.freeze({
         Wall: [
                         {
                 X:      -18.5,
-                Y:      190,
+                Y:      115,
                 Width:  15,
                 Height: 30,
                 Orientation: 1
             },
             {
                 X:      317,
-                Y:      190,
+                Y:      115,
                 Width:  15,
                 Height: 30,
                 Orientation: -1

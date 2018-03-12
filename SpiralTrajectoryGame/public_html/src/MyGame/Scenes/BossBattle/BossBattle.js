@@ -7,7 +7,7 @@
 /*global gEngine, Scene, GameObjectSet, TextureObject, Camera, vec2,
   FontRenderable, SpriteRenderable, LineRenderable, ResultsScreen
   GameObject, Hero, Arrow, TextureRenderable, RigidRectangle, Platform, Terrain,
-  ArrowVector, Torch, Config, Golem, Boundary */
+  ArrowVector, Torch, Config, Golem, Boundary, LightRenderable */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -74,25 +74,31 @@ BossBattle.prototype.initialize = function () {
     this._initializeLights(); 
     
     
-//    gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
-//    gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
+    gEngine.DefaultResources.setGlobalAmbientIntensity(Config.Engine.Misc.GlobalAmbientIntensity);
+    gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
 
     this.mNonPhysicsGameObjects = new GameObjectSet();
+    var light = new Light();
+    this.mGlobalLightSet.addToSet(light);
     this.mHero = new Hero(
         Config.BossBattle.Textures.HeroSheet,
         Config.BossBattle.Textures.HeroSheetNormal,
-        this.mMainCamera
+        this.mMainCamera,
+        light
     );
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,this.mHero);
     gEngine.LayerManager.addAsShadowCaster(this.mHero);
     
+    var golemBlastProjectileLight = new Light();
     this.mBoss = new Golem(
         Config.BossBattle.Textures.BossSprite, 
         this.mHero, 
         this.mPhysicsGameObjects,
-        this.mNonPhysicsGameObjects
+        this.mNonPhysicsGameObjects,
+        golemBlastProjectileLight
     );
+    this.mGlobalLightSet.addToSet(golemBlastProjectileLight);
 
      gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mBoss);
     
@@ -109,13 +115,13 @@ BossBattle.prototype.initialize = function () {
     this._initializeUI();
     
     var actors = gEngine.LayerManager.getLayer(gEngine.eLayer.eActors);
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 25; i++) {
+        if (!this.mGlobalLightSet.lightExists(i)) {
+            continue;
+        }
         for (var j = 0; j < actors.size(); j++) {
             if (actors.getObjectAt(j).getRenderable() instanceof LightRenderable){
                 actors.getObjectAt(j).getRenderable().addLight(this.mGlobalLightSet.getLightAt(i));
-                if(actors.getObjectAt(j) instanceof Terrain) {
-                    console.log("added lights to terrain");
-                }
             }
         }
     }
@@ -150,8 +156,10 @@ BossBattle.prototype._initializeBackground = function() {
     this.mBgL1.setCurrentFrontDir([0, -1, 0]);
     this.mBgL1.setIsTiled(false);
     
-     for (var i = 0; i < 4; i++) {
-
+     for (var i = 0; i < 25; i++) {
+         if (!this.mGlobalLightSet.lightExists(i)) {
+            continue;
+        }
         this.mBgL1.getRenderable().addLight(this.mGlobalLightSet.getLightAt(i));
         
     }
@@ -171,7 +179,7 @@ BossBattle.prototype.update = function () {
     //if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
     //    gEngine.GameLoop.stop();
    // }
-
+   
     this.updateMainCamera();
     gEngine.LayerManager.updateAllLayers();
 
