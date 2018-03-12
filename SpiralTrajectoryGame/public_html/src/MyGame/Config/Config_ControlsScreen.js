@@ -41,6 +41,7 @@ Config.ControlsScreen = Object.freeze({
                 "W/D                            Move Left/Right",
                 "Space Bar                                 Jump",
                 "1/2/3                        Choose Arrow Type",
+                "M/N                         Swap Arrow Control",
                 "",
                 "Drag the left mouse button to charge up a shot",
                 "Release the mouse to let it fly!              "

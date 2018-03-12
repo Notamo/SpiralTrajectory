@@ -31,17 +31,18 @@ Config.CreditsScreen = Object.freeze({
             TextHeight: 7
         },
         CreditsTextSet: {
-            StartPos: vec2.fromValues(480, 500),
-            TextHeight: 6,
-            Color: [1, 0, 1, 1],
+            StartPos: vec2.fromValues(480, 600),
+            TextHeight: 4,
+            Color: [1, 1, 1, 1],
             Spacing: 30,
             Set: [
-                "[to fill out]                    [to fill out]",
-                "[to fill out]                    [to fill out]",
-                "[to fill out]                    [to fill out]",
+                "Developers:    Joey Altman, Justin Baker, Nick Carpenetti, Akilas Mebrahtom",
+                "Course:                                   CSS452 2D Game Engine Development",
+                "Professor:                                                      Kelvin Sung",
+                "School:                                    University of Washington Bothell",
                 "",
-                "[to fill out]                    [to fill out]",
-                "[to fill out]                    [to fill out]"
+                "All art and audio assets were acquired from https://opengameart.org or     ",
+                "created and modified by our developers."
             ]
         },
     }
