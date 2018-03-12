@@ -13,7 +13,9 @@ var Config = Config || {};
 Config.BossBattle = Object.freeze({
     Textures: {
         HeroSprite:             "assets/characters/hero.png",
+        HeroSheet:              "assets/characters/hero_sprites.png",
         HeroNormal:             "assets/characters/normal/hero.png",
+        HeroSheetNormal:        "assets/characters/normal/hero_sprites.png",
         DefaultArrowSprite:     "assets/projectiles/arrow.png",
         IceArrowSprite:         "assets/projectiles/icearrow.png",
         FireArrowSprite:        "assets/projectiles/firearrow.png",
