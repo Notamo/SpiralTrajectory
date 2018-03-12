@@ -6,7 +6,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle, Arrow
+/*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle, Arrow, Light
  *       Platform */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
@@ -71,6 +71,10 @@ FireArrow.prototype.update = function() {
         var curRady=Math.sin(this.mArrow.getXform().getRotationInRad()+(Math.PI/2));
         test[0]=test[0]+((this.mArrow.getXform().getHeight()/2)*curRadx);
         test[1]=test[1]+((this.mArrow.getXform().getHeight()/2)*curRady);
+        if (this.mLight instanceof Light) {
+            this.mLight.setXPos(test[0]);
+            this.mLight.setYPos(test[1]);
+        }
         if (Math.random() < .3) {
             if (this.mTimeSinceSpawn + this.kParticleLifeLimit < this.mTimeLimit) {
                 this.mParticles.addEmitterAt(
