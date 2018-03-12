@@ -42,6 +42,7 @@ SplashScreen.prototype.loadScene = function () {
 };
 
 SplashScreen.prototype.unloadScene = function () {
+    gEngine.LayerManager.cleanUp();
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
     }
@@ -108,19 +109,27 @@ SplashScreen.prototype._creditsButtonCallback = function() {
 };
 
 SplashScreen.prototype._initializeBackground = function() {
-    var farBG = new SpriteRenderable(Config.SplashScreen.Textures.FarBackgroundTexture);
+        var farBG = new LightRenderable(Config.SplashScreen.Textures.FarBackgroundTexture);
     farBG.setElementPixelPositions(0, 1024, 0, 512);
     farBG.getXform().setSize(400, 200);
     farBG.getXform().setPosition(0, 0);
     farBG.getXform().setZPos(-10);
-    this.mFarBG = new GameObject(farBG);
-
-    var midBG = new SpriteRenderable(Config.SplashScreen.Textures.MidBackgroundTexture);
+    this.mFarBG = new ParallaxGameObject(farBG, 5, this.mMainCamera);
+    this.mFarBG.setCurrentFrontDir([-1, 0, 0]);
+    this.mFarBG.setSpeed(.2);
+    this.mFarBG.setIsTiled(true);
+    
+    var midBG = new LightRenderable(Config.SplashScreen.Textures.MidBackgroundTexture);
     midBG.setElementPixelPositions(0, 1024, 0, 512);
     midBG.getXform().setSize(352, 176);
     midBG.getXform().setPosition(0, 0);
-    midBG.getXform().setZPos(-10);
-    this.mMidBG = new GameObject(midBG);
+    midBG.getXform().setZPos(-10); 
+  
+    this.mMidBG = new ParallaxGameObject(midBG , 1, this.mMainCamera);
+    this.mMidBG.setCurrentFrontDir([0, -1, 0]);
+    this.mMidBG.setIsTiled(false);
+    
+
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMidBG);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mFarBG);

@@ -11,11 +11,21 @@
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
         <group>
+<<<<<<< HEAD
             <file>file:/D:/BIONICLE%20IGNIKA/test/NetBeansProjects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Renderables/SpriteAnimateRenderable.js</file>
             <file>file:/D:/BIONICLE%20IGNIKA/test/NetBeansProjects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/GameObjects/GameObjectSet.js</file>
             <file>file:/D:/BIONICLE%20IGNIKA/test/NetBeansProjects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Hero.js</file>
             <file>file:/D:/BIONICLE%20IGNIKA/test/NetBeansProjects/SpiralTrajectory/SpiralTrajectoryGame/public_html/assets/characters/hero_sprites.png</file>
             <file>file:/D:/BIONICLE%20IGNIKA/test/NetBeansProjects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/BossBattle/BossBattle.js</file>
+=======
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/Splash/SplashScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/GameObjects/GameObject.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UIButton.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_SplashScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UIText.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_BossBattle.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/Arrows/Arrow.js</file>
+>>>>>>> 507e376063b223dc1e3aa6bc6a1703e92e155699
         </group>
     </open-files>
 </project-private>

@@ -199,6 +199,13 @@ Hero.prototype.update = function () {
                     .125,
                     10);
         }
+        else if(this.mArcher.getTopUV()===.817+(.125/2)&&this.mArcher.getCurrentFrame()===9&&this.onGround===true){
+        this.setSprite(.938,
+                    .0468,
+                    .0936,
+                    .125,
+                    10);
+        }
     }
     
     // Jump.
@@ -265,7 +272,11 @@ Hero.prototype.update = function () {
         } else if (this.mArrowVector.getDegrees() > 90 || this.mArrowVector.getDegrees() < -90) {
             xform.setOrientation(Config.Hero.Facing.Left);
         }
-        
+        this.setSprite(.817,
+                    .0490,
+                    .0980,
+                    .125,
+                    10);
     }
     
     // These hotkeys allow the firing mode for arrows to be changed. 
@@ -279,7 +290,7 @@ Hero.prototype.update = function () {
     this.mArrowSet.update();
     this.mRigidBody.setAngularVelocity(0);
     this.mRigidBody.update();
-    if(this.mArcher.getTopUV()===.564+(.131/2)&&this.mArcher.getCurrentFrame()===9){}
+    if((this.mArcher.getTopUV()===.564+(.131/2)&&this.mArcher.getCurrentFrame()===9)||(this.mArcher.getTopUV()===.817+(.125/2)&&this.mArcher.getCurrentFrame()===9)){}
     else{this.mArcher.updateAnimation();}
     
     }
@@ -368,7 +379,7 @@ Hero.prototype.userCollisionHandling = function (obj) {
         return true;
     }
     
-    if(obj instanceof Platform || obj instanceof Terrain || obj instanceof Boundary){
+    if(obj instanceof Platform || obj instanceof Terrain){
         this.onGround=true;
     }
     else{this.onGround=false;}
