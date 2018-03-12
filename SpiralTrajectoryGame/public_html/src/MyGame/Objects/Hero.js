@@ -19,10 +19,10 @@
  * @param {GameObjectSet}   physicsReference    Reference to our set of physics game objects,
  *                                              used primarily so we can add new Arrow variants
  *                                              to the set upon creation.
- * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.
- * @returns {Hero}
+ * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.}
+ * * @returns {Hero}
  */
-function Hero(spriteTexture, normalMap, cameraRef, light) {
+function Hero(spriteTexture, normalMap, cameraRef) {
     // Create the sprite
     this.mArcher = new IllumRenderable(spriteTexture, normalMap);
     this.mArcher.getMaterial().setSpecular([0, 0, 0, 0]);
@@ -68,6 +68,9 @@ function Hero(spriteTexture, normalMap, cameraRef, light) {
     // ArrowVector is our "firing" mechanism, need a single instance.
     this.mArrowVector = new ArrowVector(cameraRef);
     
+    // Also keep a reference to the camera for shaking it.
+    this.mCamera = cameraRef;
+    
     // ArrowSet keeps a reference to each active arrow.
     this.mArrowSet = new ArrowSet();
     
@@ -89,30 +92,8 @@ function Hero(spriteTexture, normalMap, cameraRef, light) {
     // but was going to be part of a boss attack. Don't want to delete in case
     // we get around to making the attack.
     this.mLastPlatform = null;
-    
-    // Create our light for this hero, but disable it for now.
-    this.mLight = light;
-    this._setLightProperties();
-    this.mLight.setLightTo(true);
 };
 gEngine.Core.inheritPrototype(Hero, GameObject);
-
-
-Hero.prototype._setLightProperties = function () {
-    this.mLight.setLightType(Light.eLightType.eSpotLight);
-    this.mLight.setColor([.5,.5,.7,1]);
-    this.mLight.setXPos(this.mArcher.getXform().getXPos());
-    this.mLight.setYPos(this.mArcher.getXform().getXPos());
-    this.mLight.setZPos(15);
-    this.mLight.setDirection([0,  0, -1]);
-    this.mLight.setNear(10);
-    this.mLight.setFar(20);
-    this.mLight.setInner(1.8);
-    this.mLight.setOuter(2);
-    this.mLight.setIntensity(1.5);
-    this.mLight.setDropOff(.8);
-    this.mLight.setLightCastShadowTo(true);
-};
 
 /**
  * Setter for the Hero's active arrow.
@@ -155,8 +136,6 @@ Hero.prototype.update = function () {
     if(this.mCurrentHP>0){
     // Grab the xform to make using it a bit more convenient here.
     var xform = this.getXform();
-    this.mLight.setXPos(xform.getXPos());
-    this.mLight.setYPos(xform.getYPos());
     
     // Move left or right, also adjust the orientation based on that
     // movement.
@@ -425,6 +404,12 @@ Hero.prototype.hit = function (damage) {
                     9);
         this.mArcher.setAnimationSpeed(3);
     }
+    this.mCamera.shake(
+        Config.Hero.CameraShake.X,
+        Config.Hero.CameraShake.Y,
+        Config.Hero.CameraShake.Frequency,
+        Config.Hero.CameraShake.Duration
+    );
 };
 
 Hero.prototype.setSprite = function (top,left,width,height,frame) {

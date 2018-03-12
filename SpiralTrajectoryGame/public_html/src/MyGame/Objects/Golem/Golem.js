@@ -214,4 +214,5 @@ Golem.prototype.triggerSmashEvent = function (bodyPart) {
     this.mHero.getRigidBody().setVelocity(velocity[0], velocity[1]);
     
     // Shake the camera.
+    
 };

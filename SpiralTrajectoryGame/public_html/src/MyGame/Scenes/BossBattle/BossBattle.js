@@ -78,13 +78,10 @@ BossBattle.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientColor(Config.Engine.Misc.GlobalAmbientColor);
 
     this.mNonPhysicsGameObjects = new GameObjectSet();
-    var light = new Light();
-    this.mGlobalLightSet.addToSet(light);
     this.mHero = new Hero(
         Config.BossBattle.Textures.HeroSheet,
         Config.BossBattle.Textures.HeroSheetNormal,
         this.mMainCamera,
-        light
     );
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,this.mHero);
