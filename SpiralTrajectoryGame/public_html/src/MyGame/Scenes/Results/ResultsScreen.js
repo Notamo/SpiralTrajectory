@@ -162,7 +162,6 @@ ResultsScreen.prototype._initializeUI = function() {
                                 configUI.ReplayButton.TextHeight);
 
     this.mHardModeReplayButton = new UIButton(Config.UI.Textures.UIButton, 
-                                this.mMainCamera,
                                 this._hardModeReplaayCallback,
                                 this,
                                 configUI.HardModeReplayButton.Position,

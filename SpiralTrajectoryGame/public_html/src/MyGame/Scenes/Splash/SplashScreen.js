@@ -97,7 +97,6 @@ SplashScreen.prototype._initializeUI = function() {
                                     configUI.PlayButton.TextHeight);
     
     this.mHardModeButton = new UIButton(Config.UI.Textures.UIButton, 
-                                    this.mMainCamera,
                                     this._hardModeButtonCallback,
                                     this,
                                     configUI.HardModeButton.Position,

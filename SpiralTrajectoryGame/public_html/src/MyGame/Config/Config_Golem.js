@@ -54,7 +54,7 @@ Config.Golem = Object.freeze({
     },
     Projectiles: {
         Homing: {
-            Chance: 0.2,
+            Chance: 0.3,
             States: {
                 Windup: 0,
                 Chasing: 1,

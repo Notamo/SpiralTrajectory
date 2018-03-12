@@ -30,10 +30,12 @@ RigidCircle.prototype.updateInertia = function () {
 
 RigidCircle.prototype.incShapeSizeBy= function (dt) {
     this.mRadius += dt;
+    this.mBoundRaadius += dt;
 };
 
 RigidCircle.prototype.setRadius = function(radius) {
     this.mRadius = radius;
+    this.mBoundRadius = radius;
 };
 
 RigidCircle.prototype.draw = function (aCamera) {
