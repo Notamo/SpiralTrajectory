@@ -55,6 +55,7 @@ ResultsScreen.prototype.loadScene = function () {
 
 ResultsScreen.prototype.unloadScene = function () {
     gEngine.LayerManager.cleanUp();
+    /*
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
     } 
@@ -65,7 +66,7 @@ ResultsScreen.prototype.unloadScene = function () {
     for(var audio in Config.ResultsScreen.Audio) {
         gEngine.AudioClips.unloadAudio(Config.ResultsScreen.Audio[audio]);
     }
-    
+    */
     //Start the appropriate scene based on what the user clicked
     var nextScene = null;
     console.log(this.kNextSceneName);

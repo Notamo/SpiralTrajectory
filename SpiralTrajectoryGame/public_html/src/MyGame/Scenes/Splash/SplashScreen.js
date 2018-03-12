@@ -43,13 +43,13 @@ SplashScreen.prototype.loadScene = function () {
 
 SplashScreen.prototype.unloadScene = function () {
     gEngine.LayerManager.cleanUp();
-    for(var texture in Config.UI.Textures) {
+ /*   for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
     }
     for (var texture in Config.SplashScreen.Textures) {
         gEngine.Textures.unloadTexture(Config.SplashScreen.Textures[texture]);
     }
-    
+   */ 
     gEngine.Core.startScene(new BossBattle());
 };
 

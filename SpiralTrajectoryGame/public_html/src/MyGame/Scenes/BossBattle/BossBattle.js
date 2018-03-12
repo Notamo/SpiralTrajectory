@@ -47,12 +47,12 @@ BossBattle.prototype.loadScene = function () {
 BossBattle.prototype.unloadScene = function () {
     gEngine.LayerManager.cleanUp();
     this._unloadUI();
-    for (var texture in Config.BossBattle.Textures) {
+   /* for (var texture in Config.BossBattle.Textures) {
         gEngine.Textures.unloadTexture(Config.BossBattle.Textures[texture]);
     }
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
-    }
+    }*/
     gEngine.AudioClips.stopBackgroundAudio();
     gEngine.AudioClips.unloadAudio("assets/audio/sfx/shoot.mp3");
     gEngine.Core.startScene(new ResultsScreen(this.mVictory));
