@@ -168,6 +168,7 @@ Hero.prototype.update = function () {
                     .0944,
                     .118,
                     10);
+                    this.mArcher.setAnimationSpeed(2);
         }
         this.getRigidBody().adjustPositionBy(
             Config.Hero.Movement.LeftDisplacementVector,
@@ -183,6 +184,7 @@ Hero.prototype.update = function () {
                     .0944,
                     .118,
                     10);
+                    this.mArcher.setAnimationSpeed(2);
         }
         this.getRigidBody().adjustPositionBy(
             Config.Hero.Movement.RightDisplacementVector,
@@ -192,19 +194,21 @@ Hero.prototype.update = function () {
     }
     
     else{
-        if(this.mArcher.getTopUV()!==.938+(.125/2)&&this.onGround===true){
+        if(this.mArcher.getTopUV()!==.938+(.125/2)&&this.onGround===true&&this.mArcher.getTopUV()!==.817+(.125/2)){
         this.setSprite(.938,
                     .0468,
                     .0936,
                     .125,
                     10);
+                    this.mArcher.setAnimationSpeed(6);
         }
-        else if(this.mArcher.getTopUV()===.817+(.125/2)&&this.mArcher.getCurrentFrame()===9&&this.onGround===true){
+        else if(this.mArcher.getTopUV()===.817+(.125/2)&&this.mArcher.getCurrentFrame()>=9&&this.onGround===true){
         this.setSprite(.938,
                     .0468,
                     .0936,
                     .125,
                     10);
+                    this.mArcher.setAnimationSpeed(6);
         }
     }
     
@@ -277,6 +281,7 @@ Hero.prototype.update = function () {
                     .0980,
                     .125,
                     10);
+                    this.mArcher.setAnimationSpeed(1);
     }
     
     // These hotkeys allow the firing mode for arrows to be changed. 
