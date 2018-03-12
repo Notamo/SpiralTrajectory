@@ -6,7 +6,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle, Arrow, Light
+/*global gEngine, GameObject, TextureRenderable, vec2, RigidShape, RigidRectangle, Arrow, Light, Config
  *       Platform */
 /* find out more about jslint: http://www.jslint.com/help.html */
 

@@ -50,7 +50,7 @@ Config.BossBattle = Object.freeze({
     Cameras: {
         MainCameraStartingPosition:     vec2.fromValues(25, 1),
         MainCameraWorldWidth:           200,
-        MainCameraViewport:             [0, 0, 1200, 900],
+        MainCameraViewport:             [0, 0, 960, 720],
         MainCameraBackgroundColor:      [0.8, 0.8, 0.8, 1],
         MainCameraInterpStiffness:      0.2,
         MainCameraInterpDuration:       30
