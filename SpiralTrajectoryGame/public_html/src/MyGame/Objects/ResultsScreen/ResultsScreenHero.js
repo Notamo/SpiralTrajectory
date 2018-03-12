@@ -31,7 +31,7 @@ ResultsScreenHero.prototype.update = function() {
         if(this.mIdleTime >= this.kIdleLength){
             this.mCurAnim = "Death";
             var s = this.getXform().getWidth()
-            this.getXform().setSize(s +8, s +8);
+            this.getXform().setSize(s +10, s +10);
             this.getXform().incYPosBy(-6);
             this._setAnimation(this.mCurAnim);
         }

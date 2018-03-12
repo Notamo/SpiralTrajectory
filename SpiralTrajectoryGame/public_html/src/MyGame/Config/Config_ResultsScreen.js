@@ -45,8 +45,8 @@ Config.ResultsScreen = Object.freeze({
       DeathDelay: 75  
     },
     Hero: {
-      Position: vec2.fromValues(85, -2),
-      Size: vec2.fromValues(40, 40),
+      Position: vec2.fromValues(85, -3),
+      Size: vec2.fromValues(36, 36),
       DeathDelay: 80  
     },
     Platform: {
