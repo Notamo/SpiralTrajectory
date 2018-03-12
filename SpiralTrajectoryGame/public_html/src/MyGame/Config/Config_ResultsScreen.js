@@ -15,8 +15,8 @@ Config.ResultsScreen = Object.freeze({
         BossNormal:             "assets/characters/normal/boss_sprites.png",
         HeroSheet:              "assets/characters/hero_sprites.png",
         HeroNormal:             "assets/characters/normal/hero.png",
-        FarBackgroundTexture:   "assets/background/backgroundfar.png",
-        MidBackgroundTexture:   "assets/background/backgroundmid.png",
+        VictoryBackground:      "assets/background/victory.png",
+        DefeatBackground:     "assets/background/defeat.png",
         PlatformTexture:        "assets/props/platform.png",
         PlatformNormal:         "assets/props/normal/platform.png"
     },
@@ -32,15 +32,22 @@ Config.ResultsScreen = Object.freeze({
         InterpStiffness:      0.2,
         InterpDuration:       30
     },
+    Background: {
+        Width: 300,
+        Height: 300,
+        XPos: 0,
+        YPos: -50,
+        PanSpeed: 0.2
+    },
     Golem: {
       Position: vec2.fromValues(85, 7),
       Size: vec2.fromValues(78, 51),
-      DeathDelay: 150  
+      DeathDelay: 50  
     },
     Hero: {
       Position: vec2.fromValues(85, 0),
       Size: vec2.fromValues(48, 48),
-      DeathDelay: 150  
+      DeathDelay: 50  
     },
     Platform: {
         x: 75,

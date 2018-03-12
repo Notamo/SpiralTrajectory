@@ -110,7 +110,7 @@ SplashScreen.prototype._creditsButtonCallback = function() {
 };
 
 SplashScreen.prototype._initializeBackground = function() {
-        var farBG = new LightRenderable(Config.SplashScreen.Textures.FarBackgroundTexture);
+    var farBG = new LightRenderable(Config.SplashScreen.Textures.FarBackgroundTexture);
     farBG.setElementPixelPositions(0, 1024, 0, 512);
     farBG.getXform().setSize(400, 200);
     farBG.getXform().setPosition(0, 0);

@@ -65,8 +65,7 @@ UIButton.prototype.update = function () {
             
             if(mouseOver){
                 if(this.mCallBack !== null)
-                    this.mCallBack(this.mContext);
-                        
+                    this.mCallBack.call(this.mContext);
             }
         }
 
