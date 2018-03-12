@@ -6,9 +6,11 @@
 
 "use strict";
 
-function UIButton(buttonSprite, callback, context, position, size, text, textSize, textColor, clickTextColor) {
+function UIButton(buttonSprite, callback, context, position, size, text, textSize, textColor) {
     this.mBack = new LightRenderable(buttonSprite);
-    this.mBack.setElementUVCoordinate(0.0, 1.0, 0.5, 1.0);
+    
+    var uv = Config.UI.UIButton.NormalUV;
+    this.mBack.setElementUVCoordinate(uv[0], uv[1], uv[2], uv[3]);
     UIElement.call(this, this.mBack, position, size);
     
     this.mText = new UIText(text, 
@@ -16,12 +18,14 @@ function UIButton(buttonSprite, callback, context, position, size, text, textSiz
                             textSize, 
                             UIText.eHAlignment.eCenter, 
                             UIText.eVAlignment.eCenter);
+    if(textColor !== null)
+        this.mText.setColor(textColor);
     
     //callback management
     this.mCallBack = callback;
     this.mContext = context;
     
-    
+    //Button state management
     this.mHover = false;
     this.mClick = false;
 }
@@ -48,21 +52,25 @@ UIButton.prototype.update = function () {
     
     //get the mouse position, and if its over the button
     var mousePos = vec2.fromValues(gEngine.Input.getMousePosX(),
-                                gEngine.Input.getMousePosY());
+                                   gEngine.Input.getMousePosY());
     var mouseOver = this.getUIBBox().containsPoint(mousePos[0], mousePos[1]);
     
 
-    //start simple, just do callback when clicked
+    //if button is clicked, change the sprite to reflect that
     if(gEngine.Input.isButtonClicked(gEngine.Input.mouseButton.Left)){
         if(mouseOver){
             this.mClick = true;
-            this.mBack.setElementUVCoordinate(0.0, 1.0, 0.0, 0.5);
+            var uv = Config.UI.UIButton.ClickedUV;
+            this.mBack.setElementUVCoordinate(uv[0], uv[1], uv[2], uv[3]);
         }
     }
     
+    //when the player releases, change the sprite.
+    //if the mouse is still in the button, do the callback
     if(gEngine.Input.isButtonReleased(gEngine.Input.mouseButton.Left)){
         if(this.mClick) {
-            this.mBack.setElementUVCoordinate(0.0, 1.0, 0.5, 1.0);
+            var uv = Config.UI.UIButton.NormalUV;
+            this.mBack.setElementUVCoordinate(uv[0], uv[1], uv[2], uv[3]);
             this.mClick = false;
             
             if(mouseOver){
@@ -70,10 +78,10 @@ UIButton.prototype.update = function () {
                     this.mCallBack.call(this.mContext);
             }
         }
-
     }
 };
 
+//Text Manipulation
 UIButton.prototype.setTextString = function(text) {
     this.mText.setText(text);
 };
