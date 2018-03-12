@@ -81,8 +81,8 @@ BossBattle.prototype.initialize = function () {
     var light = new Light();
     this.mGlobalLightSet.addToSet(light);
     this.mHero = new Hero(
-        Config.BossBattle.Textures.HeroSprite,
-        Config.BossBattle.Textures.HeroNormal,
+        Config.BossBattle.Textures.HeroSheet,
+        Config.BossBattle.Textures.HeroSheetNormal,
         this.mMainCamera,
         light
     );

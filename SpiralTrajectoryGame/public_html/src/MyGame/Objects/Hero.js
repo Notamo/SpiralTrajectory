@@ -7,7 +7,7 @@
 
 /*jslint node: true, vars: true */
 /*global gEngine, GameObject, SpriteRenderable, vec2, RigidShape, RigidRectangle,
- *       Platform, ArrowSet, ArrowVector, Platform, Arrow, Config */
+ *       Platform, Terrain, ArrowSet, ArrowVector, Platform, Arrow, Config */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";
@@ -42,6 +42,12 @@ function Hero(spriteTexture, normalMap, cameraRef, light) {
         Config.Hero.PixelPositions.Bottom,
         Config.Hero.PixelPositions.Top,
     );
+    this.setSprite(.936,
+                    .0468,
+                    .0936,
+                    .125,
+                    10);
+    this.mArcher.setAnimationSpeed(2);
     GameObject.call(this, this.mArcher);
     
     // Physics
@@ -68,6 +74,8 @@ function Hero(spriteTexture, normalMap, cameraRef, light) {
     // NoClip allows the hero to ignore collisions with platforms.
     this.mNoClip = false;
     this.mUpdatesSinceClip = 0;
+    
+    this.onGround=true;
     
     // Counter for our double jump, though this implementation lets us change
     // the max number of jumps.
@@ -144,6 +152,7 @@ Hero.prototype.draw = function(aCamera) {
  * @returns {undefined}
  */
 Hero.prototype.update = function () {
+    if(this.mCurrentHP>0){
     // Grab the xform to make using it a bit more convenient here.
     var xform = this.getXform();
     this.mLight.setXPos(xform.getXPos());
@@ -152,18 +161,51 @@ Hero.prototype.update = function () {
     // Move left or right, also adjust the orientation based on that
     // movement.
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+        if(this.mArcher.getTopUV()!==.693+(.118/2)&&this.onGround===true&&this.mJumpCount===0){
+            this.setSprite(
+                    .693,
+                    .0472,
+                    .0944,
+                    .118,
+                    10);
+        }
         this.getRigidBody().adjustPositionBy(
             Config.Hero.Movement.LeftDisplacementVector,
             Config.Hero.Movement.LeftDisplacementScale
         );
         xform.setOrientation(Config.Hero.Facing.Left);
     }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+    else if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        if(this.mArcher.getTopUV()!==.693+(.118/2)&&this.onGround===true&&this.mJumpCount===0){
+            this.setSprite(
+                    .693,
+                    .0472,
+                    .0944,
+                    .118,
+                    10);
+        }
         this.getRigidBody().adjustPositionBy(
             Config.Hero.Movement.RightDisplacementVector,
             Config.Hero.Movement.RightDisplacementScale
         );
         xform.setOrientation(Config.Hero.Facing.Right);
+    }
+    
+    else{
+        if(this.mArcher.getTopUV()!==.938+(.125/2)&&this.onGround===true){
+        this.setSprite(.938,
+                    .0468,
+                    .0936,
+                    .125,
+                    10);
+        }
+        else if(this.mArcher.getTopUV()===.817+(.125/2)&&this.mArcher.getCurrentFrame()===9&&this.onGround===true){
+        this.setSprite(.938,
+                    .0468,
+                    .0936,
+                    .125,
+                    10);
+        }
     }
     
     // Jump.
@@ -174,6 +216,12 @@ Hero.prototype.update = function () {
                 Config.Hero.JumpVelocity.Y
             );
             this.mJumpCount++;
+            this.setSprite(.564,
+                    .0498,
+                    .0996,
+                    .131,
+                    10);
+            this.mArcher.setAnimationSpeed(2);
         }
     }
     
@@ -181,6 +229,9 @@ Hero.prototype.update = function () {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
         this.mNoClip = true;
         this.mUpdatesSinceClip = 0;
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.E)){
+        this.hit(this.mMaxHP);
     }
     // Update the time since we initialized NoClip if the user isn't holding S.
     else {
@@ -221,7 +272,11 @@ Hero.prototype.update = function () {
         } else if (this.mArrowVector.getDegrees() > 90 || this.mArrowVector.getDegrees() < -90) {
             xform.setOrientation(Config.Hero.Facing.Left);
         }
-        
+        this.setSprite(.817,
+                    .0490,
+                    .0980,
+                    .125,
+                    10);
     }
     
     // These hotkeys allow the firing mode for arrows to be changed. 
@@ -235,6 +290,11 @@ Hero.prototype.update = function () {
     this.mArrowSet.update();
     this.mRigidBody.setAngularVelocity(0);
     this.mRigidBody.update();
+    if((this.mArcher.getTopUV()===.564+(.131/2)&&this.mArcher.getCurrentFrame()===9)||(this.mArcher.getTopUV()===.817+(.125/2)&&this.mArcher.getCurrentFrame()===9)){}
+    else{this.mArcher.updateAnimation();}
+    
+    }
+    else{this.mArcher.updateAnimation();}
 };
 
 /**
@@ -302,7 +362,7 @@ Hero.prototype.userCollisionHandling = function (obj) {
         // collisions with platforms. If it's true, return true.
         if (this.mNoClip) {
             return true;
-        }    
+        }
         
         // NoClip is false, so we want to collide with the platform if the hero
         // is moving downwards. Also reset the jump count. This enables the "bug"
@@ -318,6 +378,11 @@ Hero.prototype.userCollisionHandling = function (obj) {
         // that we're still here means we DO want to ignore it.
         return true;
     }
+    
+    if(obj instanceof Platform || obj instanceof Terrain){
+        this.onGround=true;
+    }
+    else{this.onGround=false;}
     
     // This is the second part of the infinite double jump bug. Again, we're
     // leaving it here because people said they liked it. To fix, we would add
@@ -335,7 +400,7 @@ Hero.prototype.userCollisionHandling = function (obj) {
  * @returns {Boolean}
  */
 Hero.prototype.getStatus = function () {
-    return (this.mCurrentHP > 0);
+    return (this.mCurrentHP > 0 || this.mArcher.getCurrentFrame()!==8);
 };
 
 /**
@@ -346,4 +411,23 @@ Hero.prototype.getStatus = function () {
  */
 Hero.prototype.hit = function (damage) {
     this.mCurrentHP -= damage;
+    if(this.mCurrentHP<=0){
+        this.setSprite(
+                    .333,
+                    .0547,
+                    .109,
+                    .113,
+                    9);
+        this.mArcher.setAnimationSpeed(3);
+    }
+};
+
+Hero.prototype.setSprite = function (top,left,width,height,frame) {
+    this.mArcher.setSpriteSequence(
+                    2048*(top+(height/2)),
+                    2048*(left-(width/2)),
+                    2048*width,
+                    2048*height,
+                    frame,
+                    0);
 };
