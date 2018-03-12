@@ -175,10 +175,10 @@ BossBattle.prototype.draw = function () {
 
 BossBattle.prototype.update = function () {
     // This is our toggle to switch scenes, temporary binding to the R key, but
-    // will need to be changed for the final game.
-    //if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
-    //    gEngine.GameLoop.stop();
-   // }
+    //will need to be changed for the final game.
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
+        gEngine.GameLoop.stop();
+    }
    
     this.updateMainCamera();
     gEngine.LayerManager.updateAllLayers();

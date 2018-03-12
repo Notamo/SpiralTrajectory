@@ -10,8 +10,13 @@ var Config = Config || {};
 
 Config.ResultsScreen = Object.freeze({
     Textures: {
+        DefaultArrowSprite:     "assets/projectiles/arrow.png",
         FarBackgroundTexture:   "assets/background/backgroundfar.png",
         MidBackgroundTexture:   "assets/background/backgroundmid.png"
+    },
+    Audio: {
+      VictoryClip: "assets/audio/music/victory.mp3",
+      GameOverClip: "assets/audio/music/gameover.mp3"
     },
     Camera: {
         StartingPosition:     vec2.fromValues(25, 0),
@@ -21,13 +26,12 @@ Config.ResultsScreen = Object.freeze({
         InterpStiffness:      0.2,
         InterpDuration:       30
     },
-    ArrowTimerLength: 400,
     UI: {
         Title: {
-            Text: "Golem Smash",
+            Text: "[Victory Status]",
             Position: vec2.fromValues(600, 800),
             TextHeight: 10,
-            Color: [1, .84, 0, 1]
+            Color: [.5, .5, .5, 1]
         },
         ReplayButton: {
             Position: vec2.fromValues(600, 600),

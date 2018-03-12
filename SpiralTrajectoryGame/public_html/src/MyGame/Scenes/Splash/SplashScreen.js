@@ -54,13 +54,12 @@ SplashScreen.prototype.unloadScene = function () {
 };
 
 SplashScreen.prototype.initialize = function () {
-    // Step A: set up the cameras
     this.mMainCamera = new Camera(
-        Config.SplashScreen.Camera.StartingPosition, // position of the camera
-        Config.SplashScreen.Camera.WorldWidth,                     // width of camera
-        Config.SplashScreen.Camera.Viewport         // viewport (orgX, orgY, width, height)
+        Config.SplashScreen.Camera.StartingPosition,
+        Config.SplashScreen.Camera.WorldWidth,  
+        Config.SplashScreen.Camera.Viewport         
     );
-    this.mMainCamera.setBackgroundColor([0, 0, 0, 1]);
+    this.mMainCamera.setBackgroundColor(Config.SplashScreen.Camera.BackgroundColor);
     gEngine.DefaultResources.setGlobalAmbientIntensity(2.5);
     
 
