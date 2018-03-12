@@ -27,6 +27,10 @@ function ResultsScreen(result) {
     
     //Arrow
     this.mArrow = null;
+    this.mVictoryArrowSpawnPos = vec2.fromValues(-80, -10);
+    this.mSpawnRange = 100;
+    this.mSpawnTime = 5;
+    this.mSpawnFrame = 0;
     
     //UI
     this.mTitle = null;
@@ -91,7 +95,7 @@ ResultsScreen.prototype.initialize = function () {
     this._initializeUI();
     
     //create the arrow
-    this.spawnArrow();
+    this.spawnArrow(this.mVictoryArrowSpawnPos);
 
     //set up the background
     this._initializeBackground();
@@ -223,12 +227,21 @@ ResultsScreen.prototype.update = function () {
     if(this.mArrow.getXform().getPosition()[0]>120){
         this.mTitle.setColor(tColor);
     }
+    
+    if(this.mResult)
+    {
+        this.mSpawnFrame++;
+        if(this.mSpawnFrame >= this.mSpawnTime)
+        {
+            var pos = vec2.clone(this.mVictoryArrowSpawnPos);
+            pos[1] += ((Math.random() - .5) * this.mSpawnRange);
+            this.spawnArrow(pos);
+            this.mSpawnFrame = 0;
+        }
+    }
 };
 
-ResultsScreen.prototype.spawnArrow = function() {
-    var pos = [0,0];
-    pos[0] = pos[0] - 80;
-    pos[1] = pos[1] - 10;
-    this.mArrow = new Arrow(pos,1.1,50);
+ResultsScreen.prototype.spawnArrow = function(spawnPos) {
+    this.mArrow = new FireArrow([spawnPos[0], spawnPos[1]],1.1,50);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mArrow);
 };
