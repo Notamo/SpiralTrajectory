@@ -6,7 +6,7 @@
 
 "use strict";
 
-function UIButton(buttonSprite, camera, callback, position, size, text, textSize) {
+function UIButton(buttonSprite, camera, callback, context, position, size, text, textSize) {
     this.mBack = new SpriteRenderable(buttonSprite);
     this.mBack.setElementUVCoordinate(0.0, 1.0, 0.5, 1.0);
     UIElement.call(this, this.mBack, position, size);
@@ -18,6 +18,7 @@ function UIButton(buttonSprite, camera, callback, position, size, text, textSize
                             UIText.eVAlignment.eCenter);
     
     this.mCallBack = callback;
+    this.mContext = context;
     this.mCamera = camera;
     this.mHover = false;
     this.mClick = false;
@@ -64,7 +65,7 @@ UIButton.prototype.update = function () {
             
             if(mouseOver){
                 if(this.mCallBack !== null)
-                    this.mCallBack.call(this);
+                    this.mCallBack(this.mContext);
                         
             }
         }

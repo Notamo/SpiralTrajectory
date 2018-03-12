@@ -140,6 +140,7 @@ ResultsScreen.prototype._initializeUI = function() {
     this.mReplayButton = new UIButton(Config.UI.Textures.UIButton, 
                                 this.mMainCamera,
                                 this._replayCallback,
+                                this,
                                 configUI.ReplayButton.Position,
                                 configUI.ReplayButton.Size,
                                 configUI.ReplayButton.Text,
@@ -148,6 +149,7 @@ ResultsScreen.prototype._initializeUI = function() {
     this.mMenuButton = new UIButton(Config.UI.Textures.UIButton, 
                                 this.mMainCamera,
                                 this._menuCallback,
+                                this,
                                 configUI.MenuButton.Position,
                                 configUI.MenuButton.Size,
                                 configUI.MenuButton.Text,
@@ -159,15 +161,11 @@ ResultsScreen.prototype._initializeUI = function() {
 };
 
 ResultsScreen.prototype._replayCallback = function() {
-    console.log("replay!");
-    console.log(this.kNextSceneName);
     this.kNextSceneName = "BossBattle";
-        console.log(this.kNextSceneName);
     gEngine.GameLoop.stop();
 };
 
 ResultsScreen.prototype._menuCallback = function() {
-    console.log("menu");
     this.kNextSceneName = "SplashScreen";
     gEngine.GameLoop.stop();
 };
