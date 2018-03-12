@@ -22,7 +22,7 @@ Config.SplashScreen = Object.freeze({
     Camera: {
         StartingPosition:     vec2.fromValues(25, 0),
         WorldWidth:           200,
-        Viewport:             [0, 0, 1200, 900],
+        Viewport:             [0, 0, 960, 720],
         BackgroundColor:      [0.8, 0.8, 0.8, 1],
         InterpStiffness:      0.2,
         InterpDuration:       30
