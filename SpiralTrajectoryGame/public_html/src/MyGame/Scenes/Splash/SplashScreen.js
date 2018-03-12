@@ -23,6 +23,7 @@ function SplashScreen() {
     this.mTitle = null;
     this.mPlayButton = null;
     this.mCreditsButton = null;
+    this.mControlsButton = null;
     
     // The camera to view the scene
     this.mMainCamera = null;
@@ -102,9 +103,19 @@ SplashScreen.prototype._initializeUI = function() {
                                 configUI.CreditsButton.Text,
                                 configUI.CreditsButton.TextHeight);
     
+    this.mControlsButton = new UIButton(Config.UI.Textures.UIButton, 
+                            this.mMainCamera,
+                            this._controlsButtonCallback,
+                            this,
+                            configUI.ControlsButton.Position,
+                            configUI.ControlsButton.Size,
+                            configUI.ControlsButton.Text,
+                            configUI.ControlsButton.TextHeight);
+    
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mPlayButton);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mCreditsButton);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mControlsButton);
 };
 
 SplashScreen.prototype._playButtonCallback = function() {
@@ -114,6 +125,11 @@ SplashScreen.prototype._playButtonCallback = function() {
 
 SplashScreen.prototype._creditsButtonCallback = function() {
     this.kNextSceneName = "CreditsScreen";
+    gEngine.GameLoop.stop();
+};
+
+SplashScreen.prototype._controlsButtonCallback = function() {
+    this.kNextSceneName = "ControlsScreen";
     gEngine.GameLoop.stop();
 };
 

@@ -27,8 +27,8 @@ Config.CreditsScreen = Object.freeze({
             Color: [1, .84, 0, 1]
         },
         ReturnButton: {
-            Position: vec2.fromValues(480, 160),
-            Size: vec2.fromValues(320, 160),
+            Position: vec2.fromValues(480, 100),
+            Size: vec2.fromValues(240, 120),
             Text: "Return",
             TextHeight: 7
         }

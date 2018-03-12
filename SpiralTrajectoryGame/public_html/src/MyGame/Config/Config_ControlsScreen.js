@@ -17,7 +17,7 @@ Config.ControlsScreen = Object.freeze({
         StartingPosition:     vec2.fromValues(0, 0),
         WorldWidth:           200,
         Viewport:             [0, 0, 960, 720],
-        BackgroundColor:      [0.8, 0.8, 0.8, 1]
+        BackgroundColor:      [0.1, 0.1, 0.1, 1]
     },
     UI: {
         Title: {
@@ -27,10 +27,32 @@ Config.ControlsScreen = Object.freeze({
             Color: [1, .84, 0, 1]
         },
         ReturnButton: {
-            Position: vec2.fromValues(480, 160),
-            Size: vec2.fromValues(320, 160),
+            Position: vec2.fromValues(480, 100),
+            Size: vec2.fromValues(240, 120),
             Text: "Return",
             TextHeight: 7
+        },
+        KeysTextSet: {
+            StartPos: vec2.fromValues(480, 500),
+            TextHeight: 6,
+            Color: [1, 0, 0, 1],
+            Spacing: 30,
+            Set: [
+                "W/D                            Move Left/Right",
+                "Space Bar                                 Jump",
+                "1/2/3                        Choose Arrow Type",
+                "",
+                "Drag the left mouse button to charge up a shot",
+                "Release the mouse to let it fly!              "
+            ]
+        },
+        TorchText: {
+            Text: "Light the four torches in the corners of the arena for a damage boost!",
+            Position: vec2.fromValues(480, 200),
+            TextHeight: 4,
+            Color: [1, .84, 0, 1]
         }
+        
+        
     }
 });

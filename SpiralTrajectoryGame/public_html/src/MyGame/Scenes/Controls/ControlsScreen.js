@@ -8,6 +8,8 @@
 function ControlsScreen() {
     this.mMainCamera = null;
     this.mReturnButton = null;
+    this.mTitle = null;
+    this.mTorchText = null;
 };
 gEngine.Core.inheritPrototype(ControlsScreen, Scene);
 
@@ -67,8 +69,33 @@ ControlsScreen.prototype._initializeUI = function() {
                                 configUI.ReturnButton.Text,
                                 configUI.ReturnButton.TextHeight);
     
+    this.mTorchText = new UIText(configUI.TorchText.Text,
+                                 configUI.TorchText.Position,
+                                 configUI.TorchText.TextHeight,
+                                 UIText.eHAlignment.eCenter,
+                                 null);
+    this.mTorchText.setColor(configUI.TorchText.Color);
+    
+    this._makeTextSet(configUI.KeysTextSet);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mReturnButton);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTorchText);
+};
+
+ControlsScreen.prototype._makeTextSet = function(textSetData){
+    var curPos = vec2.clone(textSetData.StartPos);
+    
+    for(var string in textSetData.Set) {
+        var newText = new UIText(textSetData.Set[string],
+                             curPos,
+                             textSetData.TextHeight,
+                             UIText.eHAlignment.eCenter,
+                             null);
+        newText.setColor(textSetData.Color);
+        
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, newText);
+        curPos[1] -= (textSetData.TextHeight + textSetData.Spacing);
+    }
 };
 
 ControlsScreen.prototype._returnCallback = function() {
