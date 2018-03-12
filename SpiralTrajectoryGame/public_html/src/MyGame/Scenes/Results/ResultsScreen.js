@@ -115,7 +115,7 @@ ResultsScreen.prototype.initialize = function () {
                                        Config.ResultsScreen.Golem.Size[1]);
                                        
                                        
-        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mGolem);
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mGolem);
     } 
     else {
         this.kMusicCue = Config.ResultsScreen.Audio.GameOverClip;
@@ -130,7 +130,7 @@ ResultsScreen.prototype.initialize = function () {
                                        Config.ResultsScreen.Hero.Size[1]);
                                        
                                        
-        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mHero);
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eFront, this.mHero);
     }
    
     gEngine.AudioClips.playACue(this.kMusicCue, 0.1);

@@ -42,12 +42,12 @@ Config.ResultsScreen = Object.freeze({
     Golem: {
       Position: vec2.fromValues(85, 7),
       Size: vec2.fromValues(78, 51),
-      DeathDelay: 50  
+      DeathDelay: 75  
     },
     Hero: {
-      Position: vec2.fromValues(85, 0),
-      Size: vec2.fromValues(48, 48),
-      DeathDelay: 50  
+      Position: vec2.fromValues(85, -2),
+      Size: vec2.fromValues(40, 40),
+      DeathDelay: 80  
     },
     Platform: {
         x: 75,
