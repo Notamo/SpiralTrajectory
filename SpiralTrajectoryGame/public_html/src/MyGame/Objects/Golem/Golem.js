@@ -17,9 +17,10 @@
  * @param {GameObjectSet}   nonPhysicsGameObjectArrayRef    Reference to the set of non-physics GameObjects.
  * @param {Light}           blastProjectileLight            Light for the blast projectile.
  * @param {Light}           homingProjectileLight           Light for the homing projectile.
+ * @param {Boolean}         hardMode                        Whether or not hard mdoe is enabled.
  * @returns {Golem}
  */
-function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectArrayRef, blastProjectileLight, homingProjectileLight) {
+function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectArrayRef, blastProjectileLight, homingProjectileLight, hardMode) {
     // Save the reference to the game object sets.
     this.mPhysicsSetRef     = physicsGameObjectArrayRef;
     this.mNonPhysicsSetRef  = nonPhysicsGameObjectArrayRef;
@@ -97,6 +98,9 @@ function Golem(sprite, heroRef, physicsGameObjectArrayRef, nonPhysicsGameObjectA
     // Animation
     this.mCurrentRigidbodyAnimationSequenceReference = null;
     this.mCurrentSmashAttackHit                      = false;
+    
+    // Track if hardmode is switched on.
+    this.mHardMode = hardMode;
 }
 gEngine.Core.inheritPrototype(Golem, GameObject);
 

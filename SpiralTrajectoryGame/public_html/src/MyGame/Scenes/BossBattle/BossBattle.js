@@ -108,7 +108,8 @@ BossBattle.prototype.initialize = function () {
         this.mPhysicsGameObjects,
         this.mNonPhysicsGameObjects,
         golemBlastProjectileLight,
-        golemHomingProjectileLight
+        golemHomingProjectileLight,
+        this.mHardMode
     );
     this.mGlobalLightSet.addToSet(golemBlastProjectileLight);
     this.mGlobalLightSet.addToSet(golemHomingProjectileLight);
