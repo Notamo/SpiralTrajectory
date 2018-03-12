@@ -66,19 +66,22 @@ Config.ResultsScreen = Object.freeze({
             Position: vec2.fromValues(240, 520),
             Size: vec2.fromValues(400, 120),
             Text: "Replay!",
-            TextHeight: 6
+            TextHeight: 5,
+            TextColor: [1, 1, 1, 1]
         },
         HardModeReplayButton: {
             Position: vec2.fromValues(240, 360),
             Size: vec2.fromValues(400, 120),
             Text: "Replay (Hard Mode)!",
-            TextHeight: 6
+            TextHeight: 5,
+            TextColor: [1, 1, 1, 1]
         },
         MenuButton: {
             Position: vec2.fromValues(240, 180),
             Size: vec2.fromValues(400, 120),
             Text: "Menu",
-            TextHeight: 6
+            TextHeight: 5,
+            TextColor: [1, 1, 1, 1]
         }
     }
 });

@@ -231,9 +231,6 @@ Hero.prototype.update = function () {
             this.mNoClip = true;
             this.mUpdatesSinceClip = 0;
         }
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.E)){
-            this.hit(this.mMaxHP);
-        }
         // Update the time since we initialized NoClip if the user isn't holding S.
         else {
             if (this.mNoClip) {

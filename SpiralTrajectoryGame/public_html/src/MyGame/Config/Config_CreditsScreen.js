@@ -28,10 +28,11 @@ Config.CreditsScreen = Object.freeze({
             Position: vec2.fromValues(480, 100),
             Size: vec2.fromValues(240, 120),
             Text: "Return",
-            TextHeight: 7
+            TextHeight: 5,
+            TextColor: [1, 1, 1, 1]
         },
         CreditsTextSet: {
-            StartPos: vec2.fromValues(480, 600),
+            StartPos: vec2.fromValues(480, 500),
             TextHeight: 4,
             Color: [1, 1, 1, 1],
             Spacing: 30,
@@ -41,9 +42,10 @@ Config.CreditsScreen = Object.freeze({
                 "Professor:                                                      Kelvin Sung",
                 "School:                                    University of Washington Bothell",
                 "",
+                "",
                 "All art and audio assets were acquired from https://opengameart.org or     ",
-                "created and modified by our developers."
+                "created and modified by our developers.                                    "
             ]
-        },
+        }
     }
 });

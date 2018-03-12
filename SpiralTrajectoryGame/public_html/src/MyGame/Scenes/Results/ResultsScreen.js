@@ -159,7 +159,8 @@ ResultsScreen.prototype._initializeUI = function() {
                                 configUI.ReplayButton.Position,
                                 configUI.ReplayButton.Size,
                                 configUI.ReplayButton.Text,
-                                configUI.ReplayButton.TextHeight);
+                                configUI.ReplayButton.TextHeight,
+                                configUI.ReplayButton.TextColor);
 
     this.mHardModeReplayButton = new UIButton(Config.UI.Textures.UIButton, 
                                 this._hardModeReplaayCallback,
@@ -167,7 +168,8 @@ ResultsScreen.prototype._initializeUI = function() {
                                 configUI.HardModeReplayButton.Position,
                                 configUI.HardModeReplayButton.Size,
                                 configUI.HardModeReplayButton.Text,
-                                configUI.HardModeReplayButton.TextHeight);
+                                configUI.HardModeReplayButton.TextHeight,
+                                configUI.HardModeReplayButton.TextColor);
     
     this.mMenuButton = new UIButton(Config.UI.Textures.UIButton, 
                                 this._menuCallback,
@@ -175,7 +177,8 @@ ResultsScreen.prototype._initializeUI = function() {
                                 configUI.MenuButton.Position,
                                 configUI.MenuButton.Size,
                                 configUI.MenuButton.Text,
-                                configUI.MenuButton.TextHeight);
+                                configUI.MenuButton.TextHeight,
+                                configUI.MenuButton.TextColor);
                                 
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mReplayButton);

@@ -94,7 +94,8 @@ SplashScreen.prototype._initializeUI = function() {
                                     configUI.PlayButton.Position,
                                     configUI.PlayButton.Size,
                                     configUI.PlayButton.Text,
-                                    configUI.PlayButton.TextHeight);
+                                    configUI.PlayButton.TextHeight,
+                                    configUI.PlayButton.TextColor);
     
     this.mHardModeButton = new UIButton(Config.UI.Textures.UIButton, 
                                     this._hardModeButtonCallback,
@@ -102,7 +103,8 @@ SplashScreen.prototype._initializeUI = function() {
                                     configUI.HardModeButton.Position,
                                     configUI.HardModeButton.Size,
                                     configUI.HardModeButton.Text,
-                                    configUI.HardModeButton.TextHeight);
+                                    configUI.HardModeButton.TextHeight,
+                                    configUI.HardModeButton.TextColor);
     
     this.mCreditsButton = new UIButton(Config.UI.Textures.UIButton, 
                                 this._creditsButtonCallback,
@@ -110,7 +112,8 @@ SplashScreen.prototype._initializeUI = function() {
                                 configUI.CreditsButton.Position,
                                 configUI.CreditsButton.Size,
                                 configUI.CreditsButton.Text,
-                                configUI.CreditsButton.TextHeight);
+                                configUI.CreditsButton.TextHeight,
+                                configUI.CreditsButton.TextColor);
     
     this.mControlsButton = new UIButton(Config.UI.Textures.UIButton, 
                             this._controlsButtonCallback,
@@ -118,7 +121,8 @@ SplashScreen.prototype._initializeUI = function() {
                             configUI.ControlsButton.Position,
                             configUI.ControlsButton.Size,
                             configUI.ControlsButton.Text,
-                            configUI.ControlsButton.TextHeight);
+                            configUI.ControlsButton.TextHeight,
+                            configUI.ControlsButton.TextColor);
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mPlayButton);
