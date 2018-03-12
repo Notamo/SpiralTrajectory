@@ -19,6 +19,11 @@ function ResultsScreen(result) {
     //Background
     this.mBg = null;
     
+    //Boss Death
+    this.mGolem = null;
+    //Hero Death
+    this.mHero = null;
+    
     //Arrow
     this.mArrow = null;
     
@@ -72,11 +77,11 @@ ResultsScreen.prototype.unloadScene = function () {
 
 ResultsScreen.prototype.initialize = function () {
     this.mMainCamera = new Camera(
-        Config.SplashScreen.Camera.StartingPosition, // position of the camera
-        Config.SplashScreen.Camera.WorldWidth,                     // width of camera
-        Config.SplashScreen.Camera.Viewport         // viewport (orgX, orgY, width, height)
+        Config.ResultsScreen.Camera.StartingPosition, // position of the camera
+        Config.ResultsScreen.Camera.WorldWidth,                     // width of camera
+        Config.ResultsScreen.Camera.Viewport         // viewport (orgX, orgY, width, height)
     );
-    this.mMainCamera.setBackgroundColor(Config.SplashScreen.Camera.BackgroundColor);
+    this.mMainCamera.setBackgroundColor(Config.ResultsScreen.Camera.BackgroundColor);
     gEngine.DefaultResources.setGlobalAmbientIntensity(2.5);
 
     //initialize the UI
@@ -85,9 +90,18 @@ ResultsScreen.prototype.initialize = function () {
     //create the arrow
     this.spawnArrow();
 
+        
+
     //play the corresponding audio cue
     if (this.mResult) {
         this.kMusicCue = Config.ResultsScreen.Audio.VictoryClip;
+        
+        this.mGolem = new ResultsScreenGolem();
+        this.mGolem.getXform().setPosition(Config.ResultsScreen.Golem.Position[0],
+                                           Config.ResultsScreen.Golem.Position[1]);
+        this.mGolem.getXform().setSize(Config.ResultsScreen.Golem.Size[0],
+                                       Config.ResultsScreen.Golem.Size[1]);
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mGolem);
     } 
     else {
         this.kMusicCue = Config.ResultsScreen.Audio.GameOverClip;

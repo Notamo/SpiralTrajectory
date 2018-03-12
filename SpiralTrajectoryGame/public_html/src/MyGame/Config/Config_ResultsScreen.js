@@ -11,6 +11,9 @@ var Config = Config || {};
 Config.ResultsScreen = Object.freeze({
     Textures: {
         DefaultArrowSprite:     "assets/projectiles/arrow.png",
+        BossSprite:             "assets/characters/boss_sprites.png",
+        BossNormal:             "assets/characters/normal/boss_sprites.png",
+        HeroSheet:              "assets/characters/hero_sprites.png",
         FarBackgroundTexture:   "assets/background/backgroundfar.png",
         MidBackgroundTexture:   "assets/background/backgroundmid.png"
     },
@@ -25,6 +28,14 @@ Config.ResultsScreen = Object.freeze({
         BackgroundColor:      [0.8, 0.8, 0.8, 1],
         InterpStiffness:      0.2,
         InterpDuration:       30
+    },
+    Golem: {
+      Position: vec2.fromValues(85, 0),
+      Size: vec2.fromValues(78, 51),
+      DeathDelay: 150  
+    },
+    Hero: {
+        
     },
     UI: {
         Title: {
