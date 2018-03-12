@@ -48,6 +48,7 @@ ResultsScreen.prototype.loadScene = function () {
 };
 
 ResultsScreen.prototype.unloadScene = function () {
+    gEngine.LayerManager.cleanUp();
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
     } 
