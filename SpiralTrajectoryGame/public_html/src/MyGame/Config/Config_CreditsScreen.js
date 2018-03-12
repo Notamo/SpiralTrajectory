@@ -43,7 +43,8 @@ Config.CreditsScreen = Object.freeze({
                 "",
                 "",
                 "All art and audio assets were acquired from https://opengameart.org or     ",
-                "created and modified by our developers.                                    "
+                "created and modified by our developers.                                    ",
+                "See Credits.html for detailed sources                                      "
             ]
         },
     }
