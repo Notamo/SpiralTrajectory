@@ -16,7 +16,7 @@ Config.ResultsScreen = Object.freeze({
         HeroSheet:              "assets/characters/hero_sprites.png",
         HeroNormal:             "assets/characters/normal/hero.png",
         VictoryBackground:      "assets/background/victory.png",
-        DefeatBackground:     "assets/background/defeat.png",
+        DefeatBackground:       "assets/background/defeat.png",
         PlatformTexture:        "assets/props/platform.png",
         PlatformNormal:         "assets/props/normal/platform.png"
     },

@@ -15,7 +15,10 @@ BossBattle.prototype._initializeUI = function() {
                               Config.UI.Textures.UIFireArrowIcon,
                               Config.UI.Textures.UIIceArrowIcon];
                          
-    this.mArrowSelector = new UIArrowSelection(arrowSelectSprites, Config.UI.Textures.UIArrowBorders, vec2.fromValues(150, 850), 100);
+    this.mArrowSelector = new UIArrowSelection(arrowSelectSprites, 
+                                Config.UI.Textures.UIArrowBorders, 
+                                Config.UI.ArrowSelection.Position, 
+                                Config.UI.ArrowSelection.IconSize);
     
     this.mBossName = new UIText(Config.UI.BossName.Text, 
                                 Config.UI.BossName.Position, null);

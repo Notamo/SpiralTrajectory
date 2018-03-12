@@ -31,19 +31,19 @@ Config.SplashScreen = Object.freeze({
     UI: {
         Title: {
             Text: "Golem Smash",
-            Position: vec2.fromValues(600, 800),
+            Position: vec2.fromValues(480, 640),
             TextHeight: 15,
             Color: [1, .84, 0, 1]
         },
         PlayButton: {
-            Position: vec2.fromValues(600, 500),
-            Size: vec2.fromValues(400, 200),
+            Position: vec2.fromValues(480, 400),
+            Size: vec2.fromValues(320, 160),
             Text: "Play!",
             TextHeight: 7
         },
         CreditsButton: {
-            Position: vec2.fromValues(600, 200),
-            Size: vec2.fromValues(400, 200),
+            Position: vec2.fromValues(480, 160),
+            Size: vec2.fromValues(320, 160),
             Text: "Credits",
             TextHeight: 7
         }
