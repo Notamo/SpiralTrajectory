@@ -12,7 +12,8 @@ Config.UI = Object.freeze({
         UIFireArrowIcon:        "assets/UI/firearrowicon.png",
         UIIceArrowIcon:         "assets/UI/icearrowicon.png",
         UIArrowBorders:         "assets/UI/activearrowborder.png",
-        UIHealthBar:            "assets/UI/healthbar.png"
+        UIHealthBar:            "assets/UI/healthbar.png",
+        UIButton:               "assets/UI/button.png"
     },
     ArrowSelection: {
         ActiveTint: [1, 1, 1, 0],

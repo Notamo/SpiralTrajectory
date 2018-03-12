@@ -2,6 +2,7 @@
  *      A GameObject that represents a single UI Element
  *      MUST be given a renderable from a child class to work
  */
+"use strict";
 
 function UIElement(renderable, position, size) {
     this.mVisible = true;
@@ -20,6 +21,12 @@ gEngine.Core.inheritPrototype(UIElement, GameObject);
 
 UIElement.prototype.getUIXform = function() {
     return this.mUIXform;
+};
+
+UIElement.prototype.getUIBBox = function () {
+    var xform = this.getUIXform();
+    var b = new BoundingBox(xform.getPosition(), xform.getWidth(), xform.getHeight());
+    return b;
 };
 
 UIElement.prototype.draw = function(aCamera) {
