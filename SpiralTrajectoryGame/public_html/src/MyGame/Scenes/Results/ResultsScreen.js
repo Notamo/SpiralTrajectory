@@ -68,9 +68,12 @@ ResultsScreen.prototype.unloadScene = function () {
     
     //Start the appropriate scene based on what the user clicked
     var nextScene = null;
+    console.log(this.kNextSceneName);
     if (this.kNextSceneName === "BossBattle") {
+        console.log(this.kNextSceneName);
         nextScene = new BossBattle();
     } else {
+        console.log(this.kNextSceneName);
         nextScene = new SplashScreen();
     }
     gEngine.Core.startScene(nextScene);
@@ -156,11 +159,15 @@ ResultsScreen.prototype._initializeUI = function() {
 };
 
 ResultsScreen.prototype._replayCallback = function() {
+    console.log("replay!");
+    console.log(this.kNextSceneName);
     this.kNextSceneName = "BossBattle";
+        console.log(this.kNextSceneName);
     gEngine.GameLoop.stop();
 };
 
 ResultsScreen.prototype._menuCallback = function() {
+    console.log("menu");
     this.kNextSceneName = "SplashScreen";
     gEngine.GameLoop.stop();
 };
