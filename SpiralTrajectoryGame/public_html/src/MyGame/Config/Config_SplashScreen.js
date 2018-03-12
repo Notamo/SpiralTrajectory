@@ -12,6 +12,10 @@ var Config = Config || {};
 Config.SplashScreen = Object.freeze({
     Textures: {
         DefaultArrowSprite:     "assets/projectiles/arrow.png",
+        DefaultFireArrowSprite: "assets/projectiles/firearrow.png",
+        DefaultIceArrowSprite:  "assets/projectiles/icearrow.png",
+        FlameParticleTexture:   "assets/particles/flameparticle.png",
+        SnowParticleTexture:    "assets/particles/snowparticle.png",
         FarBackgroundTexture:   "assets/background/backgroundfar.png",
         MidBackgroundTexture:   "assets/background/backgroundmid.png"
     },

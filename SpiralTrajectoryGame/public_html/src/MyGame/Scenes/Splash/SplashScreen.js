@@ -162,6 +162,10 @@ SplashScreen.prototype.spawnArrow = function() {
     var pos = [0,0];
     pos[0] = pos[0] - 80;
     pos[1] = pos[1] - 10;
-    var newArrow = new Arrow(pos,1.1,50);
+    var raffle = Math.random()*3;
+    var newArrow=null;
+    if(raffle<1){newArrow = new Arrow(pos,1.1,50);}
+    else if(raffle<2){newArrow = new FireArrow(pos,1.1,50);}
+    else{newArrow = new IceArrow(pos,1.1,50);}
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, newArrow);
 };
