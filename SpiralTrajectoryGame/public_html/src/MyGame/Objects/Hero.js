@@ -19,8 +19,8 @@
  * @param {GameObjectSet}   physicsReference    Reference to our set of physics game objects,
  *                                              used primarily so we can add new Arrow variants
  *                                              to the set upon creation.
- * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.
- * @returns {Hero}
+ * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.}
+ * * @returns {Hero}
  */
 function Hero(spriteTexture, normalMap, cameraRef) {
     // Create the sprite
@@ -67,6 +67,9 @@ function Hero(spriteTexture, normalMap, cameraRef) {
     
     // ArrowVector is our "firing" mechanism, need a single instance.
     this.mArrowVector = new ArrowVector(cameraRef);
+    
+    // Also keep a reference to the camera for shaking it.
+    this.mCamera = cameraRef;
     
     // ArrowSet keeps a reference to each active arrow.
     this.mArrowSet = new ArrowSet();
@@ -401,6 +404,12 @@ Hero.prototype.hit = function (damage) {
                     9);
         this.mArcher.setAnimationSpeed(3);
     }
+    this.mCamera.shake(
+        Config.Hero.CameraShake.X,
+        Config.Hero.CameraShake.Y,
+        Config.Hero.CameraShake.Frequency,
+        Config.Hero.CameraShake.Duration
+    );
 };
 
 Hero.prototype.setSprite = function (top,left,width,height,frame) {
