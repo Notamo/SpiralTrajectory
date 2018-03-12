@@ -5,7 +5,7 @@
 "use strict";
 
 function UIHealthBar(sprite, position, size, buffer) {
-    this.mBack = new SpriteRenderable(sprite);
+    this.mBack = new LightRenderable(sprite);
     this.mBack.setElementUVCoordinate(0.0, 1.0, 0.5, 1.0);
     UIElement.call(this, this.mBack, position, size);
     

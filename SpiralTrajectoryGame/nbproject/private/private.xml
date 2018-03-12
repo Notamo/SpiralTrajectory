@@ -28,12 +28,15 @@
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
         <group>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/Splash/SplashScreen.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Core/Resources/Engine_DefaultResources.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UIHealthBar.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UISprite.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UIArrowSelection.js</file>
             <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UIButton.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/index.html</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/Engine/Core/Engine_Core.js</file>
-            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/Results/ResultsScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UIElement.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_ResultsScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UITexture.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UIText.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_BossBattle.js</file>
         </group>
     </open-files>
 </project-private>
