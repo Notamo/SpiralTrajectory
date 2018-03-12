@@ -70,10 +70,8 @@ ResultsScreen.prototype.unloadScene = function () {
     var nextScene = null;
     console.log(this.kNextSceneName);
     if (this.kNextSceneName === "BossBattle") {
-        console.log(this.kNextSceneName);
         nextScene = new BossBattle();
     } else {
-        console.log(this.kNextSceneName);
         nextScene = new SplashScreen();
     }
     gEngine.Core.startScene(nextScene);
