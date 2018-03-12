@@ -3,13 +3,16 @@
  *      Available or active
  */
 
-function UIArrowSelection(sprites, borderSprite, position, iconSize) {
+function UIArrowSelection(sprites, borderSprite, position, iconSize, activeTint, inactiveTint) {
     this.mIconSize = iconSize;
     this.mBackdrop = new Renderable();
     UIElement.call(this, 
                     this.mBackdrop, 
                     position, 
                     vec2.fromValues(iconSize * 3, iconSize));    
+    
+    this.mActiveTint = activeTint;
+    this.mInactiveTint = inactiveTint;
     
     this.mArrows = [];
     var p = this.getUIXform().getPosition();
@@ -46,9 +49,9 @@ UIArrowSelection.prototype.select = function(type) {
 //for handling cooldowns
 UIArrowSelection.prototype.setActive = function(type, active) {
     if(active)
-        this.mArrows[type].mTex.setColor(Config.UI.ArrowSelection.ActiveTint);
+        this.mArrows[type].mTex.setColor(this.mActiveTint);
     else
-        this.mArrows[type].mTex.setColor(Config.UI.ArrowSelection.InactiveTint);
+        this.mArrows[type].mTex.setColor(this.mInactiveTint);
 };
 
 

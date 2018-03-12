@@ -304,5 +304,35 @@ Config.BossBattle = Object.freeze({
             Width:  20,
             Height: 5
         }
-    ]
+    ],
+    UI: {
+        ArrowSelection: {
+            Position: vec2.fromValues(120, 680),
+            IconSize: 80,
+            ActiveTint: [1, 1, 1, 0],
+            InactiveTint: [.1, .1, .1, .5]
+        },
+        HeroHealthBar: {
+            Position: vec2.fromValues(120, 600),
+            Size: vec2.fromValues(240, 20),
+            Buffer: 4
+        },
+        HeroHPText: {
+            Text: "Player Health:",
+            Position: vec2.fromValues(5, 615),
+            TextHeight: 4,
+            Color: [1, 0, 0, 1]
+        },
+        BossName: {
+            Text: "Mysterious Golem",
+            Position: vec2.fromValues(165, 105),
+            Color: [1, 1, 1, 1],
+            TextHeight: 4
+        },
+        BossHealthBar: {
+            Position: vec2.fromValues(480, 80),
+            Size: vec2.fromValues(640, 20),
+            Buffer: 4
+        }
+    }
 });

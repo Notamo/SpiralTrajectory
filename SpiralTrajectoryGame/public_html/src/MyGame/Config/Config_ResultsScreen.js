@@ -58,21 +58,21 @@ Config.ResultsScreen = Object.freeze({
     UI: {
         Title: {
             Text: "[Victory Status]",
-            Position: vec2.fromValues(600, 800),
+            Position: vec2.fromValues(480, 640),
             TextHeight: 10,
             Color: [.5, .5, .5, 1]
         },
         ReplayButton: {
-            Position: vec2.fromValues(300, 600),
-            Size: vec2.fromValues(400, 200),
+            Position: vec2.fromValues(240, 480),
+            Size: vec2.fromValues(320, 160),
             Text: "Replay!",
-            TextHeight: 5
+            TextHeight: 6
         },
         MenuButton: {
-            Position: vec2.fromValues(300, 300),
-            Size: vec2.fromValues(400, 200),
+            Position: vec2.fromValues(240, 240),
+            Size: vec2.fromValues(320, 160),
             Text: "Menu",
-            TextHeight: 5
+            TextHeight: 6
         }
     }
 });
