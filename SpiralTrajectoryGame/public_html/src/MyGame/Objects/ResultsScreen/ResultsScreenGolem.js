@@ -5,6 +5,8 @@
  * All he does is idle for a period, then die
  */
 
+/* global Config, GameObject, gEngine */
+
 function ResultsScreenGolem() {
     this.mGolem = new IllumRenderable(Config.ResultsScreen.Textures.BossSprite,
                                       Config.ResultsScreen.Textures.BossNormal);
@@ -45,7 +47,6 @@ ResultsScreenGolem.prototype.update = function() {
  */
 ResultsScreenGolem.prototype._setAnimation = function(animName){
     var animation = Config.Golem.Animations[animName];
-    console.log(animation);
 
     this.mGolem.setSpriteSequence(
             animation.TopLeftX,

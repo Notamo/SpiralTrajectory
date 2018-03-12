@@ -22,12 +22,15 @@ function SplashScreen() {
     //UI stuff
     this.mTitle = null;
     this.mPlayButton = null;
+    this.mHardModeButon = null;
     this.mCreditsButton = null;
     this.mControlsButton = null;
     
     // The camera to view the scene
     this.mMainCamera = null;
     this.kNextSceneName = "BossBattle";
+    
+    this.mHardMode = false;
 }
 gEngine.Core.inheritPrototype(SplashScreen, Scene);
 
@@ -57,7 +60,7 @@ SplashScreen.prototype.unloadScene = function () {
         gEngine.Core.startScene(new ControlsScreen());
     }
     else{
-        gEngine.Core.startScene(new BossBattle());
+        gEngine.Core.startScene(new BossBattle(this.mHardMode));
     }
 };
 
@@ -93,6 +96,15 @@ SplashScreen.prototype._initializeUI = function() {
                                     configUI.PlayButton.Text,
                                     configUI.PlayButton.TextHeight);
     
+    this.mHardModeButton = new UIButton(Config.UI.Textures.UIButton, 
+                                    this.mMainCamera,
+                                    this._hardModeButtonCallback,
+                                    this,
+                                    configUI.HardModeButton.Position,
+                                    configUI.HardModeButton.Size,
+                                    configUI.HardModeButton.Text,
+                                    configUI.HardModeButton.TextHeight);
+    
     this.mCreditsButton = new UIButton(Config.UI.Textures.UIButton, 
                                 this._creditsButtonCallback,
                                 this,
@@ -111,12 +123,19 @@ SplashScreen.prototype._initializeUI = function() {
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mPlayButton);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mHardModeButton);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mCreditsButton);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mControlsButton);
 };
 
 SplashScreen.prototype._playButtonCallback = function() {
     this.kNextSceneName = "BossBattle";
+    gEngine.GameLoop.stop();
+};
+
+SplashScreen.prototype._hardModeButtonCallback = function () {
+    this.kNextSceneName = "BossBattle";
+    this.mHardMode = true;
     gEngine.GameLoop.stop();
 };
 

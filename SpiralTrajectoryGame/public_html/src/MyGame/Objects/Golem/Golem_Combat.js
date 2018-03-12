@@ -156,10 +156,8 @@ Golem.prototype._servicePatrolling = function () {
             Date.now() >= this.mTimeLastProjectileFired + Config.Golem.States.Patrolling.ProjectileFiringInterval) {
             // Use a random number to pick the next projectile type, and then initialize that projectile state.
             var nextProjectile = Math.random();
-            if (nextProjectile < Config.Golem.Projectiles.Salvo.Chance) {
-                this.mCurrentProjectileState = Config.Golem.Projectiles.Salvo;
-            } else if (nextProjectile < Config.Golem.Projectiles.Burst.Chance) {
-                this.mCurrentProjectileState = Config.Golem.Projectiles.Burst;
+            if (nextProjectile < Config.Golem.Projectiles.Homing.Chance) {
+                this.mCurrentProjectileState = Config.Golem.Projectiles.Homing;                
             } else {
                 this.mCurrentProjectileState = Config.Golem.Projectiles.Blast;
             }

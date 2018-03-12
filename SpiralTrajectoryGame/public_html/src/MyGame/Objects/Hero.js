@@ -15,9 +15,10 @@
  * @param {??}              normalMap           Justin pls fix this comment.
  * @param {Camera}          cameraRef           The ArrowVector class requires a camera reference.}
  * @param {Array}           lightSet            Set of lights to be passed to the ArrowSet.
+ * @param {Boolean}         hardmode            Whether or not hardmode is on.
  * * @returns {Hero}
  */
-function Hero(spriteTexture, normalMap, cameraRef, lightSet) {
+function Hero(spriteTexture, normalMap, cameraRef, lightSet, hardmode) {
     // Create the sprite
     this.mArcher = new IllumRenderable(spriteTexture, normalMap);
     this.mArcher.getMaterial().setSpecular([0, 0, 0, 0]);
@@ -90,6 +91,9 @@ function Hero(spriteTexture, normalMap, cameraRef, lightSet) {
     // but was going to be part of a boss attack. Don't want to delete in case
     // we get around to making the attack.
     this.mLastPlatform = null;
+    
+    // Tracks if hard mode is on.
+    this.mHardMode = hardmode;
 };
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
@@ -419,6 +423,9 @@ Hero.prototype.getStatus = function () {
  */
 Hero.prototype.hit = function (damage) {
     this.mCurrentHP -= damage;
+    if (this.mHardMode === true) {
+        this.mCurrentHP -= damage;
+    }
     if (this.mCurrentHP <= 0){
         this.setSprite(
             0.333,

@@ -36,20 +36,26 @@ Config.SplashScreen = Object.freeze({
             Color: [1, .84, 0, 1]
         },
         PlayButton: {
-            Position: vec2.fromValues(480, 500),
-            Size: vec2.fromValues(240, 120),
+            Position: vec2.fromValues(480, 550),
+            Size: vec2.fromValues(360, 90),
             Text: "Play!",
             TextHeight: 7
         },
+        HardModeButton: {
+            Position: vec2.fromValues(480, 400),
+            Size: vec2.fromValues(360, 90),
+            Text: "Play (Hard Mode)!",
+            TextHeight: 7
+        },
         ControlsButton: {
-            Position: vec2.fromValues(480, 300),
-            Size: vec2.fromValues(240, 120),
+            Position: vec2.fromValues(480, 250),
+            Size: vec2.fromValues(360, 90),
             Text: "Controls",
             TextHeight: 7
         },
         CreditsButton: {
             Position: vec2.fromValues(480, 100),
-            Size: vec2.fromValues(240, 120),
+            Size: vec2.fromValues(360, 90),
             Text: "Credits",
             TextHeight: 7
         }

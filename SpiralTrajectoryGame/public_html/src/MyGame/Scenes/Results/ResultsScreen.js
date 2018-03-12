@@ -35,10 +35,13 @@ function ResultsScreen(result) {
     //UI
     this.mTitle = null;
     this.mReplayButton = null;
+    this.mHardModeReplayButton = null;
     this.mMenuButton = null;
 
     // The camera to view the scene
     this.mMainCamera = null;
+    
+    this.mHardMode = false;
 
 }
 gEngine.Core.inheritPrototype(ResultsScreen, Scene);
@@ -73,9 +76,8 @@ ResultsScreen.prototype.unloadScene = function () {
     */
     //Start the appropriate scene based on what the user clicked
     var nextScene = null;
-    console.log(this.kNextSceneName);
     if (this.kNextSceneName === "BossBattle") {
-        nextScene = new BossBattle();
+        nextScene = new BossBattle(this.mHardMode);
     } else {
         nextScene = new SplashScreen();
     }
@@ -158,7 +160,16 @@ ResultsScreen.prototype._initializeUI = function() {
                                 configUI.ReplayButton.Size,
                                 configUI.ReplayButton.Text,
                                 configUI.ReplayButton.TextHeight);
-                                
+
+    this.mHardModeReplayButton = new UIButton(Config.UI.Textures.UIButton, 
+                                this.mMainCamera,
+                                this._hardModeReplaayCallback,
+                                this,
+                                configUI.HardModeReplayButton.Position,
+                                configUI.HardModeReplayButton.Size,
+                                configUI.HardModeReplayButton.Text,
+                                configUI.HardModeReplayButton.TextHeight);
+    
     this.mMenuButton = new UIButton(Config.UI.Textures.UIButton, 
                                 this._menuCallback,
                                 this,
@@ -169,6 +180,7 @@ ResultsScreen.prototype._initializeUI = function() {
                                 
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mReplayButton);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mHardModeReplayButton);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mMenuButton);
 };
 
@@ -195,6 +207,12 @@ ResultsScreen.prototype._initializeBackground = function() {
 
 ResultsScreen.prototype._replayCallback = function() {
     this.kNextSceneName = "BossBattle";
+    gEngine.GameLoop.stop();
+};
+
+ResultsScreen.prototype._hardModeReplaayCallback = function () {
+    this.kNextSceneName = "BossBattle";
+    this.mHardMode = true;
     gEngine.GameLoop.stop();
 };
 

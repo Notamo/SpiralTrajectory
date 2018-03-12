@@ -52,8 +52,8 @@ Config.Hero = Object.freeze({
         RightDisplacementScale: 0.1
     },
     CameraShake: {
-        X:  -5,
-        Y:  -5,
+        X:  -10,
+        Y:  -10,
         Frequency: 20,
         Duration: 10
     }

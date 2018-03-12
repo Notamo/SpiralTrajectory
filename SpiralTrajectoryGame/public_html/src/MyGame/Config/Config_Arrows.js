@@ -21,7 +21,7 @@ Config.Arrows = Object.freeze({
             Far: 20,
             Inner: 0.01,
             Outer: 1,
-            Intensity: 4,
+            Intensity: 5,
             DropOff: 100
         }
     },

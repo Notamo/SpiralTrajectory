@@ -15,11 +15,8 @@
  */
 Golem.prototype._updateProjectileState = function () {
     switch (this.mCurrentProjectileState) {
-        case Config.Golem.Projectiles.Salvo:
-            this._updateProjectileSalvo();
-            break;
-        case Config.Golem.Projectiles.Burst:
-            this._updateProjectileBurst();
+        case Config.Golem.Projectiles.Homing:
+            this._updateProjectileHoming();
             break;
         case Config.Golem.Projectiles.Blast:
             this._updateProjectileBlast();
@@ -28,29 +25,6 @@ Golem.prototype._updateProjectileState = function () {
             console.log("Golem._updateProjectileState called without Golem having a current projectile state.");
     }
 };
-
-/**
- * Update for the Salvo projectile state. This is extremely straightforward.
- * Salvo is a fire-and-forget projectile attack, so we just fire off the Salvo
- * and exit our projectile state.
- * 
- * @returns {undefined}
- */
-Golem.prototype._updateProjectileSalvo = function () {
-    //this._fireSalvo();
-    this._exitProjectileState();
-};
-
-/**
- * Update for the Burst projectile state. The Burst attack is a series of
- * projectile launches.
- * 
- * @returns {undefined}
- */
-Golem.prototype._updateProjectileBurst = function () {
-    this._exitProjectileState();
-};
-
 /**
  * Update for the Blast projectile state. This is extremely straightforward.
  * Blast is a fire-and-forget projectile attack, so we just fire off the Blast
@@ -60,6 +34,17 @@ Golem.prototype._updateProjectileBurst = function () {
  */
 Golem.prototype._updateProjectileBlast = function () {
     this._fireBlast();
+    this._exitProjectileState();
+};
+
+/**
+ * Update for the Homing projectile state. This is also very straightforward.
+ * A homing projectile is fire-and-foorget from the Golem's perspective.
+ * 
+ * @returns {undefined}
+ */
+Golem.prototype._updateProjectileHoming = function () {
+    this._fireHoming();
     this._exitProjectileState();
 };
 
@@ -75,24 +60,12 @@ Golem.prototype._exitProjectileState = function () {
 };
 
 /**
- * Fires a salvo of projectiles towards the hero. Currently undefined/
- * doesn't work.
+ * Fires a homing projectile towards the hero.
  * 
  * @returns {undefined}
  */
-Golem.prototype._fireSalvo = function () {
-    for (var i = 0; i < Config.Golem.Projectiles.Salvo.Count; i++) {
-        this._fireProjectile(Config.Golem.Projectiles.Salvo);
-    }
-};
-
-/**
- * Fires a burst of projectiles towards the hero. Currently undefined.
- * 
- * @returns {undefined}
- */
-Golem.prototype._fireBurst = function () {
-    
+Golem.prototype._fireHoming = function () {
+    this._fireProjectile(Config.Golem.Projectiles.Homing);
 };
 
 /**
@@ -114,16 +87,13 @@ Golem.prototype._fireBlast = function () {
 Golem.prototype._fireProjectile = function (type) {
     var newProjectile = null;
     switch(type) {
-        case Config.Golem.Projectiles.Salvo:
-            newProjectile = new GolemSalvoProjectile(
-                Config.BossBattle.Textures.BossProjectileSprite,
-                this.getXform().getPosition(),
-                this.getXform().getOrientation(),
-                this.mHero.getXform().getPosition()
+        case Config.Golem.Projectiles.Homing:
+            newProjectile = new GolemHomingProjectile(
+                Config.BossBattle.Textures.BossHomingProjectileSprite,
+                this.mGolem,
+                this.mHero,
+                this.mHomingProjectileLight
             );
-            console.log(newProjectile);
-            break;
-        case Config.Golem.Projectiles.Burst:
             break;
         case Config.Golem.Projectiles.Blast:
             newProjectile = new GolemBlastProjectile(

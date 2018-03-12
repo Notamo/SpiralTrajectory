@@ -39,7 +39,6 @@ BossBattle.prototype._initializeLights = function () {
             1.0                     // drop off
             );
     this.mGlobalLightSet.addToSet(l);
-    console.log(l);
     l = this._createALight(Light.eLightType.eDirectionalLight,
             [15, 50, 10],           // position (not used by directional)
             [0, 0, -1],         // Pointing direction 
@@ -50,9 +49,7 @@ BossBattle.prototype._initializeLights = function () {
             1.0                     // drop off
             );
     l.setLightCastShadowTo(false);
-    this.mUILight = l;
-    console.log(this.mUILight);
-    
+    this.mUILight = l;    
 };
 
 BossBattle.prototype._setupShadow = function () {

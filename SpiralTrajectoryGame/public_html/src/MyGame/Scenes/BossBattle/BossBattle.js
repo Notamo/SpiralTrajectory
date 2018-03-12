@@ -12,7 +12,7 @@
 
 "use strict";
 
-function BossBattle() {
+function BossBattle(hardMode) {
     this.mMainCamera = null;
     this.mGlobalLightSet = null;
     this.mUILight = null;
@@ -30,6 +30,7 @@ function BossBattle() {
     this.mVictory = false;
     this.mLgtIndex = 0;
     this.mLgtRotateTheta = 0;
+    this.mHardMode = hardMode;
 }
 gEngine.Core.inheritPrototype(BossBattle, Scene);
 
@@ -78,8 +79,6 @@ BossBattle.prototype.initialize = function () {
     
     this._initializeLights();
     
-    console.log(this.mGlobalLightSet.numLights());
-    
     var light = null;
     var lightSet = [];
     for (var i = 0; i < 16; i++) {
@@ -87,8 +86,6 @@ BossBattle.prototype.initialize = function () {
         lightSet.push(light);
         this.mGlobalLightSet.addToSet(light);
     }
-    console.log(this.mGlobalLightSet.numLights());
-    console.log(this.mUILight);
     
     
     this.mNonPhysicsGameObjects = new GameObjectSet();
@@ -96,23 +93,27 @@ BossBattle.prototype.initialize = function () {
         Config.BossBattle.Textures.HeroSheet,
         Config.BossBattle.Textures.HeroSheetNormal,
         this.mMainCamera,
-        lightSet
+        lightSet,
+        this.mHardMode
     );
     
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors,this.mHero);
     gEngine.LayerManager.addAsShadowCaster(this.mHero);
     
     var golemBlastProjectileLight = new Light();
+    var golemHomingProjectileLight = new Light();
     this.mBoss = new Golem(
         Config.BossBattle.Textures.BossSprite, 
         this.mHero, 
         this.mPhysicsGameObjects,
         this.mNonPhysicsGameObjects,
-        golemBlastProjectileLight
+        golemBlastProjectileLight,
+        golemHomingProjectileLight
     );
     this.mGlobalLightSet.addToSet(golemBlastProjectileLight);
-
-     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mBoss);
+    this.mGlobalLightSet.addToSet(golemHomingProjectileLight);
+    
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.mBoss);
     
     this.boundary = new Boundary(149,230,500,4);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, this.boundary);

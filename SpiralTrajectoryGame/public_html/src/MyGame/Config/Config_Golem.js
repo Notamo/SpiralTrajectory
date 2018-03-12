@@ -53,32 +53,46 @@ Config.Golem = Object.freeze({
         FacingRight: -1
     },
     Projectiles: {
-        Salvo: {
-            Chance: 0.35,
+        Homing: {
+            Chance: 0.2,
+            States: {
+                Windup: 0,
+                Chasing: 1,
+                Stunned: 2,
+                Linear: 3
+            },
+            StartRadius: 1,
+            EndRadius: 30,
+            WindupTime:  120,
             Physics: {
                 Gravity: false,
-                Mass: 0.1,
+                Mass: 0,
                 Friction: 1,
                 Restitution: 1 
             },
             Color: [1, 1, 1, 0],
-            Count: 8,
-            Radius: 5,
-            TravelHeight: vec2.fromValues(0, 40),
-            LaunchOffset: vec2.fromValues(0, 15),
-            DefaultFireDirection: vec2.fromValues(0.1, 1),
-            DefaultVelocity: vec2.fromValues(0, 30),
-            TargetOffset: vec2.fromValues(10, 0),
-            MinAccuracy: 0.01,
-            MaxAccuracy: 0.1,
-            AccuracyDivisor: 0.03,
-            MinSpeed: 10,
-            MaxSpeed: 100,
-            SpeedDivisor: 0.03
-        },
-        Burst: {
-            Chance: 0.8
-            
+            YOffset: 50,
+            RotationDelta: 0.5,
+            BasePower: vec2.fromValues(1.0, 1.0),
+            PowerDelta: vec2.fromValues(1.015, 1.015),
+            BaseDamage: 250,
+            KillRange: {
+                Left:   -100,
+                Right:  500,
+                Bottom: -100,
+                Top:    400
+            },
+            Light: {
+                Color: [1.0, 0.0, 1.0, 1],
+                ZPosition: 1,
+                Direction: [0, 0, 1],
+                Near: 0,
+                StartFar: 50,
+                Inner: 0.01,
+                Outer: 1,
+                Intensity: 2,
+                DropOff: 100
+            }
         },
         Blast: {
             Chance: 1.0,
@@ -89,7 +103,7 @@ Config.Golem = Object.freeze({
                 Restitution: 1 
             },
             StartRadius: 10,
-            EndRadius: 50,
+            EndRadius: 60,
             Color: [1, 1, 1, 0],
             WindupTime:  180,
             RotationDelta: 0.5,
