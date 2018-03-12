@@ -12,7 +12,7 @@ Config.CreditsScreen = Object.freeze({
         BackgroundNormal: "assets/background/somefileNormal.png"*/
     },
     Camera: {
-        StartingPosition:     vec2.fromValues(0, 0),
+        StartingPosition:     vec2.fromValues(25, 0),
         WorldWidth:           200,
         Viewport:             [0, 0, 960, 720],
         BackgroundColor:      [0.1, 0.1, 0.1, 1]
