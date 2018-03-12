@@ -12,28 +12,26 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function SplashScreen() {
-    this.arrow = "assets/projectiles/arrow.png";
-
-    this.mArrow = null;
-
     //background
     this.mFarBG = null;
     this.mMidBG = null;
     
+    //arrow stuff
+    this.mArrowTimer = 0;
+    
     //UI stuff
-    this.title = null;
-    this.msg = null;
+    this.mTitle = null;
     this.mPlayButton = null;
     this.mCreditsButton = null;
     
     // The camera to view the scene
     this.mMainCamera = null;
-    this.mBg = null;
+    //if we're exiting to credits or the fight
+    this.mToCredits = false;
 }
 gEngine.Core.inheritPrototype(SplashScreen, Scene);
 
 SplashScreen.prototype.loadScene = function () {
-    gEngine.Textures.loadTexture(this.arrow);
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.loadTexture(Config.UI.Textures[texture]);
     }
@@ -44,13 +42,13 @@ SplashScreen.prototype.loadScene = function () {
 };
 
 SplashScreen.prototype.unloadScene = function () {
-    gEngine.Textures.unloadTexture(this.arrow);
     for(var texture in Config.UI.Textures) {
         gEngine.Textures.unloadTexture(Config.UI.Textures[texture]);
     }
     for (var texture in Config.SplashScreen.Textures) {
         gEngine.Textures.unloadTexture(Config.SplashScreen.Textures[texture]);
     }
+    
     gEngine.Core.startScene(new BossBattle());
 };
 
@@ -62,43 +60,42 @@ SplashScreen.prototype.initialize = function () {
         Config.SplashScreen.Camera.Viewport         // viewport (orgX, orgY, width, height)
     );
     this.mMainCamera.setBackgroundColor([0, 0, 0, 1]);
-    
     gEngine.DefaultResources.setGlobalAmbientIntensity(2.5);
     
-    var pos=[50,40];
-    pos[0]=pos[0]-80;
-    pos[1]=pos[1]-10;
-    this.mArrow=new Arrow(pos,1,50);
-    
 
-    this._initializeUI();
+    this.spawnArrow();
     this._initializeBackground();
+    this._initializeUI();
 };
 
 SplashScreen.prototype._initializeUI = function() {
-    
-    this.title = new UIText("Golem Smash", vec2.fromValues(600, 800), 10, UIText.eHAlignment.eCenter, UIText.eVAlignment.eBottom);
-    this.title.setColor([1, .84, 0, 1]);
-    
-    this.msg = new UIText("Press B to Play", vec2.fromValues(600, 100), 5, UIText.eHAlignment.eCenter, null);
-    this.msg.setColor([1, 1, 1, 1]);
+    var configUI = Config.SplashScreen.UI;
+    this.mTitle = new UIText(configUI.Title.Text,
+                             configUI.Title.Position,
+                             configUI.Title.TextHeight,
+                             UIText.eHAlignment.eCenter, 
+                             UIText.eVAlignment.eBottom);
+    this.mTitle.setColor(configUI.Title.Color);
     
     this.mPlayButton = new UIButton(Config.UI.Textures.UIButton, 
                                     this.mMainCamera,
                                     this._testButtonCallback,
-                                    vec2.fromValues(600, 600),
-                                    vec2.fromValues(200, 100),
-                                    "Play!",
-                                    5);
+                                    configUI.PlayButton.Position,
+                                    configUI.PlayButton.Size,
+                                    configUI.PlayButton.Text,
+                                    configUI.PlayButton.TextHeight);
     
     this.mCreditsButton = new UIButton(Config.UI.Textures.UIButton, 
                                 this.mMainCamera,
-                                this._testButtonCallback,
-                                vec2.fromValues(600, 400),
-                                vec2.fromValues(200, 100),
-                                "Play!",
-                                5);
+                                this._creditsButtonCallback(),
+                                configUI.CreditsButton.Position,
+                                configUI.CreditsButton.Size,
+                                configUI.CreditsButton.Text,
+                                configUI.CreditsButton.TextHeight);
     
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mPlayButton);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mCreditsButton);
 };
 
 SplashScreen.prototype._testButtonCallback = function() {
@@ -106,68 +103,57 @@ SplashScreen.prototype._testButtonCallback = function() {
 };
 
 SplashScreen.prototype._creditsButtonCallback = function() {
-    console.log ("CREDITS");
+    this.mToCredits = true;
+    gEngine.GameLoop.stop();
 };
 
 SplashScreen.prototype._initializeBackground = function() {
-    this.mFarBG = new SpriteRenderable(Config.SplashScreen.Textures.FarBackgroundTexture);
-    this.mFarBG.setElementPixelPositions(0, 1024, 0, 512);
-    this.mFarBG.getXform().setSize(400, 200);
-    this.mFarBG.getXform().setPosition(0, 0);
-    this.mFarBG.getXform().setZPos(-10);
+    var farBG = new SpriteRenderable(Config.SplashScreen.Textures.FarBackgroundTexture);
+    farBG.setElementPixelPositions(0, 1024, 0, 512);
+    farBG.getXform().setSize(400, 200);
+    farBG.getXform().setPosition(0, 0);
+    farBG.getXform().setZPos(-10);
+    this.mFarBG = new GameObject(farBG);
+
+    var midBG = new SpriteRenderable(Config.SplashScreen.Textures.MidBackgroundTexture);
+    midBG.setElementPixelPositions(0, 1024, 0, 512);
+    midBG.getXform().setSize(352, 176);
+    midBG.getXform().setPosition(0, 0);
+    midBG.getXform().setZPos(-10);
+    this.mMidBG = new GameObject(midBG);
     
-    this.mMidBG = new SpriteRenderable(Config.SplashScreen.Textures.MidBackgroundTexture);
-    this.mMidBG.setElementPixelPositions(0, 1024, 0, 512);
-    this.mMidBG.getXform().setSize(352, 176);
-    this.mMidBG.getXform().setPosition(0, 0);
-    this.mMidBG.getXform().setZPos(-10); 
-    
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mMidBG);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eBackground, this.mFarBG);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 SplashScreen.prototype.draw = function () {
-    // Step A: clear the canvas
     gEngine.Core.clearCanvas([0, 0, 0, 1]);
     this.mMainCamera.setupViewProjection();
-    
-    //gEngine.LayerManager.drawAllLayers(this.mMainCamera);
-    this.mFarBG.draw(this.mMainCamera);
-    this.mMidBG.draw(this.mMainCamera);
-    
-    //Arrow
-    this.mArrow.draw(this.mMainCamera);
-    
-    //UI
-    this.title.draw(this.mMainCamera);
-    this.msg.draw(this.mMainCamera);
-    this.mPlayButton.draw(this.mMainCamera);
+    gEngine.LayerManager.drawAllLayers(this.mMainCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 SplashScreen.prototype.update = function () {
-    //gEngine.GameLoop.stop();
-    this.mArrow.update();
-    //Updated the alpha of the font renderables
-    var tColor = this.title.getColor();
-    var tColor = [tColor[0],tColor[1],tColor[2],tColor[3]+1/60];
-    //var mColor = this.msg.getColor();
-    //var mColor = [mColor[0],mColor[1],mColor[2],mColor[3]+1/60];
-    //sets new alpha of main title
-    /*if(this.mArrow.getXform().getPosition()[0]>120)
-    {
-        this.title.setColor(tColor);
-    }*/
-    //reveals 2nd font renderable
-    /*if(tColor[3]>=3)
-    {
-        this.msg.setColor(mColor);
-    }*/
+    gEngine.LayerManager.updateAllLayers();
     
-    this.mPlayButton.update();
+    this.mArrowTimer++;
+    if(this.mArrowTimer >= Config.SplashScreen.ArrowTimerLength) {
+        this.spawnArrow();
+        this.mArrowTimer = 0;
+    }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
         gEngine.GameLoop.stop();
     }
+};
+
+SplashScreen.prototype.spawnArrow = function() {
+    var pos = [0,0];
+    pos[0] = pos[0] - 80;
+    pos[1] = pos[1] - 10;
+    var newArrow = new Arrow(pos,1.1,50);
+    gEngine.LayerManager.addToLayer(gEngine.eLayer.eActors, newArrow);
 };

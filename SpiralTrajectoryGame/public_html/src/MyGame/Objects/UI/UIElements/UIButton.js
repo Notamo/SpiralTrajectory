@@ -30,7 +30,9 @@ UIButton.prototype.getText = function() {
 
 UIButton.prototype.draw = function (aCamera) {
     UIElement.prototype.draw.call(this, aCamera);
-    this.mText.draw(aCamera);
+    
+    if(this.mText !== null)
+        this.mText.draw(aCamera);
 };
 
 
@@ -61,9 +63,22 @@ UIButton.prototype.update = function () {
             this.mClick = false;
             
             if(mouseOver){
-                this.mCallBack.call(this);
+                if(this.mCallBack !== null)
+                    this.mCallBack.call(this);
             }
         }
 
     }
+};
+
+UIButton.prototype.setTextString = function(text) {
+    this.mText.setText(text);
+};
+
+UIButton.prototype.setTextColor = function(color) {
+    this.mText.setColor(color);
+};
+
+UIButton.prototype.setTextHeight = function(height) {
+    this.mText.setTextHeight(height);
 };
