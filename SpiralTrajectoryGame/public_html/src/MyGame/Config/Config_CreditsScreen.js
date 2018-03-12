@@ -1,7 +1,5 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Config_CreditsScreen.js
  */
 
 "use strict";
@@ -31,6 +29,20 @@ Config.CreditsScreen = Object.freeze({
             Size: vec2.fromValues(240, 120),
             Text: "Return",
             TextHeight: 7
-        }
+        },
+        CreditsTextSet: {
+            StartPos: vec2.fromValues(480, 500),
+            TextHeight: 6,
+            Color: [1, 0, 1, 1],
+            Spacing: 30,
+            Set: [
+                "[to fill out]                    [to fill out]",
+                "[to fill out]                    [to fill out]",
+                "[to fill out]                    [to fill out]",
+                "",
+                "[to fill out]                    [to fill out]",
+                "[to fill out]                    [to fill out]"
+            ]
+        },
     }
 });

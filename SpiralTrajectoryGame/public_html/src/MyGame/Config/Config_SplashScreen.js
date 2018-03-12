@@ -41,16 +41,16 @@ Config.SplashScreen = Object.freeze({
             Text: "Play!",
             TextHeight: 7
         },
-        CreditsButton: {
+        ControlsButton: {
             Position: vec2.fromValues(480, 300),
             Size: vec2.fromValues(240, 120),
-            Text: "Credits",
+            Text: "Controls",
             TextHeight: 7
         },
-        ControlsButton: {
+        CreditsButton: {
             Position: vec2.fromValues(480, 100),
             Size: vec2.fromValues(240, 120),
-            Text: "Controls",
+            Text: "Credits",
             TextHeight: 7
         }
     }

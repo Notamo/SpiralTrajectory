@@ -67,8 +67,25 @@ CreditsScreen.prototype._initializeUI = function() {
                                 configUI.ReturnButton.Text,
                                 configUI.ReturnButton.TextHeight);
     
+    this._makeTextSet(configUI.CreditsTextSet);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mReturnButton);
+};
+
+CreditsScreen.prototype._makeTextSet = function(textSetData){
+    var curPos = vec2.clone(textSetData.StartPos);
+    
+    for(var string in textSetData.Set) {
+        var newText = new UIText(textSetData.Set[string],
+                             curPos,
+                             textSetData.TextHeight,
+                             UIText.eHAlignment.eCenter,
+                             null);
+        newText.setColor(textSetData.Color);
+        
+        gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, newText);
+        curPos[1] -= (textSetData.TextHeight + textSetData.Spacing);
+    }
 };
 
 CreditsScreen.prototype._returnCallback = function() {
