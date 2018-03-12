@@ -30,7 +30,8 @@ Config.ControlsScreen = Object.freeze({
             Position: vec2.fromValues(480, 100),
             Size: vec2.fromValues(240, 120),
             Text: "Return",
-            TextHeight: 7
+            TextHeight: 5,
+            TextColor: [1, 1, 1, 1]
         },
         KeysTextSet: {
             StartPos: vec2.fromValues(480, 500),

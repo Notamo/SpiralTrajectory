@@ -89,7 +89,8 @@ ControlsScreen.prototype._initializeUI = function() {
                                 configUI.ReturnButton.Position,
                                 configUI.ReturnButton.Size,
                                 configUI.ReturnButton.Text,
-                                configUI.ReturnButton.TextHeight);
+                                configUI.ReturnButton.TextHeight,
+                                configUI.ReturnButton.TextColor);
     
     this.mTorchText = new UIText(configUI.TorchText.Text,
                                  configUI.TorchText.Position,

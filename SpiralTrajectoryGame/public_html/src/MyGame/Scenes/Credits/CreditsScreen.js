@@ -89,7 +89,8 @@ CreditsScreen.prototype._initializeUI = function() {
                                 configUI.ReturnButton.Position,
                                 configUI.ReturnButton.Size,
                                 configUI.ReturnButton.Text,
-                                configUI.ReturnButton.TextHeight);
+                                configUI.ReturnButton.TextHeight,
+                                configUI.ReturnButton.TextColor);
     
     this._makeTextSet(configUI.CreditsTextSet);
     gEngine.LayerManager.addToLayer(gEngine.eLayer.eHUD, this.mTitle);
