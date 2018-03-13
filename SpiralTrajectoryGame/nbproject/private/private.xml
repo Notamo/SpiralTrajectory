@@ -28,7 +28,16 @@
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
         <group>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/Splash/SplashScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/Credits/CreditsScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Objects/UI/UIElements/UIButton.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_SplashScreen.js</file>
             <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/BossBattle/BossBattle.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_ResultsScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_ControlsScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/Results/ResultsScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Config/Config_CreditsScreen.js</file>
+            <file>file:/C:/Users/xiome/Desktop/Projects/SpiralTrajectory/SpiralTrajectoryGame/public_html/src/MyGame/Scenes/Controls/ControlsScreen.js</file>
         </group>
     </open-files>
 </project-private>
